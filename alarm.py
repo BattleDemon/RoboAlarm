@@ -17,15 +17,19 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
-leds = Leds()
-lcd = Display()
-btn = Button()
+leds = Leds() #
+lcd = Display() #
+btn = Button() #
 sound = Sound()
 
-lm = LargeMotor()
+lm = LargeMotor() #
 
-ultraSonSen = UltrasonicSensor()
-colorSen = ColorSensor()
-gyroSen = GyroSensor()
-touchSen = TouchSensor()
+ultraSonSen = UltrasonicSensor() #
+colorSen = ColorSensor() #
+gyroSen = GyroSensor() 
+touchSen = TouchSensor() #
 
+class AlarmBot():
+    pass
+
+alarm = AlarmBot()
