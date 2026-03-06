@@ -6,6 +6,8 @@ from ev3dev2.sound import *
 from ev3dev2.button import *
 from ev3dev2.display import *
 from ev3dev2.fonts import *
+from ev3dev2.led import Leds
+
 from threading import *
 
 import os
@@ -15,7 +17,12 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
+leds = Leds()
+lcd = Display()
+btn = Button()
 sound = Sound()
+
+lm = LargeMotor()
 
 ultraSonSen = UltrasonicSensor()
 colorSen = ColorSensor()
