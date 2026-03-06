@@ -8,6 +8,8 @@ from ev3dev2.display import *
 from ev3dev2.fonts import *
 from ev3dev2.led import Leds
 
+from enum import Enum
+
 from threading import *
 
 import os
@@ -28,6 +30,9 @@ ultraSonSen = UltrasonicSensor()
 colorSen = ColorSensor()
 gyroSen = GyroSensor()
 touchSen = TouchSensor()
+
+class Challenges(Enum):
+    pass
 
 class AlarmBot():
     pass
