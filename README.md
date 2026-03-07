@@ -26,9 +26,13 @@ Why a robot challenge system may work
 
 #### Multiple Views
 
+User will be able to switch between multiple views, including the Alarm screen which shows a large countdown for the closet Alarm aswell if you click on an alarm you can edit when it goes off and what level of help you need to wake up, and any other Alarms are listed below. The second view shows the current time and time for each alarm, the third screen is the Alarm setting screen which will allow you to set a new alarm.
+
 ### Challenges
 
 #### Setting Challenges
+
+While setting the alarm the user will be prompted on how much help they need waking up, they can choose between "Some" which will give the user three challenges, "More" the user will need to complete four challenges, "Most" the user will need to complete all five challenges.
 
 #### 0 - LEDS
 
