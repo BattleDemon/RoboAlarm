@@ -6,9 +6,11 @@
 
 ### Overview
 
-To combat the issue of alarms not properly waking up users preventing them from arriving at events and classes at the correct time due to oversleeping. This can be fixed using my RoboAlarm which will allow the user to set alarms, select from a range or alarm sounds, aswell as the level of help needed for waking up. To help you wake up you will need to complete a selection of challenges. 
+To combat the issue of alarms not properly waking up users preventing them from arriving at events and classes at the correct time due to oversleeping. This can be fixed using my RoboAlarm which will allow the user to set alarms, select from a range or alarm sounds, aswell as the level of help needed for waking up. To help you wake up you will need to complete a selection of challenges.
 
 ### Setting the Alarm
+
+When setting the alarm the user will be prompted to either current time or it will get the current time in some way (might be limited if cpu doesn't have a RTC), then it will get when the user wants the alarm to go off or how long until they want the alarm to go off. Next they will select an Alarm noise and how much help they need to wake up.
 
 #### Editing Alarm
 
@@ -23,6 +25,8 @@ You will be able to set multiple alarms which can go off at independant times or
 User will be able to switch between multiple views, including the Alarm screen which shows a large countdown for the closet Alarm aswell if you click on an alarm you can edit when it goes off and what level of help you need to wake up, and any other Alarms are listed below. The second view shows the current time and time for each alarm, the third screen is the Alarm setting screen which will allow you to set a new alarm.
 
 ### Challenges
+
+Challenges are my solution for the user going back to bed after hitting snoze or just turning off the alarm, since the user won't be able to do either unless they complete the challenges randomly selected for them.
 
 #### Setting Challenges
 
@@ -50,7 +54,11 @@ Display will show current angle and a target angle, you must rotate your device 
 
 ### Robot Design
 
+After coming up with the general plan for the Alarm, I constructed the below robot alarm. This may change entirely or slightly since I have built it at the end of the preplanning phase so other problems or ideas might require me to change its design in some way, if i do this it will be noted in that development stage.
+
 #### Eugonomics and Usability
+
+Part of the design focused on ergonomics and usability for the device, with the ultrasonic and color sensor in the front to allow you to properly point them at either the wall or a specific color. Up front is also a Gyro mounted behind the color and ultrasonic sensors, which has it monitor left and right rotational movement, next to this is the tough sensor pointing back (towards the user) equiped with a button like design similar to some controlers. Lastly mounted at the base near is the motor.
 
 ### UI Design
 
