@@ -22,7 +22,11 @@ Why a robot challenge system may work
 
 #### Editing Alarm
 
+You will be able to edit the time an alarm goes off aswell as how many challenges it need and what alarm sound it uses
+
 #### Setting Multiple Alarms
+
+You will be able to set multiple alarms which can go off at independant times or if a current alarm is still going off it will add extra challenges to the current alarm.
 
 #### Multiple Views
 
