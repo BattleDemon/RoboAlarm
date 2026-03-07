@@ -32,13 +32,23 @@ Why a robot challenge system may work
 
 #### 0 - LEDS
 
+LEDs will flash in an order than turn off, you will have to reproduce this order to continue.
+
 #### 1 - Motor
+
+Display will show a range of target speeds as well as the current speed, you will have to spin the motor and have it stay within the acceptable range for a few seconds.
 
 #### 2 - Color Sensor
 
+Display will ask you to show a color, You will need to show that color to the color sensor then press the push sensor on the back to confirm. If you can't find that color you must first wait 10 seconds then click a button on the device it will select a new color.
+
 #### 3 - Ultrasonic Sensor
 
+Display will show a distance target and your current distance, get within a range of that distance then press the push sensor to confirm.
+
 #### 4. Gyro Sensor
+
+Display will show current angle and a target angle, you must rotate your device to match that angel (again with a range), then must answer two or three questions while keeping the device within that range.
 
 ### Robot Design
 
