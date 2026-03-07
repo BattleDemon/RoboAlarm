@@ -2,27 +2,17 @@
 
 ## Table of Contents
 
-## Project Overview
-
 ## Preplanning
 
-### User Needs Analysis
+### Overview
 
-Who is this for and why?
-
-Example subsections:
-
-Typical alarm problems
-
-Why normal alarms fail
-
-Why a robot challenge system may work
+To combat the issue of alarms not properly waking up users preventing them from arriving at events and classes at the correct time due to oversleeping. This can be fixed using my RoboAlarm which will allow the user to set alarms, select from a range or alarm sounds, aswell as the level of help needed for waking up. To help you wake up you will need to complete a selection of challenges. 
 
 ### Setting the Alarm
 
 #### Editing Alarm
 
-You will be able to edit the time an alarm goes off aswell as how many challenges it need and what alarm sound it uses
+You will be able to edit the time an alarm goes off aswell as how many challenges it need and what alarm sound it uses.
 
 #### Setting Multiple Alarms
 
