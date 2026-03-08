@@ -6,27 +6,41 @@
 
 ### Overview
 
-To combat the issue of alarms not properly waking up users preventing them from arriving at events and classes at the correct time due to oversleeping. This can be fixed using my RoboAlarm which will allow the user to set alarms, select from a range or alarm sounds, aswell as the level of help needed for waking up. To help you wake up you will need to complete a selection of challenges.
+Many people rely on alarms to wake up in the morning, but normal alarms are often easy to ignore. It is common for people to turn the alarm off or hit snooze and go back to sleep, which can cause them to miss classes, work, or other important events.
+
+To help solve this problem I designed RoboAlarm, a robotic alarm system that actively helps the user wake up. The device allows the user to set alarms, choose from a range of alarm sounds, and select how much help they need waking up. Instead of simply turning the alarm off, the user must complete a number of small challenges before the alarm will stop. These challenges require physical or mental interaction with the robot, making it much harder for the user to fall back asleep.
 
 ### Setting the Alarm
 
-When setting the alarm the user will be prompted to either current time or it will get the current time in some way (might be limited if cpu doesn't have a RTC), then it will get when the user wants the alarm to go off or how long until they want the alarm to go off. Next they will select an Alarm noise and how much help they need to wake up.
+When setting the alarm the system will first determine the current time. This may be retrieved automatically if the CPU has access to a real time clock (RTC). If this is not available the time will need to be entered manually.
+
+After the current time is known the user will select when the alarm should go off. This can either be a specific time or a duration until the alarm activates. Once the time has been chosen the user will then select an alarm sound and how much help they need to wake up.
 
 #### Editing Alarm
 
-You will be able to edit the time an alarm goes off aswell as how many challenges it need and what alarm sound it uses.
+Existing alarms can also be edited. The user will be able to change the time the alarm goes off, the alarm sound, and how many challenges are required to turn the alarm off.
 
 #### Setting Multiple Alarms
 
-You will be able to set multiple alarms which can go off at independant times or if a current alarm is still going off it will add extra challenges to the current alarm.
+The system will support multiple alarms. Each alarm can be set to activate at a different time.
+
+If a new alarm goes off while another alarm is still active, the system will add extra challenges to the current alarm rather than starting a completely new one. This prevents the user from avoiding alarms by delaying challenges.
 
 #### Multiple Views
 
-User will be able to switch between multiple views, including the Alarm screen which shows a large countdown for the closet Alarm aswell if you click on an alarm you can edit when it goes off and what level of help you need to wake up, and any other Alarms are listed below. The second view shows the current time and time for each alarm, the third screen is the Alarm setting screen which will allow you to set a new alarm.
+The device will have multiple views to make it easier to manage alarms.
+
+The main view will show a large countdown timer for the closest upcoming alarm. It will also display a list of other alarms below it. Selecting an alarm will allow the user to edit its settings.
+
+The second view will display the current time and a list of all alarms with their scheduled times.
+
+The third view will be the alarm creation screen where the user can create and configure new alarms.
 
 ### Challenges
 
-Challenges are my solution for the user going back to bed after hitting snoze or just turning off the alarm, since the user won't be able to do either unless they complete the challenges randomly selected for them.
+The challenge system is designed to stop the user from simply turning the alarm off and going back to sleep. The alarm will only stop once the required number of challenges have been completed.
+
+When the alarm activates, a challenge will be randomly selected from a set of available tasks. After the user completes one challenge another will be selected until the required number has been completed.
 
 #### Setting Challenges
 
