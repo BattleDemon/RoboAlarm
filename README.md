@@ -75,15 +75,27 @@ The display will show a target distance along with the current distance being me
 
 #### 4. Gyro Sensor
 
-Display will show current angle and a target angle, you must rotate your device to match that angel (again with a range), then must answer two or three questions while keeping the device within that range.
+The display will show the current angle of the device and a target angle. The user must rotate the device until the angle matches the target range.
+
+Once the correct angle is reached the user must answer two or three questions while keeping the device within that angle range.
 
 ### Robot Design
 
-After coming up with the general plan for the Alarm, I constructed the below robot alarm. This may change entirely or slightly since I have built it at the end of the preplanning phase so other problems or ideas might require me to change its design in some way, if i do this it will be noted in that development stage.
+After planning the features of the RoboAlarm I constructed a prototype robot that could support the required sensors and interactions. This design represents the initial layout of the device.
+
+The design may change during development as new issues or improvements are discovered. Any changes made later will be recorded in the development section of the project.
 
 #### Eugonomics and Usability
 
-Part of the design focused on ergonomics and usability for the device, with the ultrasonic and color sensor in the front to allow you to properly point them at either the wall or a specific color. Up front is also a Gyro mounted behind the color and ultrasonic sensors, which has it monitor left and right rotational movement, next to this is the tough sensor pointing back (towards the user) equiped with a button like design similar to some controlers. Lastly mounted at the base near is the motor.
+Part of the design focused on making the device easy to interact with.
+
+The ultrasonic and colour sensors are mounted on the front of the device so the user can easily point them at a wall or coloured object when completing challenges.
+
+Behind these sensors is the gyro sensor, which is positioned to detect rotational movement when the device is turned.
+
+The touch sensor is mounted at the back of the device facing the user. It is fitted with a button style design similar to those found on controllers so it is easy to press when confirming actions.
+
+Finally the motor is mounted near the base of the device where it can easily be spun during the motor challenge.
 
 ### Development Plan
 
