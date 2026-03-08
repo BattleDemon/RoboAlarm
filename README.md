@@ -60,12 +60,6 @@ After coming up with the general plan for the Alarm, I constructed the below rob
 
 Part of the design focused on ergonomics and usability for the device, with the ultrasonic and color sensor in the front to allow you to properly point them at either the wall or a specific color. Up front is also a Gyro mounted behind the color and ultrasonic sensors, which has it monitor left and right rotational movement, next to this is the tough sensor pointing back (towards the user) equiped with a button like design similar to some controlers. Lastly mounted at the base near is the motor.
 
-### UI Design
-
-#### Alarm Configuration
-
-#### Challenge UI
-
 ### Development Plan
 
 #### Flowchart
