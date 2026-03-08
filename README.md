@@ -46,13 +46,13 @@ When the alarm activates, a challenge will be randomly selected from a set of av
 
 When creating the alarm the user chooses how much help they need waking up.
 
-Some
+Some -
 The user must complete three challenges.
 
-More
+More -
 The user must complete four challenges.
 
-Most
+Most -
 The user must complete all five challenges.
 
 #### 0 - LEDS
