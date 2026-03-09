@@ -91,15 +91,21 @@ Once the correct angle is reached the user must answer two or three questions wh
 
 After planning the features of the RoboAlarm I constructed a prototype robot that could support the required sensors and interactions. This design represents the initial layout of the device.
 
+The design may change during development as new issues or improvements are discovered. Any changes made later will be recorded in the development section of the project.
+
 #### Front View
 
 ![Image of the front view, showing display, buttons and sensor layout](images/preFront.jpg)
 
 #### Back View
 
+![Image of back view,](images/preBack.jpg)
+
 #### Side View
 
-The design may change during development as new issues or improvements are discovered. Any changes made later will be recorded in the development section of the project.
+![Image of side view](images/preSide.jpg)
+
+![Image of other side view](images/preSide2.jpg)
 
 #### Eugonomics and Usability
 
