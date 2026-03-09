@@ -93,6 +93,8 @@ After planning the features of the RoboAlarm I constructed a prototype robot tha
 
 #### Front View
 
+![Image of the front view, showing display, buttons and sensor layout](images/preFront.jpg)
+
 #### Back View
 
 #### Side View
