@@ -12,7 +12,7 @@ To help solve this problem I designed RoboAlarm, a robotic alarm system that act
 
 ### Setting the Alarm
 
-When setting the alarm the system will first determine the current time. This may be retrieved automatically if the CPU has access to a real time clock (RTC). If this is not available the time will need to be entered manually.
+When setting the alarm the system will first determine the current time. This may be retrieved automatically if the CPU has access to a real time clock. If this is not available the time will need to be entered manually.
 
 After the current time is known the user will select when the alarm should go off. This can either be a specific time or a duration until the alarm activates. Once the time has been chosen the user will then select an alarm sound and how much help they need to wake up.
 
