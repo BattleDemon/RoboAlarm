@@ -54,14 +54,11 @@ When the alarm activates, a challenge will be randomly selected from a set of av
 
 When creating the alarm the user chooses how much help they need waking up.
 
-Some -
-The user must complete three challenges.
-
-More -
-The user must complete four challenges.
-
-Most -
-The user must complete all five challenges.
+| Setting | # of Challenges |
+| ------- | --------------- |
+| Some | 3 |
+| More | 4 |
+| Most | 5 |
 
 #### 0 - LEDS
 
@@ -123,9 +120,16 @@ Finally the motor is mounted near the base of the device where it can easily be 
 
 #### Flowchart
 
-#### If I Get More Time
+#### Pseudocode Code
 
-### Technical Constraints
+```pseudocode
+
+Pseudocode
+
+
+```
+
+#### If I Get More Time
 
 ## Development
 
