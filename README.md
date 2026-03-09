@@ -2,6 +2,14 @@
 
 ## Table of Contents
 
+- [Preplanning](#preplanning)
+  - [Overview](#overview)
+  - [Setting the Alarm](#setting-the-alarm)
+    - [Editing the Alarm](#editing-alarm)
+- [Development](#development)
+- [Final Design and Capabilities](#final-design-and-capabilities)
+- [Reflection](#reflection)
+
 ## Preplanning
 
 ### Overview
@@ -167,7 +175,7 @@ Finally the motor is mounted near the base of the device where it can easily be 
 
 #### Issues and Solutions
 
-## Final Overview 
+## Final Design and Capabilities
 
 ### Features
 
