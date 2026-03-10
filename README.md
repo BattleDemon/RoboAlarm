@@ -121,7 +121,9 @@ Finally the motor is mounted near the base of the device where it can easily be 
 #### Flowchart
 
 ```mermaid
+graph TD
 
+Begin_project --> Do_stuff --> Finish_project
 ```
 
 #### User Flowchart
