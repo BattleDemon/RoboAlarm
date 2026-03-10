@@ -120,12 +120,17 @@ Finally the motor is mounted near the base of the device where it can easily be 
 
 #### Flowchart
 
+Flowchart detailing how i will develop this
+
+#### User Flowchart
+
+flowchart showing the user flow
+
 #### Pseudocode Code
 
 ```pseudocode
 
 Pseudocode
-
 
 ```
 
