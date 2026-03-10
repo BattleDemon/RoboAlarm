@@ -92,7 +92,7 @@ The design may change during development as new issues or improvements are disco
 
 #### Front View
 
-![Image of the front view, showing display, buttons and sensor layout](images/preFront.jpg)
+![Image of the front view](images/preFront.jpg)
 
 #### Back View
 
@@ -135,6 +135,8 @@ Pseudocode
 ```
 
 #### If I Get More Time
+
+This and that
 
 ## Development
 
