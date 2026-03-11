@@ -20,10 +20,16 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
+class State(Enum):
+    setting = 0
+    editing = 1
+    idle = 2
+    challenges = 3
+
 class Challenges(Enum):
     pass
 
-class Siren(Enum):
+class Siren():
     pass
 
 class Alarm():
@@ -31,10 +37,11 @@ class Alarm():
         self.siren : Siren
         self.target_time
         self.challenge_amount
-        
 
 class AlarmBot():
     def __init__(self):
+
+        self.state :State = State.idle
 
         # Robot Sensors and Output Init
         self.led = Leds()
@@ -75,6 +82,5 @@ class AlarmBot():
 alarm = AlarmBot()
 
 while true:
-    
 
     time.sleep(.2)
