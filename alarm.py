@@ -23,8 +23,14 @@ import random
 class Challenges(Enum):
     pass
 
+class Siren(Enum):
+    pass
+
+class Alarm():
+    pass
+
 class AlarmBot():
-    __init__(self):
+    def __init__(self):
 
         # Robot Sensors and Output Init
         self.led = Leds()
@@ -41,7 +47,7 @@ class AlarmBot():
 
         #
         self.time = datetime.now().time()
-        self.alarms = {}
+        self.alarms :List(Alarms) = []
     
     def set_alarm():
         pass
