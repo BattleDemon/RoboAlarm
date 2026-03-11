@@ -134,9 +134,36 @@ Begin_project --> Do_stuff --> Finish_project
 
 #### Pseudocode Code
 
+I want to increase my understanding and ability to write object oriented code, so i have divised this psuedocode to help me plan out this project ithe OOP in minds.
+
 ```pseudocode
 
-Pseudocode
+Import all libraries
+
+initialise the robot and all sensors
+
+Enum Challenges
+	challenge1 
+	challenge1
+	ect
+	ect
+
+Class AlarmRobot
+	Init
+	
+	Set_alarm
+	
+	Edit_alarm
+	
+	Ring
+	
+Class Challenge
+	init
+		type = challenges.type
+	
+	
+
+alarm = AlarmRobot
 
 ```
 
