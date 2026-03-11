@@ -9,6 +9,7 @@ from ev3dev2.fonts import *
 from ev3dev2.led import Leds
 
 from enum import Enum
+from datetime import datetime
 
 from threading import *
 
@@ -19,22 +20,46 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
-leds = Leds()
-lcd = Display()
-btn = Button()
-sound = Sound()
-
-lm = LargeMotor()
-
-ultraSonSen = UltrasonicSensor()
-colorSen = ColorSensor()
-gyroSen = GyroSensor()
-touchSen = TouchSensor()
-
 class Challenges(Enum):
     pass
 
 class AlarmBot():
-    pass
+    __init__(self):
+
+        # Robot Sensors and Output Init
+        self.led = Leds()
+        self.lcd = Display()
+        self.btn = Button()
+        self.sound = Sound()
+
+        self.lm = LargeMotor()
+    
+        self.uss = UltrasonicSensor()
+        self.cs = ColorSensor()
+        self.gy = GyroSensor()
+        self.ts = TouchSensor()
+
+        #
+        self.time = datetime.now().time()
+        self.alarms = {}
+    
+    def set_alarm():
+        pass
+
+    def set_siren():
+        pass
+
+    def set_target_time_until():
+        pass
+
+    def set_target_time():
+        pass
+
+    def set_challenge_amount():
+        pass
+
+    def edit_alarm():
+        pass
+
 
 alarm = AlarmBot()

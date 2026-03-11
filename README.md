@@ -118,7 +118,7 @@ Finally the motor is mounted near the base of the device where it can easily be 
 
 ### Development Plan
 
-#### System Flow and Development 
+#### System Flow and Development
 
 ![[mermaid-diagram-2026-03-11-150143.png]]
 #### User Flowchart
