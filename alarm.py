@@ -34,13 +34,19 @@ class Challenges(Enum):
     gyro_cord = 4
 
 class Siren():
-    pass
+    base = {
+        name = "Base Siren",
+        tone = pass
+    }
 
 class Alarm():
     def __init(self): 
         self.siren : Siren
         self.target_time
         self.challenge_amount
+
+    def ring():
+        pass
 
 class AlarmBot():
     def __init__(self):
