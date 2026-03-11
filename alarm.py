@@ -27,13 +27,17 @@ class State(Enum):
     challenges = 3
 
 class Challenges(Enum):
-    pass
+    led_game = 0
+    motor_control = 1
+    colour_recog = 2
+    distance_check = 3
+    gyro_cord = 4
 
 class Siren():
     pass
 
 class Alarm():
-    def __init(self):
+    def __init(self): 
         self.siren : Siren
         self.target_time
         self.challenge_amount
@@ -41,7 +45,7 @@ class Alarm():
 class AlarmBot():
     def __init__(self):
 
-        self.state :State = State.idle
+        self.state = State.idle
 
         # Robot Sensors and Output Init
         self.led = Leds()
@@ -59,6 +63,7 @@ class AlarmBot():
         #
         self.time = datetime.now().time()
         self.alarms :List(Alarm) = []
+        self.challenges = []
     
     def set_alarm():
         pass
@@ -77,10 +82,27 @@ class AlarmBot():
 
     def edit_alarm():
         pass
+        
+    def randomise_challenges():
+        pass
 
 
 alarm = AlarmBot()
 
 while true:
+    if alarm.state == State.idle:
+        pass
+
+    elif alarm.state == State.setting:
+        pass
+
+    elif alarm.state == State.editing:
+        pass
+
+    elif alarm.state == State.challenges:
+        pass
+
+    else:
+        print("How are you seeing this?")
 
     time.sleep(.2)
