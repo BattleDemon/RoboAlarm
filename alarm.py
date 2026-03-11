@@ -27,7 +27,9 @@ class Siren(Enum):
     pass
 
 class Alarm():
-    pass
+    def __init(self):
+        self.siren : Siren
+        self.
 
 class AlarmBot():
     def __init__(self):
@@ -47,7 +49,7 @@ class AlarmBot():
 
         #
         self.time = datetime.now().time()
-        self.alarms :List(Alarms) = []
+        self.alarms :List(Alarm) = []
     
     def set_alarm():
         pass
