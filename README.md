@@ -129,7 +129,67 @@ Begin_project --> Do_stuff --> Finish_project
 #### User Flowchart
 
 ```mermaid
+stateDiagram-v2
 
+[*] --> CountDown
+
+CountDown --> AlarmTimes
+
+AlarmTimes --> CountDown
+
+  
+
+CountDown --> ConfigAlarm
+
+ConfigAlarm --> CountDown
+
+  
+
+CountDown --> EditAlarm
+
+EditAlarm --> CountDown
+
+AlarmTimes --> EditAlarm
+
+EditAlarm --> AlarmTimes
+
+  
+
+CountDown --> AlarmRings
+
+ConfigAlarm --> AlarmRings
+
+AlarmTimes --> AlarmRings
+
+EditAlarm --> AlarmRings
+
+  
+
+AlarmRings
+
+  
+
+AlarmRings --> Challenges
+
+  
+
+Challenges --> Challenge1
+
+  
+
+Challenge1 --> Challenge2
+
+  
+
+Challenge2 --> ChallengeX
+
+  
+
+ChallengeX --> AlarmOff
+
+  
+
+AlarmOff --> CountDown
 ```
 
 #### Pseudocode Code
