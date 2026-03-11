@@ -29,7 +29,9 @@ class Siren(Enum):
 class Alarm():
     def __init(self):
         self.siren : Siren
-        self.
+        self.target_time
+        self.challenge_amount
+        
 
 class AlarmBot():
     def __init__(self):
@@ -71,3 +73,8 @@ class AlarmBot():
 
 
 alarm = AlarmBot()
+
+while true:
+    
+
+    time.sleep(.2)
