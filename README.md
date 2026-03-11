@@ -60,25 +60,25 @@ When creating the alarm the user chooses how much help they need waking up.
 | More | 4 |
 | Most | 5 |
 
-#### 0 - LEDS
+#### 0 - LED Memory Game
 
 A sequence of LEDs will flash in a certain order before turning off. The user must reproduce the same sequence in order to continue.
 
-#### 1 - Motor
+#### 1 - Motor Control Test
 
 The display will show a target speed range along with the current speed. The user must spin the motor and keep it within the acceptable speed range for several seconds.
 
-#### 2 - Color Sensor
+#### 2 - Colour Recognition
 
 The display will ask the user to present a specific colour. The user must show an object with that colour to the colour sensor and then press the push sensor on the back of the device to confirm.
 
 If the user cannot find the required colour they must first wait ten seconds before pressing a button to generate a new colour.
 
-#### 3 - Ultrasonic Sensor
+#### 3 - Distance Challenge
 
 The display will show a target distance along with the current distance being measured. The user must move the device until the measured distance is within the acceptable range, then press the push sensor to confirm.
 
-#### 4. Gyro Sensor
+#### 4. Gyro Coordination Test
 
 The display will show the current angle of the device and a target angle. The user must rotate the device until the angle matches the target range.
 
@@ -118,12 +118,128 @@ Finally the motor is mounted near the base of the device where it can easily be 
 
 ### Development Plan
 
-#### Flowchart
+#### System Flow and Development 
 
 ```mermaid
-graph TD
+flowchart TD
 
-Begin_project --> Do_stuff --> Finish_project
+A[Begin Project]
+
+  
+
+A --> B
+
+B[Alarm System]
+
+B --> B1
+
+B --> B2
+
+  
+
+B1[Setting Alarm]
+
+B1 --> B11
+
+B1 --> B12
+
+B1 --> B15 --> |Yes| B13
+
+B15 --> |No|B14
+
+  
+
+B11[Alarm Sound]
+
+B12[Challenge Amount]
+
+B13[Alarm Time]
+
+B14[Time Until Alarm]
+
+B15[Real Time Clock]
+
+  
+
+B2[Editing Alarm]
+
+B2 --> B11
+
+B2 --> B12
+
+B2 --> B15
+
+  
+
+B --> B3
+
+B3[Alarm Ring]
+
+  
+
+B3 --> B31
+
+B3 --> B32
+
+B3 --> C
+
+B3 --> D
+
+B31[Alarm Sound]
+
+B32[Alarm Vibration]
+
+  
+
+A --> C
+
+C[Challenges]
+
+C --> C1
+
+C --> C2
+
+C --> C3
+
+C --> C4
+
+C --> C5
+
+  
+
+C1[LED Memory Game]
+
+C2[Motor Control Test]
+
+C3[Colour Recognition]
+
+C4[Distance Challenge]
+
+C5[Gyro Cordination Test]
+
+A --> D
+
+D[UI]
+
+D --> D1
+
+D --> D2
+
+D1[Alarm UI]
+
+D1 --> B1
+
+D1 --> B2
+
+D11[Countdown]
+
+D1 --> D11
+
+D12[List and Time]
+
+D1 --> D12
+
+D2[Challenge UI]
 ```
 
 #### User Flowchart
@@ -221,8 +337,6 @@ Class Challenge
 	init
 		type = challenges.type
 	
-	
-
 alarm = AlarmRobot
 
 ```
