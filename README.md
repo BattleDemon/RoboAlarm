@@ -171,34 +171,146 @@ AlarmOff --> CountDown
 ```
 
 #### Pseudocode Code
-I want to increase my understanding and ability to write object oriented code, so i have divised this psuedocode to help me plan out this project ithe OOP in minds.
 
 ```pseudocode
 
 Import all libraries
 
-initialise the robot and all sensors
+Initialise robot outputs
+Initialise sensors
 
+Enum State
+	idle
+	setting
+	editing
+	challenges
+	
 Enum Challenges
-	challenge1 
-	challenge1
-	ect
-	ect
+	led_memory_game
+	motor_control_test
+	colour_recognition
+	distance_challange
+	gyro_coordination
 
+Class Alarm
+	Init
+		siren
+		target_time
+		challenge_amount
+		
+	Ring
+		play alarm sound
+		start vibration
+		
+Class Challenge
+	Init
+		type = Challenges.random
+	
+	Run
+		if type = led_memory_game
+			run LED memory sequence
+			get user button input
+			check sequence
+			
+		if type = motor_control_test
+			generate target speed range
+			read motor speed
+			check speed for a few sseconds
+			
+		if type = colour_recognition
+			generate random colour
+			wait for press 
+			read colour sensor
+			
+		if distance_challenge
+			generate target distance
+			read distance
+			press confirm when in range
+			
+		if type = gyro_coordination
+			generate target angle
+			read gyro sensor
+			ask questions while hold at angle
+	
 Class AlarmRobot
 	Init
-	
-	Set_alarm
-	
-	Edit_alarm
-	
-	Ring
-	
-Class Challenge
-	init
-		type = challenges.type
-	
+		state = idle
+		alarms = empty list
+		current_time = system time
+		
+		initialise sensors
+		initialise motors
+		inisialise outputs
+		
+	set_alarm
+		create new Alarm
+		
+		ask user for alarm sound
+		store sound
+		
+		ask user for challenge level
+			some = 3
+			more = 4
+			most = 5
+		
+		ask user for target time or duration until alarm 
+		
+		add alarm to alarm list
+		
+	edit_alarm
+		display list of alarms
+		user selects alarm
+		
+		allow editing of 
+			time
+			sound 
+			challenge amount
+			
+	check_alarms
+		for each alarm in alarms
+			if current_time >= alarm.target_time
+				return alarm
+				
+		return none
+			
+	run_challenges
+		completed = 0
+		required = alarm.challenge_amount
+		
+		while completed < required
+			challenge = new challenge
+			challenge.Run()
+			
+			if success
+				completed += 1
+				
+		stop alarm sound
+		retunr to idle
+
 alarm = AlarmRobot
+
+Loop
+
+	update current time could be thread
+	
+	if alarm.state = idle
+		check larms
+		if alarm triggered
+			alarm.Ring() as thread
+			alarm.state = challenges
+			
+	if alarm.state = setting
+		alarm.Set_alarm()
+		alarm.state = idle
+		
+	if alarm.state = editing 
+		alarm.Edit_alarm()
+		alarm.state = idle
+		
+	if alarm.state = challenges
+		alarm.run_challenges()
+		
+	wait short time 
 
 ```
 
