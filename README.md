@@ -312,11 +312,6 @@ Loop
 	wait short time 
 
 ```
-
-#### If I Get More Time
-
-This and that
-
 ## Development
 
 ### Prototype 0: Setting and Editing the Alarm
