@@ -40,10 +40,10 @@ class State(Enum):
 
 class Challenges(Enum):
     led_memory_game = 0
-	motor_control_test = 1
-	colour_recognition = 2
-	distance_challange = 3
-	gyro_coordination = 4
+    motor_control_test = 1
+    colour_recognition = 2
+    distance_challange = 3
+    gyro_coordination = 4
 
 class siren():
     def __init__(self):
@@ -66,7 +66,18 @@ class AlarmBot():
 
         self.state = State.idle
 
-        #
+        self.led = Leds()
+        self.lcd = Display()
+        self.btn = Button()
+        self.sound = Sound()
+
+        self.lm = LargeMotor()
+    
+        self.uss = UltrasonicSensor()
+        self.cs = ColorSensor()
+        self.gy = GyroSensor()
+        self.ts = TouchSensor()
+
         self.time = datetime.now().time()
         self.alarms :List(Alarm) = []
         self.challenges = []
@@ -132,6 +143,7 @@ class AlarmBot():
 
 
 alarm = AlarmBot()
+
 
 
 while true:
