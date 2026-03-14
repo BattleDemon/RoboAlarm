@@ -20,18 +20,6 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
-led = Leds()
-lcd = Display()
-btn = Button()
-sound = Sound()
-
-lm = LargeMotor()
-    
-uss = UltrasonicSensor()
-cs = ColorSensor()
-gy = GyroSensor()
-ts = TouchSensor()
-
 class State(Enum):
     setting = 0
     editing = 1
@@ -170,8 +158,6 @@ class AlarmBot():
 
 
 alarm_bot = AlarmBot()
-
-
 
 while true:
     if alarm_bot.state == State.idle:
