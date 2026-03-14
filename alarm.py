@@ -37,6 +37,7 @@ class State(Enum):
     editing = 1
     idle = 2
     challenges = 3
+    view = 4
 
 class Challenges(Enum):
     led_memory_game = 0
@@ -82,6 +83,9 @@ class AlarmBot():
         self.alarms :List(Alarm) = []
         self.challenges = []
 
+        def change_state(self):
+            pass
+
         def main_menu(self):
             menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
@@ -124,7 +128,7 @@ class AlarmBot():
                         selector = 0
 
                 if self.btn.enter:
-                    return selector
+                    self.change_state(selector)
 
                 time.sleep(0.2)
 
@@ -140,21 +144,47 @@ class AlarmBot():
             self.lcd.clear()
             self.lcd.text_pixels("Alarms", 10, 10)
 
+            y_pos = 40
+
+            i = 0
+
+            while i < len(self.alarms):
+                alarm = self.alarms[i]
+                text = alarm.get_description()
+
+                self.lsd.text_pixels(text,10,y_pos)
+
+                y += 20
+                i += 1
+
+            if len(self.alarms) == 0:
+                self.lsd.text_pixels("No alarms set", 10, 40)
+
+            self.lds.update()
+
+            if self.btn.any:
+                return
+
+            time.wait(0.2)
 
 
-alarm = AlarmBot()
+
+alarm_bot = AlarmBot()
 
 
 
 while true:
-    if alarm.state == State.idle:
-        pass
+    if alarm_bot.state == State.idle:
+        alarm_bot.main_menu()
 
-    elif alarm.state == State.setting:
-        pass
+    elif alarm_bot.state == State.setting:
+        alarm_bot.set_alarm()
 
-    elif alarm.state == State.editing:
-        pass
+    elif alarm_bot.state == State.editing:
+        alarm_bot.edit_alarm()
+
+    elif alarm_bot.state == State.view:
+        alarm_bot.view_alarms()
 
     elif alarm.state == State.challenges:
         pass
