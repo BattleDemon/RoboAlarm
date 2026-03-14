@@ -20,6 +20,18 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
+led = Leds()
+lcd = Display()
+btn = Button()
+sound = Sound()
+
+lm = LargeMotor()
+    
+uss = UltrasonicSensor()
+cs = ColorSensor()
+gy = GyroSensor()
+ts = TouchSensor()
+
 class State(Enum):
     setting = 0
     editing = 1
@@ -27,11 +39,11 @@ class State(Enum):
     challenges = 3
 
 class Challenges(Enum):
-    led_game = 0
-    motor_control = 1
-    colour_recog = 2
-    distance_check = 3
-    gyro_cord = 4
+    led_memory_game = 0
+	motor_control_test = 1
+	colour_recognition = 2
+	distance_challange = 3
+	gyro_coordination = 4
 
 class siren():
     def __init__(self):
@@ -43,7 +55,7 @@ class Alarm():
         self.target_time = target_time
         self.challenge_amount = challenge_amount
 
-    def ring(self):
+    def play_alarm():
         pass
 
     def alarm_description(self):
@@ -53,19 +65,6 @@ class AlarmBot():
     def __init__(self):
 
         self.state = State.idle
-
-        # Robot Sensors and Output Init
-        self.led = Leds()
-        self.lcd = Display()
-        self.btn = Button()
-        self.sound = Sound()
-
-        self.lm = LargeMotor()
-    
-        self.uss = UltrasonicSensor()
-        self.cs = ColorSensor()
-        self.gy = GyroSensor()
-        self.ts = TouchSensor()
 
         #
         self.time = datetime.now().time()
