@@ -33,20 +33,21 @@ class Challenges(Enum):
     distance_check = 3
     gyro_cord = 4
 
-class Siren():
-    base = {
-        name = "Base Siren",
-        tone = pass
-    }
+class siren():
+    def __init__(self):
+        self.name
 
 class Alarm():
-    def __init(self): 
-        self.siren : Siren
-        self.target_time
-        self.challenge_amount
+    def __init(self, target_time, siren, challenge_amount): 
+        self.siren = siren
+        self.target_time = target_time
+        self.challenge_amount = challenge_amount
 
-    def ring():
+    def ring(self):
         pass
+
+    def alarm_description(self):
+        return f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
 
 class AlarmBot():
     def __init__(self):
@@ -70,30 +71,69 @@ class AlarmBot():
         self.time = datetime.now().time()
         self.alarms :List(Alarm) = []
         self.challenges = []
+
+        def main_menu(self):
+            menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
+
+            selector = 0
+
+            while True:
+                self.lcd.clear()
+                self.lcd.text_pixels("RoboAlarm", 20, 10)
+
+                y_pos = 40
+                i = 0
+
+                while i < len(menu_items):
+
+                    text = menu_items[i]
+
+                    if i == selector:
+                        text = ">> " + text
+
+                    else:
+                        text = "   " + text
+
+                    self.lcd.text_pixels(text,10,y_pos)
+
+                    y_pos += 20
+                    i += 1
+                
+                self.lcd.update()
+
+                if self.btn.up:
+                    selector -= 1
+
+                    if selector < 0:
+                        selector = len(menu_items)
+
+                if self.btn.down:
+                    selector += 1
+
+                    if selector > len(menu_items):
+                        selector = 0
+
+                if self.btn.enter:
+                    return selector
+
+                time.sleep(0.2)
+
+    def set_alarm(self):
+        pass
+
+    def edit_alarm(self):
+        pass
     
-    def set_alarm():
-        pass
-
-    def set_siren():
-        pass
-
-    def set_target_time_until():
-        pass
-
-    def set_target_time():
-        pass
-
-    def set_challenge_amount():
-        pass
-
-    def edit_alarm():
-        pass
+    def view_alarms(self):
         
-    def randomise_challenges():
-        pass
+        while True:
+            self.lcd.clear()
+            self.lcd.text_pixels("Alarms", 10, 10)
+
 
 
 alarm = AlarmBot()
+
 
 while true:
     if alarm.state == State.idle:
