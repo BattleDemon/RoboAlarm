@@ -34,8 +34,10 @@ class Challenge_types(Enum):
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
-class Siren():
-    pass
+SIRENS = {
+    base = "TONE SEQUENCE",
+    other = "other tone"
+}
 
 class Alarm():
     def __init(self, target_time, siren, challenge_amount): 
