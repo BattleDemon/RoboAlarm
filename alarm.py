@@ -21,18 +21,18 @@ import time
 import random
 
 class State(Enum):
-    setting = 0
-    editing = 1
-    idle = 2
-    challenges = 3
-    view = 4
+    IDLE = 0
+    SETTING = 1
+    EDITING = 2
+    CHALLENGE = 3
+    VIEW = 4
 
 class Challenges(Enum):
-    led_memory_game = 0
-    motor_control_test = 1
-    colour_recognition = 2
-    distance_challange = 3
-    gyro_coordination = 4
+    LEDMEMORYGAME = 0
+    MOTORCONTROLTEST = 1
+    COLOURRECOGNITION = 2
+    DISTANCECHALLENGE = 3
+    GYROCOORDINATION = 4
 
 class siren():
     def __init__(self):
@@ -53,7 +53,7 @@ class Alarm():
 class AlarmBot():
     def __init__(self):
 
-        self.state = State.idle
+        self.state = State.IDLE
 
         self.led = Leds()
         self.lcd = Display()
@@ -167,19 +167,19 @@ class AlarmBot():
 alarm_bot = AlarmBot()
 
 while true:
-    if alarm_bot.state == State.idle:
+    if alarm_bot.state == State.IDLE:
         alarm_bot.main_menu()
 
-    elif alarm_bot.state == State.setting:
+    elif alarm_bot.state == State.SETTING:
         alarm_bot.set_alarm()
 
-    elif alarm_bot.state == State.editing:
+    elif alarm_bot.state == State.EDITING:
         alarm_bot.edit_alarm()
 
-    elif alarm_bot.state == State.view:
+    elif alarm_bot.state == State.VIEW:
         alarm_bot.view_alarms()
 
-    elif alarm.state == State.challenges:
+    elif alarm.state == State.CHALLENGE:
         pass
 
     else:
