@@ -27,16 +27,15 @@ class State(Enum):
     CHALLENGE = 3
     VIEW = 4
 
-class Challenges(Enum):
+class Challenge_types(Enum):
     LEDMEMORYGAME = 0
     MOTORCONTROLTEST = 1
     COLOURRECOGNITION = 2
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
-class siren():
-    def __init__(self):
-        self.name
+class Siren():
+    pass
 
 class Alarm():
     def __init(self, target_time, siren, challenge_amount): 
@@ -44,11 +43,27 @@ class Alarm():
         self.target_time = target_time
         self.challenge_amount = challenge_amount
 
-    def play_alarm():
+    def ring(self):
         pass
 
     def alarm_description(self):
         return f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
+
+class Challenge():
+    def __init__(self):
+        self.type = Challange_types.random
+
+    def run(self):
+        if self.type = Challange_types.LEDMEMORYGAME:
+            pass
+        elif self.type = Challange_types.MOTORCONTROLTEST:
+            pass
+        elif self.type = Challange_types.COLOURRECOGNITION:
+            pass
+        elif self.type = Challange_types.DISTANCECHALLENGE:
+            pass
+        elif self.type = Challange_types.GYROCOORDINATION:
+            pass
 
 class AlarmBot():
     def __init__(self):
@@ -67,8 +82,8 @@ class AlarmBot():
         self.gy = GyroSensor()
         self.ts = TouchSensor()
 
-        self.time = datetime.now().time()
-        self.alarms :List(Alarm) = []
+        self.current_time = datetime.now().time()
+        self.alarms = []
         self.challenges = []
 
         def change_state(self):
