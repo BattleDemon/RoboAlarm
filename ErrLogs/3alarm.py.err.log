@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/robot/RoboAlarm/alarm.py", line 38, in <module>
+    base : "TONE SEQUENCE",
+NameError: name 'base' is not defined

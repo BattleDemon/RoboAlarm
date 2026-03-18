@@ -34,10 +34,7 @@ class Challenge_types(Enum):
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
-SIRENS = {
-    base = "TONE SEQUENCE",
-    other = "other tone"
-}
+SIRENS = {}
 
 class Alarm():
     def __init(self, target_time, siren, challenge_amount): 
@@ -49,22 +46,22 @@ class Alarm():
         pass
 
     def alarm_description(self):
-        return f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
+        return #f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
 
 class Challenge():
     def __init__(self):
-        self.type = Challange_types.random
+        self.type = 1
 
     def run(self):
-        if self.type = Challange_types.LEDMEMORYGAME:
+        if self.type == Challange_types.LEDMEMORYGAME:
             pass
-        elif self.type = Challange_types.MOTORCONTROLTEST:
+        elif self.type == Challange_types.MOTORCONTROLTEST:
             pass
-        elif self.type = Challange_types.COLOURRECOGNITION:
+        elif self.type == Challange_types.COLOURRECOGNITION:
             pass
-        elif self.type = Challange_types.DISTANCECHALLENGE:
+        elif self.type == Challange_types.DISTANCECHALLENGE:
             pass
-        elif self.type = Challange_types.GYROCOORDINATION:
+        elif self.type == Challange_types.GYROCOORDINATION:
             pass
 
 class AlarmBot():
@@ -88,54 +85,54 @@ class AlarmBot():
         self.alarms = []
         self.challenges = []
 
-        def change_state(self):
-            pass
+    def change_state(self):
+        pass
 
-        def main_menu(self):
-            menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
+    def main_menu(self):
+        menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
-            selector = 0
+        selector = 0
 
-            while True:
-                self.lcd.clear()
-                self.lcd.text_pixels("RoboAlarm", 20, 10)
+        while True:
+            self.lcd.clear()
+            self.lcd.text_pixels("RoboAlarm", clear_screen=False, x=10, y=20, text_color='black')
 
-                y_pos = 40
-                i = 0
+            y_pos = 30
+            i = 0
 
-                while i < len(menu_items):
+            while i < len(menu_items):
 
-                    text = menu_items[i]
+                text = menu_items[i]
 
-                    if i == selector:
-                        text = ">> " + text
+                if i == selector:
+                    text = ">> " + text
 
-                    else:
-                        text = "   " + text
+                else:
+                    text = "   " + text
 
-                    self.lcd.text_pixels(text,10,y_pos)
+                self.lcd.text_pixels(text,clear_screen=False, x=10, y=y_pos, text_color='black')
 
-                    y_pos += 20
-                    i += 1
-                
-                self.lcd.update()
+                y_pos += 15
+                i += 1
+            
+            self.lcd.update()
 
-                if self.btn.up:
-                    selector -= 1
+            if self.btn.up:
+                selector -= 1
 
-                    if selector < 0:
-                        selector = len(menu_items)
+                if selector < 0:
+                    selector = len(menu_items)
 
-                if self.btn.down:
-                    selector += 1
+            if self.btn.down:
+                selector += 1
 
-                    if selector > len(menu_items):
-                        selector = 0
+                if selector > len(menu_items):
+                    selector = 0
 
-                if self.btn.enter:
-                    self.change_state(selector)
+            if self.btn.enter:
+                self.change_state(selector)
 
-                time.sleep(0.2)
+            time.sleep(0.3)
 
     def set_alarm(self):
         
@@ -179,11 +176,15 @@ class AlarmBot():
 
             time.wait(0.2)
 
-
-
 alarm_bot = AlarmBot()
 
-while true:
+alarm_bot.sound.beep()
+
+time.sleep(0.5)
+
+alarm_bot.sound.beep()
+
+while True:
     if alarm_bot.state == State.IDLE:
         alarm_bot.main_menu()
 

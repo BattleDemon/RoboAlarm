@@ -1,0 +1,4 @@
+  File "/home/robot/RoboAlarm/alarm.py", line 59
+    if self.type = Challange_types.LEDMEMORYGAME:
+                 ^
+SyntaxError: invalid syntax
