@@ -121,7 +121,14 @@ class AlarmBot():
                 time.sleep(0.2)
 
     def set_alarm(self):
-        pass
+        
+        while True:
+            self.lcd.clear()
+            self.lcd.text_pixels("Set Alarm", 10, 10)
+
+            selector = 0
+
+            # things to edit: Alarm, Time, Alarm sound, Challenge amount
 
     def edit_alarm(self):
         pass
