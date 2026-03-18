@@ -84,12 +84,12 @@ class AlarmBot():
         self.current_time = datetime.now().time()
         self.alarms = []
         self.challenges = []
+        self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
-    def change_state(self):
-        pass
+    def change_state(self,selector):
+        
 
     def main_menu(self):
-        menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
         selector = 0
 
@@ -100,7 +100,7 @@ class AlarmBot():
             y_pos = 30
             i = 0
 
-            while i < len(menu_items):
+            while i < len(self.menu_items):
 
                 text = menu_items[i]
 
@@ -121,18 +121,18 @@ class AlarmBot():
                 selector -= 1
 
                 if selector < 0:
-                    selector = len(menu_items)
+                    selector = len(self.menu_items) - 1
 
             if self.btn.down:
                 selector += 1
 
-                if selector > len(menu_items):
-                    selector = 0
+                if selector > len(self.menu_items):
+                    selector = 0 
 
             if self.btn.enter:
                 self.change_state(selector)
 
-            time.sleep(0.3)
+            time.sleep(0.1)
 
     def set_alarm(self):
         
