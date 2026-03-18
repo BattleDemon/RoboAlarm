@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 188, in <module>
+    alarm_bot.main_menu()
+  File "/home/robot/dexter Alarm/alarm.py", line 104, in main_menu
+    text = menu_items[i]
+NameError: name 'menu_items' is not defined

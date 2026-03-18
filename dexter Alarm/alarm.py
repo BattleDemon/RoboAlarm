@@ -86,11 +86,27 @@ class AlarmBot():
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
-    def change_state(self,selector):
-        
+    def change_state(self,selection=None,sub_menu=None):
+        if selection != None:
+            if selection >= len(self.menu_items):
+                print("How?")
+            else:
+                if selection == 0:
+                    self.state = State.SETTING
+                    self.set_alarm()
+                elif selection == 1:
+                    self.state = State.EDITING
+                    self.edit_alarm()
+                elif selection == 2:
+                    self.state = State.VIEW
+                    self.view_alarms()
+        elif sub_menu != None:
+            self.state = State.IDLE
+            self.main_menu()
+        else:
+            self.state = State.CHALLENGE
 
     def main_menu(self):
-
         selector = 0
 
         while True:
@@ -102,7 +118,7 @@ class AlarmBot():
 
             while i < len(self.menu_items):
 
-                text = menu_items[i]
+                text = self.menu_items[i]
 
                 if i == selector:
                     text = ">> " + text
@@ -130,7 +146,7 @@ class AlarmBot():
                     selector = 0 
 
             if self.btn.enter:
-                self.change_state(selector)
+                self.change_state(selection=selector)
 
             time.sleep(0.1)
 
@@ -142,6 +158,7 @@ class AlarmBot():
 
             selector = 0
 
+            self.lcd.update()
             # things to edit: Alarm, Time, Alarm sound, Challenge amount
 
     def edit_alarm(self):
@@ -170,9 +187,6 @@ class AlarmBot():
                 self.lsd.text_pixels("No alarms set", 10, 40)
 
             self.lds.update()
-
-            if self.btn.any:
-                return
 
             time.wait(0.2)
 
