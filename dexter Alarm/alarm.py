@@ -54,15 +54,30 @@ class Challenge():
 
     def run(self):
         if self.type == Challange_types.LEDMEMORYGAME:
-            pass
+            self.led_memory_game()
         elif self.type == Challange_types.MOTORCONTROLTEST:
-            pass
+            self.motor_control_test()
         elif self.type == Challange_types.COLOURRECOGNITION:
-            pass
+            self.colour_recognition()
         elif self.type == Challange_types.DISTANCECHALLENGE:
-            pass
+            self.distance_challenge()
         elif self.type == Challange_types.GYROCOORDINATION:
-            pass
+            self.gyro_coordination()
+
+    def led_memory_game(self):
+        pass
+
+    def motor_control_test(self):
+        pass
+
+    def colour_recognition(self):
+        pass
+
+    def distance_challenge(self):
+        pass
+
+    def gyro_coordination(self):
+        pass
 
 class AlarmBot():
     def __init__(self):
