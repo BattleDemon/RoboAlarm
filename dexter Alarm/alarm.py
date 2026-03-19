@@ -37,7 +37,7 @@ class Challenge_types(Enum):
 SIRENS = {}
 
 class Alarm():
-    def __init(self, target_time, siren, challenge_amount): 
+    def __init__(self, target_time, siren, challenge_amount): 
         self.siren = siren
         self.target_time = target_time
         self.challenge_amount = challenge_amount
@@ -146,11 +146,12 @@ class AlarmBot():
             time.sleep(0.05)
 
     def set_alarm(self):
-        hour = 7
-        minute = 0
+        #set base values
+        hour = 6
+        minute = 30
         siren_names = list(SIRENS.keys())
         siren_index = 0
-        challenge_amount = 1
+        challenge_amount = 3
 
         fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
         selector = 0
@@ -274,20 +275,18 @@ class AlarmBot():
             self.lcd.text_pixels("Alarms", 10, 10)
 
             y_pos = 40
-
             i = 0
 
             while i < len(self.alarms):
                 alarm = self.alarms[i]
-                text = alarm.get_description()
-
-                self.lsd.text_pixels(text,10,y_pos)
+                
+                self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
 
                 y += 20
                 i += 1
 
             if len(self.alarms) == 0:
-                self.lsd.text_pixels("No alarms set", 10, 40)
+                self.lsd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
 
             self.lds.update()
 
