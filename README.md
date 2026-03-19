@@ -1,12 +1,27 @@
 # RoboAlarm
 ## Table of Contents
 - [Preplanning](#preplanning)
-  - [Overview](#overview)
-  - [Setting the Alarm](#setting-the-alarm)
+	- [Overview](#overview)
+	- [Setting the Alarm](#setting-the-alarm)
     - [Editing the Alarm](#editing-alarm)
+	- [Challenges](#challenges)
+	- [Robot Design](#robot-design)
+	- [Development Plan](#development-plan)
 - [Development](#development)
+	- [Prototype 0: Setting and Editing the Alarm](#prototype-0:-setting-and-editing-the-alarm)
+	- [Prototype 1: Multiple views and Multiple Alarms](#prototype-1:-multiple-views-and-multiple-alarms)
+	- [Prototype 2: Randomising based on Challenge Level, LED Challenge](#prototype-2:-randomising-based-on-challenge-level,-led-challenge)
+	- [Prototype 3: Motor and Ultrasonic Sensor Challenges](#prototype-3:-motor-and-ultrasonic-sensor-challenges)
+	- [Prototype 4: Colour and Gyro Sensor Challenges](#prototype-4:-colour-and-gyro-sensor-challenges)
 - [Final Design and Capabilities](#final-design-and-capabilities)
 - [Reflection](#reflection)
+	- [What do you think of the overall design?]
+	- [What changes would you make?]
+	- [What issues did you experience?]
+	- [What techniques did you use to solve these issues?]
+	- [What changes would you make if repeating this project?]
+	- [What have you learnt from this project?]
+- [Sources](#sources)
 
 ## Preplanning
 ### Overview
@@ -487,7 +502,7 @@ elif self.btn.enter:
 
 #### Issues and Solutions
 
-### Prototype 4: Color and Gyro Sensor Challenges
+### Prototype 4: Colour and Gyro Sensor Challenges
 
 #### Discussion
 
