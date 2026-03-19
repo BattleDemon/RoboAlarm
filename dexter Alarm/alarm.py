@@ -267,6 +267,8 @@ class AlarmBot():
     def edit_alarm(self):
         while self.state == State.EDITING:
             self.lcd.clear()
+
+            self.lcd.update()
     
     def view_alarms(self):
         
