@@ -319,6 +319,112 @@ Loop
 #### Discussion
 
 #### Code Snippets
+**State System**
+```python
+class State(Enum):  
+	IDLE = 0  
+	SETTING = 1  
+	EDITING = 2  
+	CHALLENGE = 3  
+	VIEW = 4
+```
+This sets up the main states of the program, and is used to tell the robot whether it should, be in a menu, editing alarms, or running challenges.
+
+**Main Menu
+```python
+def main_menu(self):
+    selector = 0
+
+    while self.state == state.IDLE:
+        self.clear_screen()
+        self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
+
+        y_pos = 30
+        i = 0
+
+        while i < len(self.menu_items):
+            text = self.menu_items[i]
+
+            if i == selector:
+                text = ">> " + text
+            else:
+                text = "   " + text
+
+            self.lcd.text_pixels(text,clear_screen=False, x=10, y=y_pos, text_color='black')
+
+            y_pos += 15
+            i += 1
+        
+        self.lcd.update()
+
+        if self.btn.up:
+            selector -= 1
+            if selector < 0:
+                selector = len(self.menu_items) - 1
+
+        if self.btn.down:
+            selector += 1
+            if selector > len(self.menu_items):
+                selector = 0 
+
+        if self.btn.enter:
+            self.change_state(selection=selector)
+
+        time.sleep(0.05)
+```
+This is the first section of UI, it allows the user to move through the menu and into the other sub menus. The base navigation is later used again for most individual menus. 
+
+**Alarm Editor
+```python
+def alarm_editor(self, existing_alarm=None):
+    siren_names = list(SIRENS.keys())
+
+    if existing_alarm is None:
+        hour = 7
+        minute = 0
+        siren_index = 0
+        challenge_amount = 1
+        title = "== Set Alarm =="
+    else:
+        hour_str, minute_str = existing_alarm.target_time.split(":")
+        hour = int(hour_str)
+        minute = int(minute_str)
+
+        siren_index = siren_names.index(existing_alarm.siren)
+
+        challenge_amount = existing_alarm.challenge_amount
+        title = "== Edit Alarm =="
+
+    fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
+    selector = 0
+```
+This 
+
+**Save Alarm 
+```python
+elif self.btn.enter:
+    if selector == 4:
+        alarm_time = f"{hour:02}:{minute:02}"
+        siren = siren_names[siren_index]
+        if existing_alarm is not None:
+            self.alarms.remove(existing_alarm)
+        new_alarm = Alarm(alarm_time, siren, challenge_amount)
+        self.alarms.append(new_alarm)
+
+        self.clear_screen()
+        self.lcd.text_pixels("Alarm Added!", clear_screen=False, x=10, y=20, text_color='black')
+        self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
+        self.lcd.update()
+
+        self.sound.beep()
+        time.sleep(1)
+        self.state = State.IDLE
+
+    elif selector == 5:
+        self.state = State.IDLE
+
+    time.sleep(0.05)
+```
 
 #### Video of Functionality
 
@@ -331,6 +437,12 @@ Loop
 #### Discussion
 
 #### Code Snippets
+
+**Supporting Multiple Alarms
+
+**Selecting an Alarm to edit
+
+**Alarm Viewing
 
 #### Video of Functionality
 
