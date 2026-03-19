@@ -46,7 +46,7 @@ class Alarm():
         pass
 
     def alarm_description(self):
-        return #f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
+        return f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
 
 class Challenge():
     def __init__(self):
