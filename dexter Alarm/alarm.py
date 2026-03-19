@@ -339,7 +339,6 @@ class AlarmBot():
                     return
     
     def view_alarms(self):
-        
         while self.state == State.VIEW:
             self.clear_screen()
             self.lcd.text_pixels("Alarms", 10, 10)
