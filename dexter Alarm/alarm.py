@@ -46,11 +46,11 @@ class Alarm():
         pass
 
     def alarm_description(self):
-        return f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
+        return f"{self.target_time} | {self.siren} | {self.challenge_amount} Challenges"
 
 class Challenge():
-    def __init__(self):
-        self.type = 1
+    def __init__(self,challenge_type=Challenge_types):
+        self.type = challenge_type
 
     def run(self):
         if self.type == Challange_types.LEDMEMORYGAME:
@@ -86,30 +86,26 @@ class AlarmBot():
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
-    def change_state(self,selection=None,sub_menu=None):
-        if selection != None:
+    def change_state(self, selection=None, sub_menu=None):
+        if selection is not None:
             if selection >= len(self.menu_items):
-                print("How?")
+                print("Invalid selection")
             else:
                 if selection == 0:
                     self.state = State.SETTING
-                    self.set_alarm()
                 elif selection == 1:
                     self.state = State.EDITING
-                    self.edit_alarm()
                 elif selection == 2:
                     self.state = State.VIEW
-                    self.view_alarms()
-        elif sub_menu != None:
+        elif sub_menu is not None:
             self.state = State.IDLE
-            self.main_menu()
         else:
             self.state = State.CHALLENGE
 
     def main_menu(self):
         selector = 0
 
-        while True:
+        while self.state == state.IDLE:
             self.lcd.clear()
             self.lcd.text_pixels("RoboAlarm", clear_screen=False, x=10, y=20, text_color='black')
 
@@ -117,12 +113,10 @@ class AlarmBot():
             i = 0
 
             while i < len(self.menu_items):
-
                 text = self.menu_items[i]
 
                 if i == selector:
                     text = ">> " + text
-
                 else:
                     text = "   " + text
 
@@ -135,24 +129,22 @@ class AlarmBot():
 
             if self.btn.up:
                 selector -= 1
-
                 if selector < 0:
                     selector = len(self.menu_items) - 1
 
             if self.btn.down:
                 selector += 1
-
                 if selector > len(self.menu_items):
                     selector = 0 
 
             if self.btn.enter:
                 self.change_state(selection=selector)
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
     def set_alarm(self):
         
-        while True:
+        while self.state == State.SETTING:
             self.lcd.clear()
             self.lcd.text_pixels("Set Alarm", 10, 10)
 
