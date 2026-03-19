@@ -86,6 +86,9 @@ class AlarmBot():
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
+    def clear_screen(self):
+        self.lcd.clear()
+
     def change_state(self, selection=None, sub_menu=None):
         if selection is not None:
             if selection >= len(self.menu_items):
@@ -106,7 +109,7 @@ class AlarmBot():
         selector = 0
 
         while self.state == state.IDLE:
-            self.lcd.clear()
+            self.clear_screen()
             self.lcd.text_pixels("RoboAlarm", clear_screen=False, x=10, y=20, text_color='black')
 
             y_pos = 30
@@ -143,23 +146,131 @@ class AlarmBot():
             time.sleep(0.05)
 
     def set_alarm(self):
-        
-        while self.state == State.SETTING:
-            self.lcd.clear()
-            self.lcd.text_pixels("Set Alarm", 10, 10)
+        hour = 7
+        minute = 0
+        siren_names = list(SIRENS.keys())
+        siren_index = 0
+        challenge_amount = 1
 
-            selector = 0
+        fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
+        selector = 0
+
+        while self.state == State.SETTING:
+            self.clear_screen()
+            self.lcd.text_pixels("Set Alarm", clear_screen=False, x=10, y=10, text_color='black')
+
+            y_pos = 30
+            i = 0
+
+            while i < len(fields):
+                label = fields[i]
+
+                if label == "Hour":
+                    value = f"{hour:02}" # :02 pads the values to always have two numbers "01" but keep as "11"
+                elif label == "Minute":
+                    value = f"{minute:02}"
+                elif label == "Siren":
+                    value = siren_names[siren_index]
+                elif label == "Challenges":
+                    value = str(challenge_amount)
+                else:
+                    value = ""
+
+                if i == selector:
+                    prefix = ">> "
+                else:
+                    prefix = "   "
+
+                if value != "":
+                    line = f"{prefix}{label}: {value}"
+                else:
+                    line = f"{prefix}{label}"
+
+                self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+                y_pos += 15
+                i += 1
 
             self.lcd.update()
-            # things to edit: Alarm, Time, Alarm sound, Challenge amount
+
+            if self.btn.up:
+                selector -= 1
+                if selector < 0:
+                    selector = len(fields) - 1
+                time.sleep(0.05)
+
+            elif self.btn.down:
+                selector += 1
+                if selector >= len(fields):
+                    selector = 0
+                time.sleep(0.05)
+
+            elif self.btn.left:
+                if selector == 0:
+                    hour -= 1
+                    if hour < 0:
+                        hour = 23
+                elif selector == 1:
+                    minute -= 1
+                    if minute < 0:
+                        minute = 59
+                elif selector == 2:
+                    siren_index -= 1
+                    if siren_index < 0:
+                        siren_index = len(siren_names) - 1
+                elif selector == 3:
+                    challenge_amount -= 1
+                    if challenge_amount < 1:
+                        challenge_amount = 1
+                time.sleep(0.05)
+
+            elif self.btn.right:
+                if selector == 0:
+                    hour += 1
+                    if hour > 23:
+                        hour = 0
+                elif selector == 1:
+                    minute += 1
+                    if minute > 59:
+                        minute = 0
+                elif selector == 2:
+                    siren_index += 1
+                    if siren_index >= len(siren_names):
+                        siren_index = 0
+                elif selector == 3:
+                    challenge_amount += 1
+                    if challenge_amount > 10:
+                        challenge_amount = 10
+                time.sleep(0.05)
+
+            elif self.btn.enter:
+                if selector == 4:
+                    alarm_time = f"{hour:02}:{minute:02}"
+                    siren = siren_names[siren_index]
+                    new_alarm = Alarm(alarm_time, siren, challenge_amount)
+                    self.alarms.append(new_alarm)
+
+                    self.clear_screen()
+                    self.lcd.text_pixels("Alarm Added!", clear_screen=False, x=10, y=20, text_color='black')
+                    self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
+                    self.lcd.update()
+
+                    self.sound.beep()
+                    time.sleep(1)
+                    self.state = State.IDLE
+
+                elif selector == 5:
+                    self.state = State.IDLE
+
+                time.sleep(0.05)
 
     def edit_alarm(self):
-        pass
+        while self.state == State.EDITING:
+            self.lcd.clear()
     
     def view_alarms(self):
         
-        while True:
-            self.lcd.clear()
+        while self.state == State.VIEW:
+            self.clear_screen()
             self.lcd.text_pixels("Alarms", 10, 10)
 
             y_pos = 40
