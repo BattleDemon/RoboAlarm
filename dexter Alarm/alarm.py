@@ -145,20 +145,31 @@ class AlarmBot():
 
             time.sleep(0.05)
 
-    def set_alarm(self):
-        #set base values
-        hour = 6
-        minute = 30
+    def alarm_editor(self, existing_alarm=None):
         siren_names = list(SIRENS.keys())
-        siren_index = 0
-        challenge_amount = 3
+
+        if existing_alarm is None:
+            hour = 7
+            minute = 0
+            siren_index = 0
+            challenge_amount = 1
+            title = "Set Alarm"
+        else:
+            hour_str, minute_str = existing_alarm.target_time.split(":")
+            hour = int(hour_str)
+            minute = int(minute_str)
+
+            siren_index = siren_names.index(existing_alarm.siren)
+
+            challenge_amount = existing_alarm.challenge_amount
+            title = "Edit Alarm"
 
         fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
         selector = 0
 
         while self.state == State.SETTING:
             self.clear_screen()
-            self.lcd.text_pixels("Set Alarm", clear_screen=False, x=10, y=10, text_color='black')
+            self.lcd.text_pixels(title, clear_screen=False, x=10, y=10, text_color='black')
 
             y_pos = 30
             i = 0
@@ -247,6 +258,8 @@ class AlarmBot():
                 if selector == 4:
                     alarm_time = f"{hour:02}:{minute:02}"
                     siren = siren_names[siren_index]
+                    if existing_alarm is not None:
+                        self.alarms.remove(existing_alarm)
                     new_alarm = Alarm(alarm_time, siren, challenge_amount)
                     self.alarms.append(new_alarm)
 
@@ -265,10 +278,65 @@ class AlarmBot():
                 time.sleep(0.05)
 
     def edit_alarm(self):
-        while self.state == State.EDITING:
+        if len(self.alarms) == 0:
             self.lcd.clear()
+            self.lcd.text_pixels("Edit Alarm", clear_screen=False, x=10, y=10, text_color='black')
+            self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black')
+            self.lcd.update()
+
+            while not self.btn.enter:
+                time.sleep(0.05)
+            
+            self.state = State.IDLE
+            return
+
+        selector = 0
+
+        while self.state == State.EDITING:
+            self.clear_screen()
+            self.lcd.text_pixels("Select Alarm", clear_screen=False, x=10, y=10, text_color='black')
+
+            y_pos = 30
+            i = 0
+            while i < len(self.alarms):
+                alarm = self.alarms[i]
+                line = alarm.alarm_description()
+
+                if i == selector:
+                    line = ">> " + line
+                else:
+                    line = "   " + line
+
+                self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+                y_pos += 15
+                i += 1
+
+            self.lcd.text_pixels("   Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
+            if selector == len(self.alarms):
+                self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
 
             self.lcd.update()
+
+            if self.btn.up:
+                selector -= 1
+                if selector < 0:
+                    selector = len(self.alarms)
+                time.sleep(0.2)
+
+            elif self.btn.down:
+                selector += 1
+                if selector > len(self.alarms):
+                    selector = 0
+                time.sleep(0.2)
+
+            elif self.btn.enter:
+                if selector == len(self.alarms):
+                    self.state = State.IDLE
+                    return
+                else:
+                    selected_alarm = self.alarms[selector]
+                    self.alarm_editor(existing_alarm=selected_alarm)
+                    return
     
     def view_alarms(self):
         
@@ -307,7 +375,7 @@ while True:
         alarm_bot.main_menu()
 
     elif alarm_bot.state == State.SETTING:
-        alarm_bot.set_alarm()
+        alarm_bot.alarm_editor()
 
     elif alarm_bot.state == State.EDITING:
         alarm_bot.edit_alarm()
