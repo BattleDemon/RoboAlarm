@@ -110,7 +110,7 @@ class AlarmBot():
 
         while self.state == state.IDLE:
             self.clear_screen()
-            self.lcd.text_pixels("RoboAlarm", clear_screen=False, x=10, y=20, text_color='black')
+            self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
 
             y_pos = 30
             i = 0
@@ -153,7 +153,7 @@ class AlarmBot():
             minute = 0
             siren_index = 0
             challenge_amount = 1
-            title = "Set Alarm"
+            title = "== Set Alarm =="
         else:
             hour_str, minute_str = existing_alarm.target_time.split(":")
             hour = int(hour_str)
@@ -162,7 +162,7 @@ class AlarmBot():
             siren_index = siren_names.index(existing_alarm.siren)
 
             challenge_amount = existing_alarm.challenge_amount
-            title = "Edit Alarm"
+            title = "== Edit Alarm =="
 
         fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
         selector = 0
@@ -280,7 +280,7 @@ class AlarmBot():
     def edit_alarm(self):
         if len(self.alarms) == 0:
             self.lcd.clear()
-            self.lcd.text_pixels("Edit Alarm", clear_screen=False, x=10, y=10, text_color='black')
+            self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black')
             self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black')
             self.lcd.update()
 
