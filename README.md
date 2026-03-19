@@ -330,7 +330,7 @@ class State(Enum):
 ```
 This sets up the main states of the program, and is used to tell the robot whether it should, be in a menu, editing alarms, or running challenges.
 
-**Main Menu
+**Main Menu**
 ```python
 def main_menu(self):
     selector = 0
@@ -374,7 +374,7 @@ def main_menu(self):
 ```
 This is the first section of UI, it allows the user to move through the menu and into the other sub menus. The base navigation is later used again for most individual menus. 
 
-**Alarm Editor
+**Alarm Editor**
 ```python
 def alarm_editor(self, existing_alarm=None):
     siren_names = list(SIRENS.keys())
@@ -400,7 +400,7 @@ def alarm_editor(self, existing_alarm=None):
 ```
 This 
 
-**Save Alarm 
+**Save Alarm**
 ```python
 elif self.btn.enter:
     if selector == 4:
@@ -438,12 +438,25 @@ elif self.btn.enter:
 
 #### Code Snippets
 
-**Supporting Multiple Alarms
+**Updated Menu Options for multiple views**
+```python
 
-**Selecting an Alarm to edit
+```
 
-**Alarm Viewing
+**Main Menu handling New views**
+```python
 
+```
+
+**Editing from a list of multiple alarms**
+```python
+
+```
+
+**Viewing all alarms**
+```python
+
+```
 #### Video of Functionality
 
 #### Video of Non-Developer Use
