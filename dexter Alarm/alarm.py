@@ -43,7 +43,8 @@ SIRENS = {
 USESYSTEMTIME = False # if you want to use the system time (might not be correct time), or use a countdown from the selected time 
 
 class Alarm():
-    def __init__(self, target_time, siren, challenge_amount): 
+    def __init__(self, owner, target_time, siren, challenge_amount): 
+        self.owner = owner
         self.sound = Sound()
         self.siren = siren
         self.target_time = target_time
@@ -141,7 +142,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         self.current_time = datetime.now().time()
-        self.alarms = [Alarm("00:02","test1",4)]
+        self.alarms = [Alarm(self,"00:02","test1",4)]
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
@@ -320,7 +321,7 @@ class AlarmBot():
                     siren = siren_names[siren_index]
                     if existing_alarm is not None:
                         self.alarms.remove(existing_alarm)
-                    new_alarm = Alarm(alarm_time, siren, challenge_amount)
+                    new_alarm = Alarm(self,alarm_time, siren, challenge_amount)
                     self.alarms.append(new_alarm)
 
                     self.clear_screen()
@@ -430,6 +431,7 @@ class AlarmBot():
     def challenge_active(self):
         while self.state == State.CHALLENGE:
             pass
+        
 
 alarm_bot = AlarmBot()
 
