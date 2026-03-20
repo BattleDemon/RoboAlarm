@@ -56,7 +56,12 @@ class Alarm():
         self.thread.start()
 
     def ring(self):
-        pass
+        while True:
+            sound.beep()
+            sound.beep()
+            time.sleep(0.1)
+            sound.beep()
+            sound.beep()
 
     def remake_target_time(self):
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
@@ -75,10 +80,8 @@ class Alarm():
                 minutes_pased = 0
                 self.target_hour -= 1
 
-            time.sleep(10)  
-            sound.beep()
-            time.sleep(0.1)
-            sound.beep()
+            time.sleep(60)
+            sound.beep() 
 
     def alarm_description(self):
         self.remake_target_time()
@@ -133,7 +136,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         self.current_time = datetime.now().time()
-        self.alarms = [Alarm("08:30","test1",4)]
+        self.alarms = [Alarm("00:01","test1",4)]
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
