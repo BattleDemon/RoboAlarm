@@ -34,7 +34,11 @@ class Challenge_types(Enum):
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
-SIRENS = {}
+SIRENS = {
+    "test1" : {},
+    "test2" : {},
+    "test3" : {}
+}
 
 class Alarm():
     def __init__(self, target_time, siren, challenge_amount): 
@@ -46,7 +50,7 @@ class Alarm():
         pass
 
     def alarm_description(self):
-        return f"{self.target_time} | {self.siren} | {self.challenge_amount} Challenges"
+        return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 
 class Challenge():
     def __init__(self,challenge_type=Challenge_types):
@@ -123,7 +127,7 @@ class AlarmBot():
     def main_menu(self):
         selector = 0
 
-        while self.state == state.IDLE:
+        while self.state == State.IDLE:
             self.clear_screen()
             self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
 
@@ -193,9 +197,9 @@ class AlarmBot():
                 label = fields[i]
 
                 if label == "Hour":
-                    value = f"{hour:02}" # :02 pads the values to always have two numbers "01" but keep as "11"
+                    value = "{}".format(hour)
                 elif label == "Minute":
-                    value = f"{minute:02}"
+                    value = "{}".format(minute)
                 elif label == "Siren":
                     value = siren_names[siren_index]
                 elif label == "Challenges":
@@ -209,9 +213,9 @@ class AlarmBot():
                     prefix = "   "
 
                 if value != "":
-                    line = f"{prefix}{label}: {value}"
+                    line = "{}{}: {}".format(prefix,label,value)
                 else:
-                    line = f"{prefix}{label}"
+                    line = "{}{}".format(prefix,label)
 
                 self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
                 y_pos += 15
@@ -271,7 +275,7 @@ class AlarmBot():
 
             elif self.btn.enter:
                 if selector == 4:
-                    alarm_time = f"{hour:02}:{minute:02}"
+                    alarm_time = "{}:{}".format(hour,minute)
                     siren = siren_names[siren_index]
                     if existing_alarm is not None:
                         self.alarms.remove(existing_alarm)

@@ -1,0 +1,4 @@
+  File "/home/robot/dexter Alarm/alarm.py", line 212
+    line = f"{prefix}{label}: {value}"
+                                     ^
+SyntaxError: invalid syntax

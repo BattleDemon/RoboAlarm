@@ -1,0 +1,4 @@
+  File "/home/robot/dexter Alarm/alarm.py", line 49
+    return f"{self.target_time} | {self.siren} | {self.challenge_amount} Challenges"
+                                                                                   ^
+SyntaxError: invalid syntax

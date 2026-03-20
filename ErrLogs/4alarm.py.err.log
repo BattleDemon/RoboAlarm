@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 392, in <module>
+    alarm_bot.alarm_editor()
+  File "/home/robot/dexter Alarm/alarm.py", line 200, in alarm_editor
+    value = siren_names[siren_index]
+IndexError: list index out of range

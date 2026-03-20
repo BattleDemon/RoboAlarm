@@ -1,0 +1,4 @@
+  File "/home/robot/dexter Alarm/alarm.py", line 196
+    value = f"{hour:02}" # :02 pads the values to always have two numbers "01" but keep as "11"
+                       ^
+SyntaxError: invalid syntax
