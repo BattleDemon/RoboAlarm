@@ -44,13 +44,14 @@ USESYSTEMTIME = False # if you want to use the system time (might not be correct
 
 class Alarm():
     def __init__(self, target_time, siren, challenge_amount): 
+        self.sound = Sound()
         self.siren = siren
         self.target_time = target_time
         self.challenge_amount = challenge_amount
 
         self.target_hour, self.target_minute = self.target_time.split(":")
 
-        self.thread = threading.Thread(target=self.countdown)
+        self.thread = Thread(target=self.countdown)
         self.thread.daemon = True
         self.thread.start()
 
@@ -74,7 +75,10 @@ class Alarm():
                 minutes_pased = 0
                 self.target_hour -= 1
 
-            time.sleep(60)
+            time.sleep(10)  
+            sound.beep()
+            time.sleep(0.1)
+            sound.beep()
 
     def alarm_description(self):
         self.remake_target_time()
