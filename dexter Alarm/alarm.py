@@ -54,23 +54,17 @@ class Alarm():
         self.target_minute = int(self.target_minute)
 
 
-        self.thread = Thread(target=self.countdown)
-        self.thread.daemon = True
-        self.thread.start()
+        self.countdown_thread = Thread(target=self.countdown)
+        self.countdown_thread.daemon = True
+        self.countdown_thread.start()
+
+        self.ring_thread = Thread(target=self.ring)
+        self.ring_thread.daemon = True
 
     def ring(self):
-        self.sound.beep()
-        time.sleep(0.3)
-        self.sound.beep()
-        time.sleep(0.3)
-        self.sound.beep()
-        time.sleep(0.3)
-        self.sound.beep()
-        time.sleep(0.3)
-        self.sound.beep()
-        time.sleep(0.3)
-        self.sound.beep()
-        time.sleep(0.3)
+        while True:
+            self.sound.beep()
+            time.sleep(0.3)
 
     def remake_target_time(self):
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
@@ -79,7 +73,7 @@ class Alarm():
         minutes_pased = 0
         while True:
             if self.target_hour == 0 and self.target_minute == 0:
-                self.ring()
+                self.ring_thread.start()
                 break
 
             self.target_minute -= 1 
