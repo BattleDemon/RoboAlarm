@@ -50,8 +50,8 @@ class Alarm():
         self.challenge_amount = challenge_amount
 
         self.target_hour, self.target_minute = self.target_time.split(":")
-        #self.target_hour = int(self.target_hour)
-        #self.target_minute = int(self.target_minute)
+        self.target_hour = int(self.target_hour)
+        self.target_minute = int(self.target_minute)
 
 
         self.thread = Thread(target=self.countdown)
@@ -59,11 +59,17 @@ class Alarm():
         self.thread.start()
 
     def ring(self):
-        sound.beep()
+        self.sound.beep()
         time.sleep(0.3)
-        sound.beep()
+        self.sound.beep()
         time.sleep(0.3)
-        sound.beep()
+        self.sound.beep()
+        time.sleep(0.3)
+        self.sound.beep()
+        time.sleep(0.3)
+        self.sound.beep()
+        time.sleep(0.3)
+        self.sound.beep()
         time.sleep(0.3)
 
     def remake_target_time(self):
@@ -74,6 +80,7 @@ class Alarm():
         while True:
             if self.target_hour == 0 and self.target_minute == 0:
                 self.ring()
+                break
 
             self.target_minute -= 1 
             minutes_pased += 1
@@ -84,8 +91,8 @@ class Alarm():
                 if self.target_hours < 0:
                     self.target_hours = 0
 
-            time.sleep(5)
-            sound.beep() 
+            time.sleep(60)  # Remember to change back to 60 for submission
+            self.sound.beep()
 
     def alarm_description(self):
         self.remake_target_time()
