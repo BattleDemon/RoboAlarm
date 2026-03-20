@@ -50,18 +50,21 @@ class Alarm():
         self.challenge_amount = challenge_amount
 
         self.target_hour, self.target_minute = self.target_time.split(":")
+        #self.target_hour = int(self.target_hour)
+        #self.target_minute = int(self.target_minute)
+
 
         self.thread = Thread(target=self.countdown)
         self.thread.daemon = True
         self.thread.start()
 
     def ring(self):
-        while True:
-            sound.beep()
-            sound.beep()
-            time.sleep(0.1)
-            sound.beep()
-            sound.beep()
+        sound.beep()
+        time.sleep(0.3)
+        sound.beep()
+        time.sleep(0.3)
+        sound.beep()
+        time.sleep(0.3)
 
     def remake_target_time(self):
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
@@ -69,18 +72,19 @@ class Alarm():
     def countdown(self):
         minutes_pased = 0
         while True:
-            if self.target_hour  == 0 & self.target_minute == 0:
+            if self.target_hour == 0 and self.target_minute == 0:
                 self.ring()
-                break
 
-            self.target_minute -= 1
+            self.target_minute -= 1 
             minutes_pased += 1
 
             if minutes_pased == 60:
                 minutes_pased = 0
                 self.target_hour -= 1
+                if self.target_hours < 0:
+                    self.target_hours = 0
 
-            time.sleep(60)
+            time.sleep(5)
             sound.beep() 
 
     def alarm_description(self):
@@ -136,7 +140,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         self.current_time = datetime.now().time()
-        self.alarms = [Alarm("00:01","test1",4)]
+        self.alarms = [Alarm("00:02","test1",4)]
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
