@@ -432,6 +432,7 @@ class AlarmBot():
         while self.state == State.CHALLENGE:
             pass
         
+        
 
 alarm_bot = AlarmBot()
 
