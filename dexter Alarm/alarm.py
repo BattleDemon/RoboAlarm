@@ -427,6 +427,10 @@ class AlarmBot():
 
             time.sleep(0.2)
 
+    def challenge_active(self):
+        while self.state == State.CHALLENGE:
+            pass
+
 alarm_bot = AlarmBot()
 
 alarm_bot.sound.beep()
@@ -449,7 +453,7 @@ while True:
         alarm_bot.view_alarms()
 
     elif alarm.state == State.CHALLENGE:
-        pass
+        alarm_bot.challenge_active()
 
     else:
         print("How are you seeing this?")
