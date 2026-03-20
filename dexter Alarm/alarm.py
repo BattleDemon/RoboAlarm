@@ -40,16 +40,44 @@ SIRENS = {
     "test3" : {}
 }
 
+USESYSTEMTIME = False # if you want to use the system time (might not be correct time), or use a countdown from the selected time 
+
 class Alarm():
     def __init__(self, target_time, siren, challenge_amount): 
         self.siren = siren
         self.target_time = target_time
         self.challenge_amount = challenge_amount
 
+        self.target_hour, self.target_minute = self.target_time.split(":")
+
+        self.thread = threading.Thread(target=self.countdown)
+        self.thread.daemon = True
+        self.thread.start()
+
     def ring(self):
         pass
 
+    def remake_target_time(self):
+        self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
+
+    def countdown(self):
+        minutes_pased = 0
+        while True:
+            if self.target_hour  == 0 & self.target_minute == 0:
+                self.ring()
+                break
+
+            self.target_minute -= 1
+            minutes_pased += 1
+
+            if minutes_pased == 60:
+                minutes_pased = 0
+                self.target_hour -= 1
+
+            time.sleep(60)
+
     def alarm_description(self):
+        self.remake_target_time()
         return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 
 class Challenge():
