@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+# === Import === 
 from ev3dev2.sensor import INPUT_2, INPUT_3, INPUT_4,  INPUT_1
 from ev3dev2.sensor.lego import *
 from ev3dev2.motor import *
@@ -62,6 +64,7 @@ class Alarm():
         self.ring_thread.daemon = True
 
     def ring(self):
+        self.owner.active_alarm = self
         while True:
             self.sound.beep()
             time.sleep(0.3)
@@ -142,6 +145,7 @@ class AlarmBot():
 
         self.current_time = datetime.now().time()
         self.alarms = [Alarm(self,"00:02","test1",4)]
+        self.active_alarm = None
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
@@ -427,7 +431,16 @@ class AlarmBot():
 
             time.sleep(0.2)
 
+    def randomise_challenges(self):
+        challenge_amount = self.active_alarm.challenge_amount
+        challenges = []
+
+        for i in challenge_amount:
+            challenges.append(random.randint(0,4))
+
     def challenge_active(self):
+        self.randomise_challenges()
+
         while self.state == State.CHALLENGE:
             pass
         
