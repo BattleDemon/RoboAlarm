@@ -101,7 +101,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         self.current_time = datetime.now().time()
-        self.alarms = []
+        self.alarms = [Alarm("08:30","test1",4)]
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
@@ -174,6 +174,7 @@ class AlarmBot():
             challenge_amount = 1
             title = "== Set Alarm =="
         else:
+            self.state = State.SETTING
             hour_str, minute_str = existing_alarm.target_time.split(":")
             hour = int(hour_str)
             minute = int(minute_str)
@@ -356,6 +357,8 @@ class AlarmBot():
                     selected_alarm = self.alarms[selector]
                     self.alarm_editor(existing_alarm=selected_alarm)
                     return
+
+            time.sleep(0.05)
     
     def view_alarms(self):
         while self.state == State.VIEW:
@@ -368,17 +371,21 @@ class AlarmBot():
             while i < len(self.alarms):
                 alarm = self.alarms[i]
                 
-                self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
+                self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=y_pos, text_color='black')
 
-                y += 20
+                y_pos += 20
                 i += 1
 
             if len(self.alarms) == 0:
-                self.lsd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
+                self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
 
-            self.lds.update()
+            if self.btn.enter:
+                self.state = State.IDLE
+                return
 
-            time.wait(0.2)
+            self.lcd.update()
+
+            time.sleep(0.2)
 
 alarm_bot = AlarmBot()
 
