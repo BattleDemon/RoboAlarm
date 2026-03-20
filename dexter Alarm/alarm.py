@@ -54,7 +54,6 @@ class Alarm():
         self.target_hour = int(self.target_hour)
         self.target_minute = int(self.target_minute)
 
-
         self.countdown_thread = Thread(target=self.countdown)
         self.countdown_thread.daemon = True
         self.countdown_thread.start()
