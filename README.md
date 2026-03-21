@@ -367,70 +367,107 @@ Loop
 
 #### Discussion
 
+During this section I made the base alarm setting and editing features, which saves the alarm with the specified values, and allows later editing of these alarms.
 #### Code Snippets
-**Alarm Editor Set and Edit**
-``` python
-def alarm_editor(self, existing_alarm=None):
-    if existing_alarm is None:
-        hour = 7
-        minute = 0
-        challenge_amount = 1
-    else:
-        hour_str, minute_str = existing_alarm.target_time.split(":")
-        hour = int(hour_str)
-        minute = int(minute_str)
-        challenge_amount = existing_alarm.challenge_amount
-```
-
-This is the combined alarm editor, If no alarm is passed in, it creates a new one using the default values. If an alarm is passed in, it will loads the existing values so they can be modified. This avoids having two separate functions doing almost the same thing.
-
-**Handling User Input to Modify Values**
-``` Python
-if self.btn.left:
-    if selector == 0:
-        hour -= 1
-    elif selector == 1:
-        minute -= 1
-    elif selector == 3:
-        challenge_amount -= 1
-
-elif self.btn.right:
-    if selector == 0:
-        hour += 1
-    elif selector == 1:
-        minute += 1
-    elif selector == 3:
-        challenge_amount += 1
-```
-
-This 
-
-**Creating and Updating Alarms**
-``` Python
-if selector == 4:
-    alarm_time = "{}:{}".format(hour, minute)
-    siren = siren_names[siren_index]
-
-    if existing_alarm is not None:
-        self.alarms.remove(existing_alarm)
-
-    new_alarm = Alarm(self, alarm_time, siren, challenge_amount)
-    self.alarms.append(new_alarm)
-```
-
-This
 
 **Alarm Class**
 ``` Python
 class Alarm():
-    def __init__(self, owner, target_time, siren, challenge_amount): 
-        self.owner = owner
-        self.siren = siren
-        self.target_time = target_time
-        self.challenge_amount = challenge_amount
+	def __init__(self, owner, target_time, siren, challenge_amount):
+		self.owner = owner
+		self.sound = Sound()
+		self.siren = siren
+		self.target_time = target_time
+		self.challenge_amount = challenge_amount
+		
+		self.target_hour, self.target_minute = self.target_time.split(":")
+		self.target_hour = int(self.target_hour)
+		self.target_minute = int(self.target_minute)	  
+		
+		self.countdown_thread = Thread(target=self.countdown)
+		self.countdown_thread.daemon = True
+		self.countdown_thread.start()
+		
+		self.ring_thread = Thread(target=self.ring)
+		self.ring_thread.daemon = True
+	
+	def ring(self):
+	self.owner.active_alarm = self
+	
+	self.owner.challenge_active()
+	
+	while True:
+	
+	self.sound.beep()
+	
+	time.sleep(0.3)
+	
+	  
+	
+	def remake_target_time(self):
+	
+	self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
+	
+	  
+	
+	def countdown(self):
+	
+	minutes_pased = 0
+	
+	while True:
+	
+	if self.target_hour == 0 and self.target_minute == 0:
+	
+	self.ring_thread.start()
+	
+	break
+	
+	  
+	
+	self.target_minute -= 1
+	
+	minutes_pased += 1
+	
+	  
+	
+	if minutes_pased == 60:
+	
+	minutes_pased = 0
+	
+	self.target_hour -= 1
+	
+	if self.target_hour < 0:
+	
+	self.target_hour = 0
+	
+	  
+	
+	time.sleep(60) # Remember to change back to 60 for submission
+	
+	self.sound.beep() # for testing to confirm time is passing
+	
+	  
+	
+	def alarm_description(self):
+		self.remake_target_time()
+		return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 ```
+Explain
 
-this
+**Alarm Editor Navigation**
+``` Python
+```
+Explain
+
+**Allowing for both Initial setup and Editing**
+``` Python
+```
+Explain
+
+**Changing Alarm Values**
+``` Python
+```
+Explain
 #### Video of Functionality
 
 #### Video of Non-Developer Use
@@ -443,36 +480,56 @@ this
 
 #### Code Snippets
 
-**Updated Menu Options for multiple views**
-```python
-
+**State Enum**
+``` Python
 ```
+Explain
 
-**Main Menu handling New views**
-```python
-
+**View Switching**
+``` Python
 ```
+Explain
 
-**Editing from a list of multiple alarms**
-```python
-
+**Navigating Main Menu**
+``` Python
 ```
+Explain
 
-**Viewing all alarms**
-```python
-
+**View Alarms**
+``` Python
 ```
+Explain
 #### Video of Functionality
 
 #### Video of Non-Developer Use
 
 #### Issues and Solutions
 
-### Prototype 2: Randomising based on Challenge Level, LED Challenge
+### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
 
 #### Discussion
 
 #### Code Snippets
+
+**Alarm Countdown**
+``` Python
+```
+Explain
+
+**Alarm Ringing**
+``` Python
+```
+Explain
+
+**Challenge Class**
+``` Python
+```
+Explain
+
+**Randomising Challenges**
+``` Python
+```
+Explain
 
 #### Video of Functionality
 
