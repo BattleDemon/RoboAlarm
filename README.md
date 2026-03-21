@@ -392,12 +392,73 @@ Explain
 
 **Alarm Editor Navigation**
 ``` Python
+fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
+selector = 0
 
+while True:
+	while i < len(fields):
+		label = fields[i]
+		
+		if label == "Hour":
+			value = "{}".format(hour)
+		elif label == "Minute":
+			value = "{}".format(minute)
+		elif label == "Siren":
+			value = siren_names[siren_index]
+		elif label == "Challenges":
+			value = str(challenge_amount)
+		else:
+			value = ""
+		
+		if i == selector:
+			prefix = ">> "
+		else:
+			prefix = " "
+			
+		if value != "":
+			line = "{}{}: {}".format(prefix,label,value)
+		else:
+			line = "{}{}".format(prefix,label)
+		
+		self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+		
+		y_pos += 15
+		i += 1
+
+
+	self.lcd.update()
+
+	if self.btn.up:
+		selector -= 1
+		if selector < 0:
+			selector = len(fields) - 1
+		time.sleep(0.05)
+	
+	elif self.btn.down:
+		selector += 1
+		if selector >= len(fields):	
+			selector = 0
+		time.sleep(0.05)
 ```
 Explain
 
 **Allowing for both Initial setup and Editing**
 ``` Python
+if existing_alarm is None:
+	hour = 7
+	minute = 0
+	siren_index = 0
+	challenge_amount = 1
+	title = "== Set Alarm =="
+
+else:
+	self.state = State.SETTING
+	hour_str, minute_str = existing_alarm.target_time.split(":")
+	hour = int(hour_str)
+	minute = int(minute_str)
+	siren_index = siren_names.index(existing_alarm.siren)
+	challenge_amount = existing_alarm.challenge_amount
+	title = "== Edit Alarm =="
 ```
 Explain
 
