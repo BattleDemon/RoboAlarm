@@ -385,7 +385,6 @@ class Alarm():
 		self.target_minute = int(self.target_minute)	  
 	
 	def alarm_description(self):
-		self.remake_target_time()
 		return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 ```
 Explain
@@ -663,21 +662,84 @@ Explain
 
 **Alarm Countdown**
 ``` Python
+class Alarm():
+	def __init__(self, owner, target_time, siren, challenge_amount):
+		# Before mentioned Init stuff
+		
+		self.countdown_thread = Thread(target=self.countdown)
+		self.countdown_thread.daemon = True
+		self.countdown_thread.start()
+		
+		self.ring_thread = Thread(target=self.ring)
+		self.ring_thread.daemon = True
+		
+	def countdown(self):
+		minutes_pased = 0
+		while True:
+		if self.target_hour == 0 and self.target_minute == 0:
+			self.ring_thread.start()
+			break
+		
+		self.target_minute -= 1
+		minutes_pased += 1
+		
+		if minutes_pased == 60:
+			minutes_pased = 0
+			self.target_hour -= 1
+			if self.target_hour < 0:
+				self.target_hour = 0
+				
+		time.sleep(60)
+		self.sound.beep()
 ```
 Explain
 
 **Alarm Ringing**
 ``` Python
+def ring(self):
+	self.owner.active_alarm = self
+	self.owner.challenge_active()
+	
+	while True:
+		self.sound.beep()
+		time.sleep(0.3)
 ```
 Explain
 
 **Challenge Class**
 ``` Python
+class Challenge():
+	def __init__(self,challenge_type=Challenge_types):
+		self.type = challenge_type
+	
+	def run(self):
+		if self.type == Challenge_types.LEDMEMORYGAME:
+			return self.led_memory_game()
+		elif self.type == Challenge_types.MOTORCONTROLTEST:
+			return self.motor_control_test()
+		elif self.type == Challenge_types.COLOURRECOGNITION:
+			return self.colour_recognition()
+		elif self.type == Challenge_types.DISTANCECHALLENGE:
+			return self.distance_challenge()
+		elif self.type == Challenge_types.GYROCOORDINATION:
+			return self.gyro_coordination()
+	
+	# The individual challenge functions will be made in later prototypes
 ```
 Explain
 
 **Randomising Challenges**
 ``` Python
+# This is in AlarmBot class
+def randomise_challenges(self):
+	challenge_amount = self.active_alarm.challenge_amount
+	challenges = []
+
+	for i in range(challenge_amount):
+		challenge_type = random.choice(list(Challenge_types))
+		challenges.append(Challenge(challenge_type))
+		
+	return challenges
 ```
 Explain
 
