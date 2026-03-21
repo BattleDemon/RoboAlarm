@@ -652,7 +652,7 @@ class Alarm():
 		time.sleep(60)
 		self.sound.beep()
 ```
-Explain
+This creates a separate thread that continuously decreases the alarm time until it reaches zero, at which point it then starts the ring thread.
 
 **Alarm Ringing**
 ``` Python
@@ -664,7 +664,7 @@ def ring(self):
 		self.sound.beep()
 		time.sleep(0.3)
 ```
-Explain
+This function activates the alarm, links it to the main system, and repeatedly plays a sound until the challenge sequence is completed.
 
 **Challenge Class**
 ``` Python
@@ -686,7 +686,7 @@ class Challenge():
 	
 	# The individual challenge functions will be made in later prototypes
 ```
-Explain
+This acts as a controller that selects and runs the correct challenge function based on its assigned type, keeping all challenge logic seperate.
 
 **Randomising Challenges**
 ``` Python
@@ -701,8 +701,7 @@ def randomise_challenges(self):
 		
 	return challenges
 ```
-Explain
-
+This generates a list of challenges by randomly selecting types based on the required amount.
 #### Video of Functionality
 
 #### Issues and Solutions
