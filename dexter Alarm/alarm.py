@@ -22,6 +22,7 @@ os.system('setfont Lat15-TerminusBold14')
 import time
 import random
 
+# == State Enum == 
 class State(Enum):
     IDLE = 0
     SETTING = 1
@@ -29,6 +30,7 @@ class State(Enum):
     CHALLENGE = 3
     VIEW = 4
 
+# == Challenge Types Enum ==
 class Challenge_types(Enum):
     LEDMEMORYGAME = 0
     MOTORCONTROLTEST = 1
@@ -36,6 +38,7 @@ class Challenge_types(Enum):
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
+# == Siren Sounds ==
 SIRENS = {
     "test1" : {},
     "test2" : {},
@@ -44,6 +47,7 @@ SIRENS = {
 
 USESYSTEMTIME = False # if you want to use the system time (might not be correct time), or use a countdown from the selected time 
 
+# == Alarm Class ==
 class Alarm():
     def __init__(self, owner, target_time, siren, challenge_amount): 
         self.owner = owner
@@ -96,6 +100,7 @@ class Alarm():
         self.remake_target_time()
         return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 
+# == Challenge Class ==
 class Challenge():
     def __init__(self,challenge_type=Challenge_types):
         self.type = challenge_type
@@ -127,6 +132,7 @@ class Challenge():
     def gyro_coordination(self):
         pass
 
+# == Alarm Bot ==
 class AlarmBot():
     def __init__(self):
 
@@ -462,13 +468,11 @@ class AlarmBot():
         self.state = State.IDLE
 
 alarm_bot = AlarmBot()
-
 alarm_bot.sound.beep()
-
 time.sleep(0.5)
-
 alarm_bot.sound.beep()
 
+# == Main loop ==
 while True:
     if alarm_bot.state == State.IDLE:
         alarm_bot.main_menu()

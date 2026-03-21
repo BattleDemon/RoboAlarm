@@ -339,7 +339,6 @@ Loop
 ## Development
 
 ### Prototype 0: Setting and Editing the Alarm
-
 #### Discussion
 
 During this section I made the base alarm setting and editing features, which saves the alarm with the specified values, and allows later editing of these alarms.
