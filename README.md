@@ -340,8 +340,7 @@ Loop
 
 ### Prototype 0: Setting and Editing the Alarm
 #### Discussion
-
-During this section I made the base alarm setting and editing features, which saves the alarm with the specified values, and allows later editing of these alarms.
+During this stage I focused on making the base of the `Alarm` class, and the `AlarmBot` class. After that I made the systems to create an alarm as well as edit them. The interface from this was later used as the base for future menus. 
 #### Code Snippets
 
 **Alarm Class**
@@ -361,7 +360,7 @@ class Alarm():
 	def alarm_description(self):
 		return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 ```
-Explain
+This class stores all data related to a single alarm and converts the time into usable values, for the countdown system I will develop later. The `alarm_description` method formats the alarm into a readable string so it can be displayed in menus.
 
 **Alarm Editor Navigation**
 ``` Python
@@ -388,18 +387,7 @@ while True:
 		else:
 			prefix = " "
 			
-		if value != "":
-			line = "{}{}: {}".format(prefix,label,value)
-		else:
-			line = "{}{}".format(prefix,label)
-		
-		self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
-		
-		y_pos += 15
-		i += 1
-
-
-	self.lcd.update()
+# Parts removed for readability
 
 	if self.btn.up:
 		selector -= 1
@@ -413,7 +401,7 @@ while True:
 			selector = 0
 		time.sleep(0.05)
 ```
-Explain
+This section shows the selectable UI for setting the alarm, it iterates through each field and displays its current value. If you have selected that field it prefix's with the following `">>"`. This allows the user to move through the alarm editor and modify the selected values.
 
 **Allowing for both Initial setup and Editing** 
 ``` Python
@@ -454,7 +442,7 @@ elif self.btn.enter:
 
 
 ```
-Explain
+This allows for the same editor function to be reused for both creating and editing the alarms, by either loading the default or getting the current value of the existing alarms. Then when saving it replaces or creates a new alarm. 
 
 **Changing Alarm Values**
 ``` Python
@@ -503,15 +491,16 @@ elif self.btn.right:
 	time.sleep(0.05)
 
 ```
-Explain
+This is the system I used to modify the values, it uses the left and right buttons to either increase of decrease the selected value. If needed it wraps around the value to keep them within the available range. 
 #### Video of Functionality
 
 #### Issues and Solutions
 
+
 ### Prototype 1: Multiple views and Multiple Alarms
 
 #### Discussion
-
+During this stage I developed the state system, which allows the user to navigate through the menus, and also if need be in the future is expandable for more menus. This stage also added in a way to view all the set alarms. It also reused the navigation logic developed in prototype 0. 
 #### Code Snippets
 
 **State Enum**
@@ -627,6 +616,7 @@ Explain
 ### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
 
 #### Discussion
+This stage is where I implemented the actual alarm functionality, which used multithreading to fun a countdown in the background. Each alarm runs its own countdown thread, allowing for multiple alarms to be counting down at the same time. When timers complete, it launches a separate thread that handles the ringing of the alarm, as well as the change to the challenge stage. The base for the challenge stage was also developed with the randomising of challenges, and making of the Challenge class.
 
 #### Code Snippets
 
