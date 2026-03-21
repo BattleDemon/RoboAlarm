@@ -1,4 +1,5 @@
 # RoboAlarm
+Dexter Hart
 ## Table of Contents
 - [Table of Contents](#table-of-contents) 
 - [Preplanning](#preplanning) 
@@ -506,8 +507,6 @@ elif self.btn.right:
 Explain
 #### Video of Functionality
 
-#### Video of Non-Developer Use
-
 #### Issues and Solutions
 
 ### Prototype 1: Multiple views and Multiple Alarms
@@ -624,8 +623,6 @@ def view_alarms(self):
 Explain
 #### Video of Functionality
 
-#### Video of Non-Developer Use
-
 #### Issues and Solutions
 
 ### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
@@ -719,8 +716,6 @@ Explain
 
 #### Video of Functionality
 
-#### Video of Non-Developer Use
-
 #### Issues and Solutions
 
 ### Prototype 3: Motor and Ultrasonic Sensor Challenges
@@ -731,8 +726,6 @@ Explain
 
 #### Video of Functionality
 
-#### Video of Non-Developer Use
-
 #### Issues and Solutions
 
 ### Prototype 4: Colour and Gyro Sensor Challenges
@@ -742,8 +735,6 @@ Explain
 #### Code Snippets
 
 #### Video of Functionality
-
-#### Video of Non-Developer Use
 
 #### Issues and Solutions
 
