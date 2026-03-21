@@ -2,10 +2,13 @@
 
 from enum import Enum
 from datetime import datetime
-import os
+from threading import Thread
 import time
+import os
+import random
 
 
+# === STATES ===
 class State(Enum):
     IDLE = 0
     SETTING = 1
@@ -29,248 +32,239 @@ SIRENS = {
 }
 
 
-class Alarm:
-    def __init__(self, target_time, siren, challenge_amount):
-        self.siren = siren
-        self.target_time = target_time
-        self.challenge_amount = challenge_amount
-
-    def ring(self):
-        print(f"\nALARM RINGING: {self.target_time} | {self.siren}")
-
-    def alarm_description(self):
-        return f"{self.target_time} | {self.siren} | {self.challenge_amount} Challenges"
-
-
-class Challenge:
-    def __init__(self, challenge_type=Challenge_types.LEDMEMORYGAME):
-        self.type = challenge_type
-
-    def run(self):
-        if self.type == Challenge_types.LEDMEMORYGAME:
-            print("Running LED Memory Game...")
-        elif self.type == Challenge_types.MOTORCONTROLTEST:
-            print("Running Motor Control Test...")
-        elif self.type == Challenge_types.COLOURRECOGNITION:
-            print("Running Colour Recognition...")
-        elif self.type == Challenge_types.DISTANCECHALLENGE:
-            print("Running Distance Challenge...")
-        elif self.type == Challenge_types.GYROCOORDINATION:
-            print("Running Gyro Coordination...")
-
-
+# === SOUND ===
 class TerminalSound:
     def beep(self):
         print("[BEEP]")
 
 
+# === ALARM ===
+class Alarm:
+    def __init__(self, owner, target_time, siren, challenge_amount):
+        self.owner = owner
+        self.target_time = target_time
+        self.siren = siren
+        self.challenge_amount = challenge_amount
+
+        self.hour, self.minute = map(int, target_time.split(":"))
+
+        self.thread = Thread(target=self.countdown, daemon=True)
+        self.thread.start()
+
+    def countdown(self):
+        while True:
+            if self.hour == 0 and self.minute == 0:
+                self.trigger()
+                break
+
+            time.sleep(1)  # faster for testing (change to 60 later)
+
+            self.minute -= 1
+            if self.minute < 0:
+                self.minute = 59
+                self.hour -= 1
+                if self.hour < 0:
+                    self.hour = 0
+
+    def trigger(self):
+        self.owner.active_alarm = self
+        self.owner.state = State.CHALLENGE
+
+    def alarm_description(self):
+        return f"{self.hour:02}:{self.minute:02} | {self.siren} | {self.challenge_amount} Challenges"
+
+
+# === CHALLENGE ===
+class Challenge:
+    def __init__(self, challenge_type):
+        self.type = challenge_type
+
+    def run(self):
+        print(f"\nRunning {self.type.name}...")
+        input("Press Enter to complete challenge...")
+
+
+# === MAIN BOT ===
 class AlarmBot:
     def __init__(self):
         self.state = State.IDLE
         self.sound = TerminalSound()
 
-        self.current_time = datetime.now().time()
         self.alarms = []
-        self.challenges = []
+        self.active_alarm = None
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms", "Quit"]
 
-    def clear_screen(self):
+    def clear(self):
         os.system("cls" if os.name == "nt" else "clear")
 
-    def get_input(self, prompt="Input (w/s/e/b): "):
-        return input(prompt).strip().lower()
+    def get_input(self):
+        return input("Input (w/s/e/b): ").strip().lower()
 
-    def change_state(self, selection=None, sub_menu=None):
-        if selection is not None:
-            if selection >= len(self.menu_items):
-                print("Invalid selection.")
-            else:
-                if selection == 0:
-                    self.state = State.SETTING
-                elif selection == 1:
-                    self.state = State.EDITING
-                elif selection == 2:
-                    self.state = State.VIEW
-                elif selection == 3:
-                    raise SystemExit
-        elif sub_menu is not None:
-            self.state = State.IDLE
-        else:
-            self.state = State.CHALLENGE
+    def change_state(self, selection=None):
+        if selection == 0:
+            self.state = State.SETTING
+        elif selection == 1:
+            self.state = State.EDITING
+        elif selection == 2:
+            self.state = State.VIEW
+        elif selection == 3:
+            raise SystemExit
 
+    # === MENU ===
     def main_menu(self):
         selector = 0
 
         while self.state == State.IDLE:
-            self.clear_screen()
+            self.clear()
             print("=== RoboAlarm ===\n")
 
-            i = 0
-            while i < len(self.menu_items):
-                text = self.menu_items[i]
+            for i in range(len(self.menu_items)):
+                prefix = ">>" if i == selector else "  "
+                print(f"{prefix} {self.menu_items[i]}")
 
-                if i == selector:
-                    print(f">> {text}")
-                else:
-                    print(f"   {text}")
-
-                i += 1
-
-            print("\nControls: w=up, s=down, e=enter")
             choice = self.get_input()
 
             if choice == "w":
-                selector -= 1
-                if selector < 0:
-                    selector = len(self.menu_items) - 1
-
+                selector = (selector - 1) % len(self.menu_items)
             elif choice == "s":
-                selector += 1
-                if selector >= len(self.menu_items):
-                    selector = 0
-
+                selector = (selector + 1) % len(self.menu_items)
             elif choice == "e":
-                self.change_state(selection=selector)
+                self.change_state(selector)
 
-            time.sleep(0.05)
+    # === SET / EDIT ===
+    def alarm_editor(self, existing=None):
+        sirens = list(SIRENS.keys())
 
-    def set_alarm(self):
-        while self.state == State.SETTING:
-            self.clear_screen()
-            print("=== Set Alarm ===\n")
+        if existing:
+            hour, minute = existing.hour, existing.minute
+            siren_index = sirens.index(existing.siren)
+            challenges = existing.challenge_amount
+        else:
+            hour, minute = 7, 0
+            siren_index = 0
+            challenges = 1
 
-            print("Create a new alarm.")
-            print("Type 'b' at any prompt to go back.\n")
+        while True:
+            self.clear()
+            print("=== Alarm Editor ===\n")
+            print(f"1. Hour: {hour}")
+            print(f"2. Minute: {minute}")
+            print(f"3. Siren: {sirens[siren_index]}")
+            print(f"4. Challenges: {challenges}")
+            print("5. Save")
+            print("b. Back")
 
-            alarm_time = input("Enter time (HH:MM): ").strip()
-            if alarm_time.lower() == "b":
-                self.state = State.IDLE
-                break
+            choice = input("\nChoice: ").lower()
 
-            print("\nAvailable sirens:")
-            siren_names = list(SIRENS.keys())
+            if choice == "1":
+                hour = (hour + 1) % 24
+            elif choice == "2":
+                minute = (minute + 1) % 60
+            elif choice == "3":
+                siren_index = (siren_index + 1) % len(sirens)
+            elif choice == "4":
+                challenges = max(1, challenges + 1)
+            elif choice == "5":
+                if existing:
+                    self.alarms.remove(existing)
 
-            i = 0
-            while i < len(siren_names):
-                print(f"{i + 1}. {siren_names[i]}")
-                i += 1
-
-            siren_choice = input("\nChoose siren number: ").strip()
-            if siren_choice.lower() == "b":
-                self.state = State.IDLE
-                break
-
-            challenge_amount = input("Enter number of challenges: ").strip()
-            if challenge_amount.lower() == "b":
-                self.state = State.IDLE
-                break
-
-            try:
-                datetime.strptime(alarm_time, "%H:%M")
-                siren_index = int(siren_choice) - 1
-                challenge_amount = int(challenge_amount)
-
-                if siren_index < 0 or siren_index >= len(siren_names):
-                    raise ValueError
-
-                siren = siren_names[siren_index]
-                new_alarm = Alarm(alarm_time, siren, challenge_amount)
+                new_alarm = Alarm(
+                    self,
+                    f"{hour:02}:{minute:02}",
+                    sirens[siren_index],
+                    challenges
+                )
                 self.alarms.append(new_alarm)
 
-                print("\nAlarm added successfully.")
-            except ValueError:
-                print("\nInvalid input. Alarm was not created.")
+                print("\nSaved!")
+                input("Enter to continue...")
+                self.state = State.IDLE
+                return
 
-            input("\nPress Enter to continue...")
-            self.state = State.IDLE
+            elif choice == "b":
+                self.state = State.IDLE
+                return
 
+    # === EDIT MENU ===
     def edit_alarm(self):
-        while self.state == State.EDITING:
-            self.clear_screen()
+        if not self.alarms:
+            print("No alarms.")
+            input("Enter...")
+            self.state = State.IDLE
+            return
+
+        while True:
+            self.clear()
             print("=== Edit Alarm ===\n")
 
-            if len(self.alarms) == 0:
-                print("No alarms to edit.")
-                input("\nPress Enter to go back...")
-                self.state = State.IDLE
-                break
+            for i, alarm in enumerate(self.alarms):
+                print(f"{i+1}. {alarm.alarm_description()}")
 
-            i = 0
-            while i < len(self.alarms):
-                print(f"{i + 1}. {self.alarms[i].alarm_description()}")
-                i += 1
+            print("b. Back")
 
-            print("\nOptions:")
-            print("Enter alarm number to delete it")
-            print("Type 'b' to go back")
-
-            choice = input("\nChoice: ").strip().lower()
+            choice = input("\nSelect: ").lower()
 
             if choice == "b":
                 self.state = State.IDLE
-                break
+                return
 
             try:
-                index = int(choice) - 1
-                if index < 0 or index >= len(self.alarms):
-                    raise ValueError
+                idx = int(choice) - 1
+                self.alarm_editor(self.alarms[idx])
+                return
+            except:
+                pass
 
-                removed_alarm = self.alarms.pop(index)
-                print(f"\nRemoved: {removed_alarm.alarm_description()}")
-            except ValueError:
-                print("\nInvalid choice.")
-
-            input("\nPress Enter to continue...")
-            self.state = State.IDLE
-
+    # === VIEW ===
     def view_alarms(self):
-        while self.state == State.VIEW:
-            self.clear_screen()
-            print("=== Alarms ===\n")
+        self.clear()
+        print("=== Alarms ===\n")
 
-            if len(self.alarms) == 0:
-                print("No alarms set")
-            else:
-                i = 0
-                while i < len(self.alarms):
-                    alarm = self.alarms[i]
-                    text = alarm.alarm_description()
-                    print(f"{i + 1}. {text}")
-                    i += 1
+        if not self.alarms:
+            print("No alarms set")
+        else:
+            for a in self.alarms:
+                print(a.alarm_description())
 
-            print("\nPress b to go back")
-            choice = self.get_input("Input: ")
+        input("\nPress Enter...")
+        self.state = State.IDLE
 
-            if choice == "b":
-                self.state = State.IDLE
+    # === CHALLENGE SYSTEM ===
+    def start_challenges(self):
+        alarm = self.active_alarm
 
-            time.sleep(0.05)
+        print(f"\nALARM TRIGGERED: {alarm.alarm_description()}")
+
+        challenges = [
+            Challenge(random.choice(list(Challenge_types)))
+            for _ in range(alarm.challenge_amount)
+        ]
+
+        for c in challenges:
+            c.run()
+
+        print("\nAlarm dismissed.")
+        self.active_alarm = None
+        self.state = State.IDLE
 
 
-alarm_bot = AlarmBot()
+# === RUN ===
+bot = AlarmBot()
 
-alarm_bot.sound.beep()
+bot.sound.beep()
 time.sleep(0.5)
-alarm_bot.sound.beep()
+bot.sound.beep()
 
 while True:
-    if alarm_bot.state == State.IDLE:
-        alarm_bot.main_menu()
+    if bot.state == State.IDLE:
+        bot.main_menu()
+    elif bot.state == State.SETTING:
+        bot.alarm_editor()
+    elif bot.state == State.EDITING:
+        bot.edit_alarm()
+    elif bot.state == State.VIEW:
+        bot.view_alarms()
+    elif bot.state == State.CHALLENGE:
+        bot.start_challenges()
 
-    elif alarm_bot.state == State.SETTING:
-        alarm_bot.set_alarm()
-
-    elif alarm_bot.state == State.EDITING:
-        alarm_bot.edit_alarm()
-
-    elif alarm_bot.state == State.VIEW:
-        alarm_bot.view_alarms()
-
-    elif alarm_bot.state == State.CHALLENGE:
-        print("Challenge mode not implemented yet.")
-        alarm_bot.state = State.IDLE
-
-    else:
-        print("How are you seeing this?")
-
-    time.sleep(0.2)
+    time.sleep(0.1)
