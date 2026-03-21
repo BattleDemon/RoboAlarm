@@ -65,6 +65,7 @@ class Alarm():
 
     def ring(self):
         self.owner.active_alarm = self
+        self.owner.challenge_active()
         while True:
             self.sound.beep()
             time.sleep(0.3)
@@ -85,8 +86,8 @@ class Alarm():
             if minutes_pased == 60:
                 minutes_pased = 0
                 self.target_hour -= 1
-                if self.target_hours < 0:
-                    self.target_hours = 0
+                if self.target_hour < 0:
+                    self.target_hour = 0
 
             time.sleep(60)  # Remember to change back to 60 for submission
             self.sound.beep()
@@ -100,16 +101,16 @@ class Challenge():
         self.type = challenge_type
 
     def run(self):
-        if self.type == Challange_types.LEDMEMORYGAME:
-            self.led_memory_game()
-        elif self.type == Challange_types.MOTORCONTROLTEST:
-            self.motor_control_test()
-        elif self.type == Challange_types.COLOURRECOGNITION:
-            self.colour_recognition()
-        elif self.type == Challange_types.DISTANCECHALLENGE:
-            self.distance_challenge()
-        elif self.type == Challange_types.GYROCOORDINATION:
-            self.gyro_coordination()
+        if self.type == Challenge_types.LEDMEMORYGAME:
+            return self.led_memory_game()
+        elif self.type == Challenge_types.MOTORCONTROLTEST:
+            return self.motor_control_test()
+        elif self.type == Challenge_types.COLOURRECOGNITION:
+            return self.colour_recognition()
+        elif self.type == Challenge_types.DISTANCECHALLENGE:
+            return self.distance_challenge()
+        elif self.type == Challenge_types.GYROCOORDINATION:
+            return self.gyro_coordination()
 
     def led_memory_game(self):
         pass
@@ -435,16 +436,32 @@ class AlarmBot():
         challenge_amount = self.active_alarm.challenge_amount
         challenges = []
 
-        for i in challenge_amount:
-            challenges.append(random.randint(0,4))
+        for i in range(challenge_amount):
+            challenge_type = random.choice(list(Challenge_types))
+            challenges.append(Challenge(challenge_type))
+
+        return challenges
 
     def challenge_active(self):
-        self.randomise_challenges()
+        self.state = State.CHALLENGE
+        challenges = self.randomise_challenges()
 
-        while self.state == State.CHALLENGE:
-            pass
-        
-        
+        for challenge in challenges:
+            success = False
+
+            while not success:
+                self.clear_screen()
+                self.lcd.text_pixels("Complete Challenge!", x=10, y=20)
+
+                success = challenge.run()
+
+                if not success:
+                    self.sound.beep()
+                    time.sleep(1)
+
+        # all challenges done
+        self.active_alarm = None
+        self.state = State.IDLE
 
 alarm_bot = AlarmBot()
 
