@@ -383,70 +383,6 @@ class Alarm():
 		self.target_hour, self.target_minute = self.target_time.split(":")
 		self.target_hour = int(self.target_hour)
 		self.target_minute = int(self.target_minute)	  
-		
-		self.countdown_thread = Thread(target=self.countdown)
-		self.countdown_thread.daemon = True
-		self.countdown_thread.start()
-		
-		self.ring_thread = Thread(target=self.ring)
-		self.ring_thread.daemon = True
-	
-	def ring(self):
-	self.owner.active_alarm = self
-	
-	self.owner.challenge_active()
-	
-	while True:
-	
-	self.sound.beep()
-	
-	time.sleep(0.3)
-	
-	  
-	
-	def remake_target_time(self):
-	
-	self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
-	
-	  
-	
-	def countdown(self):
-	
-	minutes_pased = 0
-	
-	while True:
-	
-	if self.target_hour == 0 and self.target_minute == 0:
-	
-	self.ring_thread.start()
-	
-	break
-	
-	  
-	
-	self.target_minute -= 1
-	
-	minutes_pased += 1
-	
-	  
-	
-	if minutes_pased == 60:
-	
-	minutes_pased = 0
-	
-	self.target_hour -= 1
-	
-	if self.target_hour < 0:
-	
-	self.target_hour = 0
-	
-	  
-	
-	time.sleep(60) # Remember to change back to 60 for submission
-	
-	self.sound.beep() # for testing to confirm time is passing
-	
-	  
 	
 	def alarm_description(self):
 		self.remake_target_time()
@@ -456,6 +392,7 @@ Explain
 
 **Alarm Editor Navigation**
 ``` Python
+
 ```
 Explain
 
