@@ -442,7 +442,7 @@ while True:
 ```
 Explain
 
-**Allowing for both Initial setup and Editing**
+**Allowing for both Initial setup and Editing** 
 ``` Python
 if existing_alarm is None:
 	hour = 7
@@ -459,11 +459,76 @@ else:
 	siren_index = siren_names.index(existing_alarm.siren)
 	challenge_amount = existing_alarm.challenge_amount
 	title = "== Edit Alarm =="
+	
+# AFTER EDITING 
+elif self.btn.enter:
+	if selector == 4:
+		alarm_time = "{}:{}".format(hour,minute)
+		siren = siren_names[siren_index]
+		if existing_alarm is not None:
+			self.alarms.remove(existing_alarm)
+		new_alarm = Alarm(self,alarm_time, siren, challenge_amount)
+		self.alarms.append(new_alarm)
+		
+		self.clear_screen()
+		self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black')
+		self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
+		self.lcd.update()
+		
+		self.sound.beep()
+		time.sleep(1)
+		self.state = State.IDLE
+
+
 ```
 Explain
 
 **Changing Alarm Values**
 ``` Python
+elif self.btn.left:
+	if selector == 0:
+		hour -= 1
+		if hour < 0:
+			hour = 23
+			
+	elif selector == 1:
+		minute -= 1
+		if minute < 0:
+			minute = 59
+			
+	elif selector == 2:
+		siren_index -= 1
+		if siren_index < 0:
+			siren_index = len(siren_names) - 1
+			
+	elif selector == 3:
+		challenge_amount -= 1
+			if challenge_amount < 1:
+				challenge_amount = 1
+	time.sleep(0.05)
+
+elif self.btn.right:
+	if selector == 0:
+		hour += 1
+		if hour > 23:
+			hour = 0
+			
+	elif selector == 1:
+		minute += 1
+		if minute > 59:
+			minute = 0
+			
+	elif selector == 2:
+		siren_index += 1
+		if siren_index >= len(siren_names):
+			siren_index = 0
+			
+	elif selector == 3:
+		challenge_amount += 1
+		if challenge_amount > 10:
+			challenge_amount = 10
+	time.sleep(0.05)
+
 ```
 Explain
 #### Video of Functionality
@@ -480,21 +545,108 @@ Explain
 
 **State Enum**
 ``` Python
+class State(Enum):
+	IDLE = 0
+	SETTING = 1
+	EDITING = 2
+	CHALLENGE = 3
+	VIEW = 4
 ```
 Explain
 
 **View Switching**
 ``` Python
+alarm_bot = AlarmBot()
+# Alarm initialises with state = State.IDLE
+
+while True:
+	if alarm_bot.state == State.IDLE:
+		alarm_bot.main_menu()
+	
+	elif alarm_bot.state == State.SETTING:
+		alarm_bot.alarm_editor()
+	
+	elif alarm_bot.state == State.EDITING:
+		alarm_bot.edit_alarm()
+	
+	elif alarm_bot.state == State.VIEW:
+		alarm_bot.view_alarms()
+	
+	elif alarm.state == State.CHALLENGE:
+		alarm_bot.challenge_active()
+	
+	time.sleep(.2)
 ```
 Explain
 
 **Navigating Main Menu**
 ``` Python
+selector = 0
+
+while self.state == State.IDLE:
+	self.clear_screen()
+	self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
+	
+	y_pos = 30
+	i = 0
+	
+	while i < len(self.menu_items):
+		text = self.menu_items[i]
+		
+		if i == selector:
+			text = ">> " + text
+		else:
+			text = " " + text
+		
+		self.lcd.text_pixels(text,clear_screen=False, x=10, y=y_pos, text_color='black')
+		
+		y_pos += 15
+		i += 1
+	self.lcd.update()
+	
+	if self.btn.up:
+		selector -= 1
+	if selector < 0:
+		selector = len(self.menu_items) - 1
+
+	if self.btn.down:
+		selector += 1
+	if selector > len(self.menu_items):
+		selector = 0
+	
+	if self.btn.enter:
+		self.change_state(selection=selector)
+	
+	time.sleep(0.05)
 ```
 Explain
 
 **View Alarms**
 ``` Python
+def view_alarms(self):
+	while self.state == State.VIEW:
+		self.clear_screen()
+		self.lcd.text_pixels("Alarms", 10, 10) 
+		
+		y_pos = 40
+		i = 0  
+		
+		while i < len(self.alarms):
+			alarm = self.alarms[i]
+			self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=y_pos, text_color='black')
+			
+			y_pos += 20
+			i += 1
+		
+		if len(self.alarms) == 0:
+			self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
+		
+		if self.btn.enter:
+			self.state = State.IDLE
+			return
+		
+		self.lcd.update()
+		time.sleep(0.2)
 ```
 Explain
 #### Video of Functionality
