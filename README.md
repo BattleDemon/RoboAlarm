@@ -368,8 +368,69 @@ Loop
 #### Discussion
 
 #### Code Snippets
+**Alarm Editor Set and Edit**
+``` python
+def alarm_editor(self, existing_alarm=None):
+    if existing_alarm is None:
+        hour = 7
+        minute = 0
+        challenge_amount = 1
+    else:
+        hour_str, minute_str = existing_alarm.target_time.split(":")
+        hour = int(hour_str)
+        minute = int(minute_str)
+        challenge_amount = existing_alarm.challenge_amount
+```
 
+This is the combined alarm editor, If no alarm is passed in, it creates a new one using the default values. If an alarm is passed in, it will loads the existing values so they can be modified. This avoids having two separate functions doing almost the same thing.
 
+**Handling User Input to Modify Values**
+``` Python
+if self.btn.left:
+    if selector == 0:
+        hour -= 1
+    elif selector == 1:
+        minute -= 1
+    elif selector == 3:
+        challenge_amount -= 1
+
+elif self.btn.right:
+    if selector == 0:
+        hour += 1
+    elif selector == 1:
+        minute += 1
+    elif selector == 3:
+        challenge_amount += 1
+```
+
+This 
+
+**Creating and Updating Alarms**
+``` Python
+if selector == 4:
+    alarm_time = "{}:{}".format(hour, minute)
+    siren = siren_names[siren_index]
+
+    if existing_alarm is not None:
+        self.alarms.remove(existing_alarm)
+
+    new_alarm = Alarm(self, alarm_time, siren, challenge_amount)
+    self.alarms.append(new_alarm)
+```
+
+This
+
+**Alarm Class**
+``` Python
+class Alarm():
+    def __init__(self, owner, target_time, siren, challenge_amount): 
+        self.owner = owner
+        self.siren = siren
+        self.target_time = target_time
+        self.challenge_amount = challenge_amount
+```
+
+this
 #### Video of Functionality
 
 #### Video of Non-Developer Use
