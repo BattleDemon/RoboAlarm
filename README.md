@@ -512,7 +512,7 @@ class State(Enum):
 	CHALLENGE = 3
 	VIEW = 4
 ```
-Explain
+Here I define the state enums, which allows the program to change between the different states.
 
 **View Switching**
 ``` Python
@@ -537,7 +537,7 @@ while True:
 	
 	time.sleep(.2)
 ```
-Explain
+This main loop checks the current state and calls the corresponding function. Inside each function is also a while loop which will break when they are no longer the correct state.
 
 **Navigating Main Menu**
 ``` Python
@@ -579,7 +579,7 @@ while self.state == State.IDLE:
 	
 	time.sleep(0.05)
 ```
-Explain
+This code renders the main menu and updates the selector based on button input, allowing the user to move through options and select a new state.
 
 **View Alarms**
 ``` Python
@@ -608,7 +608,7 @@ def view_alarms(self):
 		self.lcd.update()
 		time.sleep(0.2)
 ```
-Explain
+This function displays all stored alarms by iterating through the list and formatting each one for before printing.
 #### Video of Functionality
 
 #### Issues and Solutions
