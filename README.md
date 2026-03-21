@@ -337,7 +337,6 @@ Loop
 
 ```
 ## Development
-
 ### Prototype 0: Setting and Editing the Alarm
 #### Discussion
 During this stage I focused on making the base of the `Alarm` class, and the `AlarmBot` class. After that I made the systems to create an alarm as well as edit them. The interface from this was later used as the base for future menus. 
@@ -614,12 +613,9 @@ This function displays all stored alarms by iterating through the list and forma
 #### Issues and Solutions
 
 ### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
-
 #### Discussion
 This stage is where I implemented the actual alarm functionality, which used multithreading to fun a countdown in the background. Each alarm runs its own countdown thread, allowing for multiple alarms to be counting down at the same time. When timers complete, it launches a separate thread that handles the ringing of the alarm, as well as the change to the challenge stage. The base for the challenge stage was also developed with the randomising of challenges, and making of the Challenge class.
-
 #### Code Snippets
-
 **Alarm Countdown**
 ``` Python
 class Alarm():
