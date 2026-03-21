@@ -90,7 +90,7 @@ class Alarm():
                     self.target_hour = 0
 
             time.sleep(60)  # Remember to change back to 60 for submission
-            self.sound.beep()
+            self.sound.beep() # for testing to confirm time is passing
 
     def alarm_description(self):
         self.remake_target_time()
@@ -329,7 +329,7 @@ class AlarmBot():
                     self.alarms.append(new_alarm)
 
                     self.clear_screen()
-                    self.lcd.text_pixels("Alarm Added!", clear_screen=False, x=10, y=20, text_color='black')
+                    self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black')
                     self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
                     self.lcd.update()
 
@@ -451,7 +451,6 @@ class AlarmBot():
 
             while not success:
                 self.clear_screen()
-                self.lcd.text_pixels("Complete Challenge!", x=10, y=20)
 
                 success = challenge.run()
 
@@ -459,7 +458,6 @@ class AlarmBot():
                     self.sound.beep()
                     time.sleep(1)
 
-        # all challenges done
         self.active_alarm = None
         self.state = State.IDLE
 
