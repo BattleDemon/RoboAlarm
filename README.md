@@ -492,7 +492,10 @@ elif self.btn.right:
 ```
 This is the system I used to modify the values, it uses the left and right buttons to either increase of decrease the selected value. If needed it wraps around the value to keep them within the available range. 
 #### Video of Functionality
-
+Setting Alarm
+[![Prototype 0 Alarm Video](https://img.youtube.com/vi/hbEy-SiOxLg/0.jpg)](https://www.youtube.com/watch?v=hbEy-SiOxLg)
+Editing Alarm
+[![Prototype 0 editing Alarm Video](https://img.youtube.com/vi/KhXL--Def_I/0.jpg)](https://www.youtube.com/watch?v=KhXL--Def_I)
 #### Issues and Solutions
 
 
@@ -610,6 +613,7 @@ def view_alarms(self):
 This function displays all stored alarms by iterating through the list and formatting each one for before printing.
 #### Video of Functionality
 
+[![Prototype 1 Video](https://img.youtube.com/vi/Oehxe4O6rOM/0.jpg)](https://www.youtube.com/watch?v=Oehxe4O6rOM)
 #### Issues and Solutions
 
 ### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
@@ -700,6 +704,7 @@ def randomise_challenges(self):
 This generates a list of challenges by randomly selecting types based on the required amount.
 #### Video of Functionality
 
+[![Prototype 2 - Countdown and ring](https://img.youtube.com/vi/qBtYPUpfrMU/0.jpg)](https://www.youtube.com/shorts/qBtYPUpfrMU)
 #### Issues and Solutions
 
 ### Prototype 3: Motor and Ultrasonic Sensor Challenges
