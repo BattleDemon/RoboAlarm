@@ -707,7 +707,7 @@ This generates a list of challenges by randomly selecting types based on the req
 [![Prototype 2 - Countdown and ring](https://img.youtube.com/vi/qBtYPUpfrMU/0.jpg)](https://www.youtube.com/shorts/qBtYPUpfrMU)
 #### Issues and Solutions
 
-### Prototype 3: Motor and Ultrasonic Sensor Challenges
+### Prototype 3: LED, Motor, Gyro Challenges
 
 #### Discussion
 
@@ -717,7 +717,7 @@ This generates a list of challenges by randomly selecting types based on the req
 
 #### Issues and Solutions
 
-### Prototype 4: Colour and Gyro Sensor Challenges
+### Prototype 4: Colour and Ultrasonic Challenges
 
 #### Discussion
 
