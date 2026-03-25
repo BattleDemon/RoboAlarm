@@ -66,11 +66,13 @@ class Alarm():
 
         self.ring_thread = Thread(target=self.ring)
         self.ring_thread.daemon = True
+        self.ringing = False
 
     def ring(self):
         self.owner.active_alarm = self
         self.owner.state = State.CHALLENGE
-        while True:
+        self.ringing = True
+        while self.ringing:
             self.sound.beep()
             time.sleep(0.3)
 
@@ -516,11 +518,7 @@ class AlarmBot():
 
                 success = challenge.run()
 
-                if not success:
-                    self.sound.beep()
-                    time.sleep(1)
-
-        self.active_alarm.ring_thread._stop()
+        self.active_alarm.ringing = False
         self.active_alarm = None
         self.state = State.IDLE
 
