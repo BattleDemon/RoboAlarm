@@ -72,6 +72,7 @@ class Alarm():
         self.owner.active_alarm = self
         self.owner.state = State.CHALLENGE
         self.ringing = True
+        # Add logic for different siren types
         while self.ringing:
             self.sound.beep()
             time.sleep(0.3)
@@ -175,16 +176,16 @@ class Challenge():
                 time.sleep(1)
 
     def motor_control_test(self):
-        pass
+        pass # Can re use logic from before assign
 
     def gyro_coordination(self):
-        pass
+        pass # Semi unique system
 
     def colour_recognition(self):
-        pass
+        pass # Can re use logic from before assign
 
     def distance_challenge(self):
-        pass
+        pass # Can re use logic from before assign
 
 # == Alarm Bot ==
 class AlarmBot():
@@ -224,6 +225,7 @@ class AlarmBot():
                     self.state = State.EDITING
                 elif selection == 2:
                     self.state = State.VIEW
+                    
         elif sub_menu is not None:
             self.state = State.IDLE
         else:
