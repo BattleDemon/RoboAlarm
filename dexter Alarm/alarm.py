@@ -202,7 +202,66 @@ class Challenge():
             time.sleep(0.1)
 
     def gyro_coordination(self):
-        pass
+        self.owner.gy.reset()
+
+        target = random.randint(-90, 90)
+        tolerance = 5
+        hold_time_required = 2  
+
+        questions = [
+            ("2+2", "RIGHT"),
+            ("3+1", "RIGHT"),
+            ("5-2", "RIGHT")
+        ]
+
+        hold_start = None
+
+        while True:
+            angle = self.owner.gy.angle
+
+            self.owner.lcd.text_pixels("== GYRO TEST ==", False, 10, 20)
+            self.owner.lcd.text_pixels("Target: {}".format(target), False, 10, 40)
+            self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), False, 10, 60)
+            self.owner.lcd.text_pixels("Hold steady...", False, 10, 80)
+            self.owner.lcd.update()
+
+            if abs(angle - target) <= tolerance:
+                if hold_start is None:
+                    hold_start = time.time()
+
+                if time.time() - hold_start >= hold_time_required:
+                    break
+            else:
+                hold_start = None
+
+            time.sleep(0.1)
+
+        for q, correct_button in questions:
+            answered = False
+
+            while not answered:
+                angle = self.owner.gy.angle
+
+                self.owner.lcd.text_pixels("== GYRO TEST ==", False, 10, 10)
+                self.owner.lcd.text_pixels("Keep angle!", False, 10, 30)
+                self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), False, 10, 50)
+                self.owner.lcd.text_pixels(q, False, 10, 70)
+                self.owner.lcd.text_pixels("L/Wrong  R/Correct", False, 10, 90)
+                self.owner.lcd.update()
+
+                if abs(angle - target) > tolerance:
+                    return False  
+
+                if self.owner.btn.right:
+                    answered = True
+                    time.sleep(0.3)
+
+                elif self.owner.btn.left:
+                    pass
+
+                time.sleep(0.1)
+
+        return True
 
     def colour_recognition(self):
         colours = {
@@ -216,24 +275,27 @@ class Challenge():
         }
 
         target = random.choice(list(colours.keys()))
-        last_change = time.time()
+        last_reroll_time = time.time()
 
         while True:
             detected = self.owner.cs.color
 
             self.owner.lcd.text_pixels("== COLOUR TEST ==", False, 10, 20)
-            self.owner.lcd.text_pixels("Show: {}".format(colours[target]), False, 10, 40)
+            self.owner.lcd.text_pixels("Target: {}".format(colours[target]), False, 10, 40)
             self.owner.lcd.text_pixels("Seen: {}".format(colours.get(detected, "?")), False, 10, 60)
+            self.owner.lcd.text_pixels("Touch = confirm", False, 10, 80)
             self.owner.lcd.update()
 
+            # confirm with touch sensor
             if self.owner.ts.is_pressed:
                 if detected == target:
                     return True
 
-            # reroll after 10s
-            if time.time() - last_change > 10 and self.owner.btn.enter:
-                target = random.choice(list(colours.keys()))
-                last_change = time.time()
+            # reroll with button (e.g. ENTER)
+            if self.owner.btn.enter:
+                if time.time() - last_reroll_time >= 10:
+                    target = random.choice(list(colours.keys()))
+                    last_reroll_time = time.time()
 
             time.sleep(0.1)
 
