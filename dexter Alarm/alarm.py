@@ -176,7 +176,8 @@ class Challenge():
                 time.sleep(1)
 
     def motor_control_test(self):
-        pass # Can re use logic from before assign
+        target_speed = random.randint(# set what it needs to be in )
+        pass
 
     def gyro_coordination(self):
         pass # Semi unique system
