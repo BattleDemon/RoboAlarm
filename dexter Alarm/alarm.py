@@ -176,17 +176,84 @@ class Challenge():
                 time.sleep(1)
 
     def motor_control_test(self):
-        target_speed = random.randint(# set what it needs to be in )
-        pass
+        target_speed = random.randint(200, 600)
+        tolerance = 50
+        hold_time = 3 
+
+        start_time = None
+
+        while True:
+            current_speed = abs(self.owner.lm.speed)
+
+            self.owner.lcd.text_pixels("== MOTOR TEST ==", False, 10, 20)
+            self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), False, 10, 40)
+            self.owner.lcd.text_pixels("Speed: {}".format(int(current_speed)), False, 10, 60)
+            self.owner.lcd.update()
+
+            if abs(current_speed - target_speed) <= tolerance:
+                if start_time is None:
+                    start_time = time.time()
+
+                if time.time() - start_time >= hold_time:
+                    return True
+            else:
+                start_time = None
+
+            time.sleep(0.1)
 
     def gyro_coordination(self):
-        pass # Semi unique system
+        pass
 
     def colour_recognition(self):
-        pass # Can re use logic from before assign
+        colours = {
+            1: "BLACK",
+            2: "BLUE",
+            3: "GREEN",
+            4: "YELLOW",
+            5: "RED",
+            6: "WHITE",
+            7: "BROWN"
+        }
+
+        target = random.choice(list(colours.keys()))
+        last_change = time.time()
+
+        while True:
+            detected = self.owner.cs.color
+
+            self.owner.lcd.text_pixels("== COLOUR TEST ==", False, 10, 20)
+            self.owner.lcd.text_pixels("Show: {}".format(colours[target]), False, 10, 40)
+            self.owner.lcd.text_pixels("Seen: {}".format(colours.get(detected, "?")), False, 10, 60)
+            self.owner.lcd.update()
+
+            if self.owner.ts.is_pressed:
+                if detected == target:
+                    return True
+
+            # reroll after 10s
+            if time.time() - last_change > 10 and self.owner.btn.enter:
+                target = random.choice(list(colours.keys()))
+                last_change = time.time()
+
+            time.sleep(0.1)
 
     def distance_challenge(self):
-        pass # Can re use logic from before assign
+        target = random.randint(10, 50)  # cm
+        tolerance = 3
+
+        while True:
+            distance = self.owner.uss.distance_centimeters
+
+            self.owner.lcd.text_pixels("== DISTANCE ==", False, 10, 20)
+            self.owner.lcd.text_pixels("Target: {}cm".format(target), False, 10, 40)
+            self.owner.lcd.text_pixels("Now: {:.1f}cm".format(distance), False, 10, 60)
+            self.owner.lcd.update()
+
+            if self.owner.ts.is_pressed:
+                if abs(distance - target) <= tolerance:
+                    return True
+
+            time.sleep(0.1)
 
 # == Alarm Bot ==
 class AlarmBot():
