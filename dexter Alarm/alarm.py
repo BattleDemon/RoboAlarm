@@ -102,8 +102,9 @@ class Alarm():
 
 # == Challenge Class ==
 class Challenge():
-    def __init__(self,challenge_type=Challenge_types):
+    def __init__(self,owner, challenge_type=Challenge_types):
         self.type = challenge_type
+        self.owner = owner
 
     def run(self):
         if self.type == Challenge_types.LEDMEMORYGAME:
@@ -118,7 +119,62 @@ class Challenge():
             return self.gyro_coordination()
 
     def led_memory_game(self):
-        pass
+        led_buttons = ["UP","DOWN","LEFT","RIGHT","ENTER"]
+
+        sequence_amount = 3
+        led_sequence = []
+
+        for i in sequence_amount:
+            led = random.choice(led_buttons)
+            led_sequence.append(led)
+
+        while wrong:
+            self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+
+            for i in led_sequence:
+                self.owner.led.set_color(i,'AMBER')
+                time.sleep(0.5)
+
+            self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Press the Buttons in \n the order shown", clear_screen=False, x=10, y=40, text_color='black')
+
+            try_sequence = []
+            pressed = 0
+            while pressed < sequence_amount:
+                
+                if self.owner.btn.up:
+                    try_sequence.append("UP")
+                    pressed += 1
+                if self.owner.btn.down:
+                    try_sequence.append("DOWN")
+                    pressed += 1
+                if self.owner.btn.left:
+                    try_sequence.append("LEFT")
+                    pressed += 1
+                if self.owner.btn.right:
+                    try_sequence.append("RIGHT")
+                    pressed += 1
+                if self.owner.btn.enter:
+                    try_sequence.append("ENTER")
+                    pressed += 1
+
+                time.sleep(0.2)
+
+            if try_sequence == led_sequence:
+                self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
+                self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=40, text_color='black')
+
+                time.sleep(1)
+                wrong = false
+            else:
+                self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
+                self.owner.lcd.text_pixels("Wrong Try Again", clear_screen=False, x=10, y=40, text_color='black')
+                time.sleep(1)
+
+
+
 
     def motor_control_test(self):
         pass
@@ -444,7 +500,7 @@ class AlarmBot():
 
         for i in range(challenge_amount):
             challenge_type = random.choice(list(Challenge_types))
-            challenges.append(Challenge(challenge_type))
+            challenges.append(Challenge(self,challenge_type))
 
         return challenges
 
