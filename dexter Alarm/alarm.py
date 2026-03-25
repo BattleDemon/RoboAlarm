@@ -227,12 +227,10 @@ class Challenge():
             self.owner.lcd.text_pixels("Touch = confirm", False, 10, 80)
             self.owner.lcd.update()
 
-            # confirm with touch sensor
             if self.owner.ts.is_pressed:
                 if detected == target:
                     return True
 
-            # reroll with button (e.g. ENTER)
             if self.owner.btn.enter:
                 if time.time() - last_reroll_time >= 10:
                     target = random.choice(list(colours.keys()))
