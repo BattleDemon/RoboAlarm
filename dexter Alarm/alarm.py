@@ -93,7 +93,7 @@ class Alarm():
                 if self.target_hour < 0:
                     self.target_hour = 0
 
-            time.sleep(60)  # Remember to change back to 60 for submission
+            time.sleep(5)  # Remember to change back to 60 for submission
             self.sound.beep() # for testing to confirm time is passing
 
     def alarm_description(self):
@@ -507,7 +507,7 @@ class AlarmBot():
     def challenge_active(self):
         self.state = State.CHALLENGE
         #challenges = self.randomise_challenges()
-        Challenge = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
+        challenges = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
 
         for challenge in challenges:
             success = False
@@ -543,7 +543,7 @@ while True:
     elif alarm_bot.state == State.VIEW:
         alarm_bot.view_alarms()
 
-    elif alarm.state == State.CHALLENGE:
+    elif alarm_bot.state == State.CHALLENGE:
         alarm_bot.challenge_active()
 
     else:

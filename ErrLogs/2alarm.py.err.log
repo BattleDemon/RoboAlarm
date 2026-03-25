@@ -1,0 +1,18 @@
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 512, in challenge_active
+    for challenge in challenges:
+NameError: name 'challenges' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 547, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 512, in challenge_active
+    for challenge in challenges:
+NameError: name 'challenges' is not defined
