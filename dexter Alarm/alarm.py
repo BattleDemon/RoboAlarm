@@ -174,19 +174,16 @@ class Challenge():
                 
                 time.sleep(1)
 
-
-
-
     def motor_control_test(self):
+        pass
+
+    def gyro_coordination(self):
         pass
 
     def colour_recognition(self):
         pass
 
     def distance_challenge(self):
-        pass
-
-    def gyro_coordination(self):
         pass
 
 # == Alarm Bot ==
