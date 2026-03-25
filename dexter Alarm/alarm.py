@@ -93,7 +93,7 @@ class Alarm():
                 if self.target_hour < 0:
                     self.target_hour = 0
 
-            time.sleep(5)  # Remember to change back to 60 for submission
+            time.sleep(2)  # Remember to change back to 60 for submission
             self.sound.beep() # for testing to confirm time is passing
 
     def alarm_description(self):
@@ -134,14 +134,17 @@ class Challenge():
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.update()
 
             for i in led_sequence:
                 self.owner.led.set_color(i,'AMBER')
-                time.sleep(0.5)
+                time.sleep(0.75)
                 self.owner.led.set_color(i,'BLACK')
+                time.sleep(0.25)
 
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Press the Buttons in \n the order shown", clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.update()
 
             try_sequence = []
             pressed = 0
@@ -158,12 +161,15 @@ class Challenge():
             if try_sequence == led_sequence:
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=40, text_color='black')
+                self.owner.lcd.update()
 
                 time.sleep(1)
                 return True
             else:
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Wrong Try Again", clear_screen=False, x=10, y=40, text_color='black')
+                self.owner.lcd.update()
+                
                 time.sleep(1)
 
 
@@ -506,6 +512,7 @@ class AlarmBot():
 
             while not success:
                 self.clear_screen()
+                self.lcd.update()
 
                 success = challenge.run()
 
@@ -513,6 +520,7 @@ class AlarmBot():
                     self.sound.beep()
                     time.sleep(1)
 
+        self.active_alarm.ring_thread._stop()
         self.active_alarm = None
         self.state = State.IDLE
 
