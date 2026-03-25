@@ -45,8 +45,6 @@ SIRENS = {
     "test3" : {}
 }
 
-USESYSTEMTIME = False # if you want to use the system time (might not be correct time), or use a countdown from the selected time 
-
 # == Alarm Class ==
 class Alarm():
     def __init__(self, owner, target_time, siren, challenge_amount): 
@@ -185,9 +183,9 @@ class Challenge():
         while True:
             current_speed = abs(self.owner.lm.speed)
 
-            self.owner.lcd.text_pixels("== MOTOR TEST ==", False, 10, 20)
-            self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), False, 10, 40)
-            self.owner.lcd.text_pixels("Speed: {}".format(int(current_speed)), False, 10, 60)
+            self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Speed: {}".format(int(current_speed)), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
 
             if abs(current_speed - target_speed) <= tolerance:
@@ -221,10 +219,10 @@ class Challenge():
         while True:
             detected = self.owner.cs.color
 
-            self.owner.lcd.text_pixels("== COLOUR TEST ==", False, 10, 20)
-            self.owner.lcd.text_pixels("Target: {}".format(colours[target]), False, 10, 40)
-            self.owner.lcd.text_pixels("Seen: {}".format(colours.get(detected, "?")), False, 10, 60)
-            self.owner.lcd.text_pixels("Touch = confirm", False, 10, 80)
+            self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {}".format(colours[target]), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Seen: {}".format(colours.get(detected, "?")), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.text_pixels("Back Button = confirm", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.update()
 
             if self.owner.ts.is_pressed:
@@ -245,9 +243,9 @@ class Challenge():
         while True:
             distance = self.owner.uss.distance_centimeters
 
-            self.owner.lcd.text_pixels("== DISTANCE ==", False, 10, 20)
-            self.owner.lcd.text_pixels("Target: {}cm".format(target), False, 10, 40)
-            self.owner.lcd.text_pixels("Now: {:.1f}cm".format(distance), False, 10, 60)
+            self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {}cm".format(target), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Now: {}cm".format(distance), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
 
             if self.owner.ts.is_pressed:
