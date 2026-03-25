@@ -128,7 +128,7 @@ class Challenge():
             led = random.choice(led_buttons)
             led_sequence.append(led)
 
-        while wrong:
+        while True:
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
             self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
@@ -167,7 +167,7 @@ class Challenge():
                 self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=40, text_color='black')
 
                 time.sleep(1)
-                wrong = false
+                return True
             else:
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Wrong Try Again", clear_screen=False, x=10, y=40, text_color='black')
@@ -506,7 +506,8 @@ class AlarmBot():
 
     def challenge_active(self):
         self.state = State.CHALLENGE
-        challenges = self.randomise_challenges()
+        #challenges = self.randomise_challenges()
+        Challenge = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
 
         for challenge in challenges:
             success = False
