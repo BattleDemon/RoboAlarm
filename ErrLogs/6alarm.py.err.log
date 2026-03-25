@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 549, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 520, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 139, in led_memory_game
+    self.owner.led.set_color(i,'AMBER')
+  File "/usr/lib/python3/dist-packages/ev3dev2/led.py", line 319, in set_color
+    (group, ', '.join(self.led_groups.keys()))
+AssertionError: DOWN is an invalid LED group, valid choices are LEFT, RIGHT

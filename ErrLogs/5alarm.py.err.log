@@ -1,0 +1,26 @@
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 520, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 136, in led_memory_game
+    self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+AttributeError: 'AlarmBot' object has no attribute 'ldc'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 549, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 520, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 136, in led_memory_game
+    self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+AttributeError: 'AlarmBot' object has no attribute 'ldc'

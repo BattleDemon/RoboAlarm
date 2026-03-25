@@ -69,7 +69,7 @@ class Alarm():
 
     def ring(self):
         self.owner.active_alarm = self
-        self.owner.challenge_active()
+        self.owner.state = State.CHALLENGE
         while True:
             self.sound.beep()
             time.sleep(0.3)
@@ -119,23 +119,26 @@ class Challenge():
             return self.gyro_coordination()
 
     def led_memory_game(self):
-        led_buttons = ["UP","DOWN","LEFT","RIGHT","ENTER"]
+        led_buttons = ["LEFT","RIGHT"]
 
         sequence_amount = 3
         led_sequence = []
 
-        for i in sequence_amount:
+        i = 0
+        while i < sequence_amount:
+            i += 1
             led = random.choice(led_buttons)
             led_sequence.append(led)
 
         while True:
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
-            self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
 
             for i in led_sequence:
                 self.owner.led.set_color(i,'AMBER')
                 time.sleep(0.5)
+                self.owner.led.set_color(i,'BLACK')
 
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Press the Buttons in \n the order shown", clear_screen=False, x=10, y=40, text_color='black')
@@ -143,21 +146,11 @@ class Challenge():
             try_sequence = []
             pressed = 0
             while pressed < sequence_amount:
-                
-                if self.owner.btn.up:
-                    try_sequence.append("UP")
-                    pressed += 1
-                if self.owner.btn.down:
-                    try_sequence.append("DOWN")
-                    pressed += 1
                 if self.owner.btn.left:
                     try_sequence.append("LEFT")
                     pressed += 1
                 if self.owner.btn.right:
                     try_sequence.append("RIGHT")
-                    pressed += 1
-                if self.owner.btn.enter:
-                    try_sequence.append("ENTER")
                     pressed += 1
 
                 time.sleep(0.2)
@@ -505,7 +498,6 @@ class AlarmBot():
         return challenges
 
     def challenge_active(self):
-        self.state = State.CHALLENGE
         #challenges = self.randomise_challenges()
         challenges = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
 
