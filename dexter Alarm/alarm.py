@@ -36,7 +36,7 @@ class Challenge_types(Enum):
     MOTORCONTROLTEST = 1
     COLOURRECOGNITION = 2
     DISTANCECHALLENGE = 3
-    GYROCOORDINATION = 4
+    #GYROCOORDINATION = 4
 
 # == Siren Sounds ==
 SIRENS = {
@@ -72,7 +72,7 @@ class Alarm():
         self.ringing = True
         # Add logic for different siren types
         while self.ringing:
-            #self.sound.beep()
+            self.sound.beep()
             time.sleep(0.3)
 
     def remake_target_time(self):
@@ -596,8 +596,8 @@ class AlarmBot():
         return challenges
 
     def challenge_active(self):
-        #challenges = self.randomise_challenges()
-        challenges = [Challenge(self,Challenge_types.MOTORCONTROLTEST)]
+        challenges = self.randomise_challenges()
+        #challenges = [Challenge(self,Challenge_types.MOTORCONTROLTEST)]
 
         for challenge in challenges:
             success = False
