@@ -137,6 +137,9 @@ class Challenge():
             return self.gyro_coordination()
 
     def led_memory_game(self):
+        # Memory game: USer must repeat the shown sequence
+
+        # Only able to use these LEDS/Buttons
         led_buttons = ["LEFT","RIGHT"]
 
         sequence_amount = random.randint(3,6)
@@ -149,23 +152,27 @@ class Challenge():
             led_sequence.append(led)
 
         while True:
+            # Display instructions
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
 
+            # Show sequence
             for i in led_sequence:
                 self.owner.led.set_color(i,'AMBER')
                 time.sleep(0.75)
                 self.owner.led.set_color(i,'BLACK')
                 time.sleep(0.25)
 
+            # Display other instructions
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Press the Buttons in \n the order shown", clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.update()
 
             try_sequence = []
             pressed = 0
+
             while pressed < sequence_amount:
                 if self.owner.btn.left:
                     try_sequence.append("LEFT")
@@ -178,7 +185,9 @@ class Challenge():
 
                 time.sleep(0.2)
 
+            # Check correct
             if try_sequence == led_sequence:
+                # Show correct message
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=40, text_color='black')
                 self.owner.lcd.update()
@@ -186,13 +195,16 @@ class Challenge():
                 time.sleep(1)
                 return True
             else:
+                # Show fail message
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Wrong Try Again", clear_screen=False, x=10, y=40, text_color='black')
                 self.owner.lcd.update()
                 
+                # Loop again if wrong
                 time.sleep(1)
 
     def motor_control_test(self):
+        # User must match and hold a specific motor speed
         target_speed = random.randint(300, 750)
         tolerance = 75
         hold_time = 3 
@@ -203,24 +215,29 @@ class Challenge():
             current_speed = self.owner.lm.speed
             current_speed = abs(int(current_speed))
 
+            # Display instructions
             self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Speed: {}".format(current_speed), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Hold that speed for 3 seconds", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.update()
 
+            # Check if speed is in correct range
             if abs(current_speed - target_speed) <= tolerance:
                 if start_time is None:
                     start_time = time.time()
 
                 if time.time() - start_time >= hold_time:
+                    # Show success message
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("Complete", clear_screen=False, x=10, y=80, text_color='black')
                     self.owner.lcd.update()
+
                     time.sleep(3)
                     return True
                 
             else:
+                # Reset timer if out of range
                 start_time = None 
 
             time.sleep(0.3)
