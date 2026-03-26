@@ -112,7 +112,7 @@ The design may change during development as new issues or improvements are disco
 
 ![Image of other side view](images/preSide2.jpg)
 
-#### Eugonomics and Usability
+#### Ergonomics and Usability
 Part of the design focused on making the device easy to interact with.
 
 The ultrasonic and colour sensors are mounted on the front of the device so the user can easily point them at a wall or coloured object when completing challenges.
@@ -497,6 +497,7 @@ Setting Alarm
 Editing Alarm
 [![Prototype 0 editing Alarm Video](https://img.youtube.com/vi/KhXL--Def_I/0.jpg)](https://www.youtube.com/watch?v=KhXL--Def_I)
 #### Issues and Solutions
+
 
 
 ### Prototype 1: Multiple views and Multiple Alarms
