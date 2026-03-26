@@ -17,7 +17,7 @@ from threading import *
 
 import os
 
-os.system('setfont Lat15-TerminusBold14')
+os.system('setfont Lat15-TerminusBold16')
 
 import time
 import random
@@ -207,7 +207,46 @@ class Challenge():
             time.sleep(0.3)
 
     def gyro_coordination(self):
-        pass
+        tolerance = 5
+        duration = 5
+
+        start_time = time.time()
+        target = random.randint(-90, 90)
+        last_change = time.time()
+
+        while True:
+            angle = self.owner.gy.angle
+
+            # change target every second
+            if time.time() - last_change >= 1:
+                change = random.randint(-20,20)
+                target += change
+                last_change = time.time()
+
+            self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.update()
+
+            if abs(angle - target) > tolerance:
+                self.owner.lcd.text_pixels("Not close enough", clear_screen=False, x=10, y=80, text_color='black')
+                self.owner.lcd.update()
+
+                time.sleep(1)
+                start_time = time.time()
+                target = random.randint(-90, 90)
+                last_change = time.time()
+
+            if time.time() - start_time >= duration:
+                self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
+                self.owner.lcd.text_pixels("Followed Correctly", clear_screen=False, x=10, y=60, text_color='black')
+                self.owner.lcd.update()
+
+                time.sleep(1)
+
+                return True
+
+            time.sleep(0.2)
 
     def colour_recognition(self):
         colours = [
