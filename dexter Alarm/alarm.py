@@ -12,23 +12,22 @@ from ev3dev2.led import Leds
 
 from enum import Enum
 from datetime import datetime
-
 from threading import *
-
 import os
-
-os.system('setfont Lat15-TerminusBold14')
-
 import time
 import random
 
+# Set font for UI (Used for all print to lcd)
+os.system('setfont Lat15-TerminusBold16')
+
 # == State Enum == 
+# Controls the state/mode/ui the robot is currenly doing
 class State(Enum):
-    IDLE = 0
-    SETTING = 1
-    EDITING = 2
-    CHALLENGE = 3
-    VIEW = 4
+    IDLE = 0        # Main Menu
+    SETTING = 1     # Creating and editing alarms
+    EDITING = 2     # Selecting what alarm to edit
+    CHALLENGE = 3   # Alarm is ringing, need to complete challenges
+    VIEW = 4        # Viewing existing alarms
 
 # == Challenge Types Enum ==
 class Challenge_types(Enum):
@@ -36,7 +35,7 @@ class Challenge_types(Enum):
     MOTORCONTROLTEST = 1
     COLOURRECOGNITION = 2
     DISTANCECHALLENGE = 3
-    #GYROCOORDINATION = 4
+    GYROCOORDINATION = 4
 
 # == Siren Sounds ==
 SIRENS = {
@@ -45,42 +44,54 @@ SIRENS = {
     "test3" : {}
 }
 
+# Debug mode to speed up countdown (1 second = 1 minute)
+FASTMODE = False
+
 # == Alarm Class ==
+# Stores a single alarm instance, and handles its logic
 class Alarm():
     def __init__(self, owner, target_time, siren, challenge_amount): 
-        self.owner = owner
+        self.owner = owner      # Reference to AlarmBot
         self.sound = Sound()
         self.siren = siren
         self.target_time = target_time
         self.challenge_amount = challenge_amount
 
+        # Split time into usable integers 
         self.target_hour, self.target_minute = self.target_time.split(":")
         self.target_hour = int(self.target_hour)
         self.target_minute = int(self.target_minute)
 
+        # Thread that handles countdown in background
         self.countdown_thread = Thread(target=self.countdown)
         self.countdown_thread.daemon = True
         self.countdown_thread.start()
 
+        # Thread for alarm ringing
         self.ring_thread = Thread(target=self.ring)
         self.ring_thread.daemon = True
         self.ringing = False
 
     def ring(self):
+        # Switches AlarmBot into challange mode
         self.owner.active_alarm = self
         self.owner.state = State.CHALLENGE
         self.ringing = True
-        # Add logic for different siren types
+
+        # Loop until challenges are complete
         while self.ringing:
             self.sound.beep()
             time.sleep(0.3)
 
     def remake_target_time(self):
+        # Remakes the string of time after initial make (because of countdown) and for viewing and editing
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
 
     def countdown(self):
         minutes_pased = 0
+
         while True:
+            # When timer ends it triggers the alarm
             if self.target_hour == 0 and self.target_minute == 0:
                 self.ring_thread.start()
                 break
@@ -88,16 +99,21 @@ class Alarm():
             self.target_minute -= 1 
             minutes_pased += 1
 
+            # Rolls over hour
             if minutes_pased == 60:
                 minutes_pased = 0
                 self.target_hour -= 1
                 if self.target_hour < 0:
                     self.target_hour = 0
 
-            time.sleep(2)  # Remember to change back to 60 for submission
-            self.sound.beep() # for testing to confirm time is passing
+            # Fast debugging / testing mode and real time
+            if FASTMODE:
+                time.sleep(1)
+            else:
+                time.sleep(60)
 
     def alarm_description(self):
+        # Used for displating alarm info in menus 
         self.remake_target_time()
         return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 
@@ -108,6 +124,7 @@ class Challenge():
         self.owner = owner
 
     def run(self):
+        # Runs correct challenge from type
         if self.type == Challenge_types.LEDMEMORYGAME:
             return self.led_memory_game()
         elif self.type == Challenge_types.MOTORCONTROLTEST:
@@ -120,9 +137,12 @@ class Challenge():
             return self.gyro_coordination()
 
     def led_memory_game(self):
+        # Memory game: USer must repeat the shown sequence
+
+        # Only able to use these LEDS/Buttons
         led_buttons = ["LEFT","RIGHT"]
 
-        sequence_amount = 3
+        sequence_amount = random.randint(3,6)
         led_sequence = []
 
         i = 0
@@ -132,48 +152,59 @@ class Challenge():
             led_sequence.append(led)
 
         while True:
+            # Display instructions
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
+            # Show sequence
             for i in led_sequence:
                 self.owner.led.set_color(i,'AMBER')
                 time.sleep(0.75)
                 self.owner.led.set_color(i,'BLACK')
                 time.sleep(0.25)
 
+            # Display other instructions
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Press the Buttons in \n the order shown", clear_screen=False, x=10, y=40, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             try_sequence = []
             pressed = 0
+
             while pressed < sequence_amount:
                 if self.owner.btn.left:
                     try_sequence.append("LEFT")
                     pressed += 1
+                    self.owner.btn.wait_for_released('LEFT')
                 if self.owner.btn.right:
                     try_sequence.append("RIGHT")
                     pressed += 1
+                    self.owner.btn.wait_for_released('RIGHT')
 
                 time.sleep(0.2)
 
+            # Check correct
             if try_sequence == led_sequence:
+                # Show correct message
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=40, text_color='black')
-                self.owner.lcd.update()
+                self.owner.update()
 
                 time.sleep(1)
                 return True
             else:
+                # Show fail message
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Wrong Try Again", clear_screen=False, x=10, y=40, text_color='black')
-                self.owner.lcd.update()
+                self.owner.update()
                 
+                # Loop again if wrong
                 time.sleep(1)
 
     def motor_control_test(self):
+        # User must match and hold a specific motor speed
         target_speed = random.randint(300, 750)
         tolerance = 75
         hold_time = 3 
@@ -184,32 +215,81 @@ class Challenge():
             current_speed = self.owner.lm.speed
             current_speed = abs(int(current_speed))
 
+            # Display instructions
             self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Speed: {}".format(current_speed), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Hold that speed for 3 seconds", clear_screen=False, x=10, y=80, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
+            # Check if speed is in correct range
             if abs(current_speed - target_speed) <= tolerance:
                 if start_time is None:
                     start_time = time.time()
 
                 if time.time() - start_time >= hold_time:
+                    # Show success message
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("Complete", clear_screen=False, x=10, y=80, text_color='black')
-                    self.owner.lcd.update()
+                    self.owner.update()
+
                     time.sleep(3)
                     return True
                 
             else:
+                # Reset timer if out of range
                 start_time = None 
 
             time.sleep(0.3)
 
     def gyro_coordination(self):
-        pass
+        # User must follow a changing angle
+        tolerance = 5
+        duration = 5
+
+        start_time = time.time()
+        target = random.randint(-90, 90)
+        last_change = time.time()
+
+        while True:
+            angle = self.owner.gy.angle
+
+            # Target changes ever second
+            if time.time() - last_change >= 1:
+                change = random.randint(-20,20)
+                target += change
+                last_change = time.time()
+
+            # Display instructions
+            self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.update()
+
+            # If user is not in range tell them and reset
+            if abs(angle - target) > tolerance:
+                self.owner.lcd.text_pixels("Not close enough", clear_screen=False, x=10, y=80, text_color='black')
+                self.owner.update()
+
+                time.sleep(1)
+                start_time = time.time()
+                target = random.randint(-90, 90)
+                last_change = time.time()
+
+            # Stayed within range and display message
+            if time.time() - start_time >= duration:
+                self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
+                self.owner.lcd.text_pixels("Followed Correctly", clear_screen=False, x=10, y=60, text_color='black')
+                self.owner.update()
+
+                time.sleep(1)
+
+                return True
+
+            time.sleep(0.2)
 
     def colour_recognition(self):
+        # User must show correct colour to sensor
         colours = [
             "Black",
             "Blue",
@@ -226,31 +306,34 @@ class Challenge():
         while True:
             detected = self.owner.cs.color_name
 
+            # Display Instructions
             self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Seen: {}".format(detected), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.text_pixels("Press enter to reroll \nonly after 10 seconds", clear_screen=False, x=10, y=90, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
+            # Confirm with touch sensor (so you can't just wave the sensor around until it detects correct)
             if self.owner.ts.is_pressed:
                 if detected == target:
                     self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
                     self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=80, text_color='black')
-                    self.owner.lcd.update()
+                    self.owner.update()
 
                     time.sleep(1)
                     return True
 
+            # Reroll after delay (incase no colour near) but not availble until 10 seconds 
             if self.owner.btn.enter:
                 if time.time() - last_reroll_time >= 10:
-                    #target = random.choice(colours)
-                    target = 'Black'
+                    target = random.choice(colours)
                     last_reroll_time = time.time()
 
             time.sleep(0.1)
 
     def distance_challenge(self):
+        # User must position alarm at correct distance
         target = random.randint(10, 50)  
         tolerance = 3
 
@@ -258,18 +341,20 @@ class Challenge():
             distance = self.owner.uss.distance_centimeters
             distance = int(distance)
 
+            # Display instructions
             self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}cm".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Now: {}cm".format(distance), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
+            # Confirm same way as colour
             if self.owner.ts.is_pressed:
                 if abs(distance - target) <= tolerance:
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
                     self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=60, text_color='black')
-                    self.owner.lcd.update()
+                    self.owner.update()
 
                     time.sleep(3)
 
@@ -278,6 +363,7 @@ class Challenge():
             time.sleep(0.1)
 
 # == Alarm Bot ==
+# Main controller that handles UI, Sensors, and the state
 class AlarmBot():
     def __init__(self):
 
@@ -296,16 +382,24 @@ class AlarmBot():
         self.gy = GyroSensor()
         self.ts = TouchSensor()
 
-        self.current_time = datetime.now().time()
+        # Alarms
         self.alarms = [Alarm(self,"00:02","test1",4)]
         self.active_alarm = None
+
+        # Challenges and Menu Options in Main
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
     def clear_screen(self):
+        # Helper to clear screens quicker 
         self.lcd.clear()
 
+    def update(self):
+        # Helper to update screen quicker 
+        self.lcd.update()
+
     def change_state(self, selection=None, sub_menu=None):
+        # Handles transition between modes from menu input
         if selection is not None:
             if selection >= len(self.menu_items):
                 print("Invalid selection")
@@ -323,18 +417,24 @@ class AlarmBot():
             self.state = State.CHALLENGE
 
     def main_menu(self):
+        # Tracks which menu item is selected acts as a cursor
         selector = 0
 
+        # Breaks out when not in idle such as when alrms ring
         while self.state == State.IDLE:
             self.clear_screen()
+
+            # Print Title
             self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
 
             y_pos = 30
             i = 0
 
+            # Draw menu items with selection indicator
             while i < len(self.menu_items):
                 text = self.menu_items[i]
 
+                # add selector
                 if i == selector:
                     text = ">> " + text
                 else:
@@ -345,8 +445,9 @@ class AlarmBot():
                 y_pos += 15
                 i += 1
             
-            self.lcd.update()
+            self.update()
 
+            # Navigation logic
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
@@ -357,14 +458,17 @@ class AlarmBot():
                 if selector > len(self.menu_items):
                     selector = 0 
 
+            # Selection confirmation
             if self.btn.enter:
                 self.change_state(selection=selector)
 
-            time.sleep(0.05)
+            time.sleep(0.1)
 
     def alarm_editor(self, existing_alarm=None):
+        # Get possible siren option 
         siren_names = list(SIRENS.keys())
 
+        # Initialise values depending on if create or edit
         if existing_alarm is None:
             hour = 7
             minute = 0
@@ -372,6 +476,7 @@ class AlarmBot():
             challenge_amount = 1
             title = "== Set Alarm =="
         else:
+            # Loads values from existing alarm
             self.state = State.SETTING
             hour_str, minute_str = existing_alarm.target_time.split(":")
             hour = int(hour_str)
@@ -382,6 +487,7 @@ class AlarmBot():
             challenge_amount = existing_alarm.challenge_amount
             title = "== Edit Alarm =="
 
+        # Editable fields
         fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
         selector = 0
 
@@ -392,13 +498,14 @@ class AlarmBot():
             y_pos = 30
             i = 0
 
+            # Show each fields current value
             while i < len(fields):
                 label = fields[i]
 
                 if label == "Hour":
-                    value = "{}".format(hour)
+                    value = "{:02d}".format(hour)
                 elif label == "Minute":
-                    value = "{}".format(minute)
+                    value = "{:02d}".format(minute)
                 elif label == "Siren":
                     value = siren_names[siren_index]
                 elif label == "Challenges":
@@ -406,11 +513,13 @@ class AlarmBot():
                 else:
                     value = ""
 
+                # Show current field
                 if i == selector:
                     prefix = ">> "
                 else:
                     prefix = "   "
 
+                # Add things to gether if needed
                 if value != "":
                     line = "{}{}: {}".format(prefix,label,value)
                 else:
@@ -420,8 +529,9 @@ class AlarmBot():
                 y_pos += 15
                 i += 1
 
-            self.lcd.update()
+            self.update()
 
+            # Move selction up/down
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
@@ -434,6 +544,7 @@ class AlarmBot():
                     selector = 0
                 time.sleep(0.05)
 
+            # Modify selected value (down)
             elif self.btn.left:
                 if selector == 0:
                     hour -= 1
@@ -453,6 +564,7 @@ class AlarmBot():
                         challenge_amount = 1
                 time.sleep(0.05)
 
+            # Modify selected value (up)
             elif self.btn.right:
                 if selector == 0:
                     hour += 1
@@ -474,34 +586,42 @@ class AlarmBot():
 
             elif self.btn.enter:
                 if selector == 4:
-                    alarm_time = "{}:{}".format(hour,minute)
+                    # Save alarm (create or replace)
+                    alarm_time = "{:02d}:{:02d}".format(hour,minute)
                     siren = siren_names[siren_index]
+
                     if existing_alarm is not None:
                         self.alarms.remove(existing_alarm)
+
                     new_alarm = Alarm(self,alarm_time, siren, challenge_amount)
                     self.alarms.append(new_alarm)
 
+                    # Show added
                     self.clear_screen()
                     self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black')
                     self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
-                    self.lcd.update()
+                    self.update()
 
                     self.sound.beep()
                     time.sleep(1)
+
                     self.state = State.IDLE
 
                 elif selector == 5:
+                    # Cancel 
                     self.state = State.IDLE
 
-                time.sleep(0.05)
+                time.sleep(0.1)
 
     def edit_alarm(self):
+        # Handle if no alrm exists
         if len(self.alarms) == 0:
             self.lcd.clear()
             self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black')
             self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black')
-            self.lcd.update()
+            self.update()
 
+            # Wait until user leaves
             while not self.btn.enter:
                 time.sleep(0.05)
             
@@ -516,25 +636,31 @@ class AlarmBot():
 
             y_pos = 30
             i = 0
+
+            # Display all alarms
             while i < len(self.alarms):
                 alarm = self.alarms[i]
                 line = alarm.alarm_description()
 
+                # Show selections
                 if i == selector:
                     line = ">> " + line
                 else:
                     line = "   " + line
 
                 self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+
                 y_pos += 15
                 i += 1
 
+            # Allow user to leave
             self.lcd.text_pixels("   Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
             if selector == len(self.alarms):
                 self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
 
-            self.lcd.update()
+            self.update()
 
+            # Menu navigation
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
@@ -552,13 +678,15 @@ class AlarmBot():
                     self.state = State.IDLE
                     return
                 else:
+                    # Edit selcted alarm
                     selected_alarm = self.alarms[selector]
                     self.alarm_editor(existing_alarm=selected_alarm)
                     return
 
-            time.sleep(0.05)
+            time.sleep(0.1)
     
     def view_alarms(self):
+        # View all alarms
         while self.state == State.VIEW:
             self.clear_screen()
             self.lcd.text_pixels("Alarms", 10, 10)
@@ -566,6 +694,7 @@ class AlarmBot():
             y_pos = 40
             i = 0
 
+            # List all alarms
             while i < len(self.alarms):
                 alarm = self.alarms[i]
                 
@@ -574,18 +703,21 @@ class AlarmBot():
                 y_pos += 20
                 i += 1
 
+            # If no alarms
             if len(self.alarms) == 0:
                 self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
 
+            # leave
             if self.btn.enter:
                 self.state = State.IDLE
                 return
 
-            self.lcd.update()
+            self.update()
 
-            time.sleep(0.2)
+            time.sleep(0.5)
 
     def randomise_challenges(self):
+        # Runs challenges untill all are complete
         challenge_amount = self.active_alarm.challenge_amount
         challenges = []
 
@@ -604,20 +736,26 @@ class AlarmBot():
 
             while not success:
                 self.clear_screen()
-                self.lcd.update()
+                self.update()
 
+                # Although the use of this as a True/False didn't end up happening since i loop in the challenges, i will keep it
                 success = challenge.run()
 
+        # Stop alarm when all challenges are complete 
         self.active_alarm.ringing = False
         self.active_alarm = None
         self.state = State.IDLE
 
+# == Program Starts ==
 alarm_bot = AlarmBot()
+
+# boot sounds
 alarm_bot.sound.beep()
 time.sleep(0.5)
 alarm_bot.sound.beep()
 
 # == Main loop ==
+# State machine soft of thing
 while True:
     if alarm_bot.state == State.IDLE:
         alarm_bot.main_menu()
@@ -637,4 +775,10 @@ while True:
     else:
         print("How are you seeing this?")
 
-    time.sleep(.2)
+
+    #future ideas
+    #   Save alarms (json)
+    #   Snooze for 5 minutes but after it increases challange amount by 2 and only usable once
+    #   Add more alarm sirens then just beep
+    #   A way to delete alarms
+    #   Show remaining challenges
