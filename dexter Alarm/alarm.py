@@ -175,7 +175,7 @@ class Challenge():
 
     def motor_control_test(self):
         target_speed = random.randint(200, 600)
-        tolerance = 50
+        tolerance = 30
         hold_time = 3 
 
         start_time = None
