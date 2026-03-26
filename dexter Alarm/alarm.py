@@ -175,7 +175,7 @@ class Challenge():
 
     def motor_control_test(self):
         target_speed = random.randint(250, 750)
-        tolerance = 30
+        tolerance = 50
         hold_time = 3 
 
         start_time = None
@@ -184,7 +184,7 @@ class Challenge():
             current_speed = self.owner.lm.speed
             current_speed = abs(int(current_speed))
 
-            self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Speed: {}".format(current_speed), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
@@ -194,9 +194,13 @@ class Challenge():
                     start_time = time.time()
 
                 if time.time() - start_time >= hold_time:
+                    self.owner.sound.beep()
+                    self.owner.lcd.text_pixels("Complete", clear_screen=False, x=10, y=80, text_color='black')
+                    time.sleep(0.75)
                     return True
+                
             else:
-                start_time = None
+                start_time = None 
 
             time.sleep(0.3)
 
