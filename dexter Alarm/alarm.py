@@ -243,6 +243,7 @@ class Challenge():
             time.sleep(0.3)
 
     def gyro_coordination(self):
+        # User must follow a changing angle
         tolerance = 5
         duration = 5
 
@@ -253,17 +254,19 @@ class Challenge():
         while True:
             angle = self.owner.gy.angle
 
-            # change target every second
+            # Target changes ever second
             if time.time() - last_change >= 1:
                 change = random.randint(-20,20)
                 target += change
                 last_change = time.time()
 
+            # Display instructions
             self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
 
+            # If user is not in range tell them and reset
             if abs(angle - target) > tolerance:
                 self.owner.lcd.text_pixels("Not close enough", clear_screen=False, x=10, y=80, text_color='black')
                 self.owner.lcd.update()
@@ -273,6 +276,7 @@ class Challenge():
                 target = random.randint(-90, 90)
                 last_change = time.time()
 
+            # Stayed within range and display message
             if time.time() - start_time >= duration:
                 self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Followed Correctly", clear_screen=False, x=10, y=60, text_color='black')
@@ -285,6 +289,7 @@ class Challenge():
             time.sleep(0.2)
 
     def colour_recognition(self):
+        # User must show correct colour to sensor
         colours = [
             "Black",
             "Blue",
@@ -301,6 +306,7 @@ class Challenge():
         while True:
             detected = self.owner.cs.color_name
 
+            # Display Instructions
             self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Seen: {}".format(detected), clear_screen=False, x=10, y=60, text_color='black')
@@ -308,6 +314,7 @@ class Challenge():
             self.owner.lcd.text_pixels("Press enter to reroll \nonly after 10 seconds", clear_screen=False, x=10, y=90, text_color='black')
             self.owner.lcd.update()
 
+            # Confirm with touch sensor (so you can't just wave the sensor around until it detects correct)
             if self.owner.ts.is_pressed:
                 if detected == target:
                     self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
@@ -317,6 +324,7 @@ class Challenge():
                     time.sleep(1)
                     return True
 
+            # Reroll after delay (incase no colour near) but not availble until 10 seconds 
             if self.owner.btn.enter:
                 if time.time() - last_reroll_time >= 10:
                     target = random.choice(colours)
@@ -325,6 +333,7 @@ class Challenge():
             time.sleep(0.1)
 
     def distance_challenge(self):
+        # User must position alarm at correct distance
         target = random.randint(10, 50)  
         tolerance = 3
 
@@ -332,12 +341,14 @@ class Challenge():
             distance = self.owner.uss.distance_centimeters
             distance = int(distance)
 
+            # Display instructions
             self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}cm".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Now: {}cm".format(distance), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.update()
 
+            # Confirm same way as colour
             if self.owner.ts.is_pressed:
                 if abs(distance - target) <= tolerance:
                     self.owner.sound.beep()
@@ -352,6 +363,7 @@ class Challenge():
             time.sleep(0.1)
 
 # == Alarm Bot ==
+# Main controller that handles UI, Sensors, and the state
 class AlarmBot():
     def __init__(self):
 
@@ -370,16 +382,20 @@ class AlarmBot():
         self.gy = GyroSensor()
         self.ts = TouchSensor()
 
-        self.current_time = datetime.now().time()
+        # Alarms
         self.alarms = [Alarm(self,"00:02","test1",4)]
         self.active_alarm = None
+
+        # Challenges and Menu Options in Main
         self.challenges = []
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
     def clear_screen(self):
+        # Helper to clear screens quicker
         self.lcd.clear()
 
     def change_state(self, selection=None, sub_menu=None):
+        # Handles transition between modes from menu input
         if selection is not None:
             if selection >= len(self.menu_items):
                 print("Invalid selection")
