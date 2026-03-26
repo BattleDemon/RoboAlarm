@@ -417,18 +417,24 @@ class AlarmBot():
             self.state = State.CHALLENGE
 
     def main_menu(self):
+        # Tracks which menu item is selected acts as a cursor
         selector = 0
 
+        # Breaks out when not in idle such as when alrms ring
         while self.state == State.IDLE:
             self.clear_screen()
+
+            # Print Title
             self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
 
             y_pos = 30
             i = 0
 
+            # Draw menu items with selection indicator
             while i < len(self.menu_items):
                 text = self.menu_items[i]
 
+                # add selector
                 if i == selector:
                     text = ">> " + text
                 else:
@@ -441,6 +447,7 @@ class AlarmBot():
             
             self.update()
 
+            # Navigation logic
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
@@ -451,14 +458,17 @@ class AlarmBot():
                 if selector > len(self.menu_items):
                     selector = 0 
 
+            # Selection confirmation
             if self.btn.enter:
                 self.change_state(selection=selector)
 
-            time.sleep(0.05)
+            time.sleep(0.1)
 
     def alarm_editor(self, existing_alarm=None):
+        # Get possible siren option 
         siren_names = list(SIRENS.keys())
 
+        # Initialise values depending on if create or edit
         if existing_alarm is None:
             hour = 7
             minute = 0
@@ -466,6 +476,7 @@ class AlarmBot():
             challenge_amount = 1
             title = "== Set Alarm =="
         else:
+            # Loads values from existing alarm
             self.state = State.SETTING
             hour_str, minute_str = existing_alarm.target_time.split(":")
             hour = int(hour_str)
@@ -476,6 +487,7 @@ class AlarmBot():
             challenge_amount = existing_alarm.challenge_amount
             title = "== Edit Alarm =="
 
+        # Editable fields
         fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
         selector = 0
 
@@ -486,6 +498,7 @@ class AlarmBot():
             y_pos = 30
             i = 0
 
+            # Show each fields current value
             while i < len(fields):
                 label = fields[i]
 
@@ -500,11 +513,13 @@ class AlarmBot():
                 else:
                     value = ""
 
+                # Show current field
                 if i == selector:
                     prefix = ">> "
                 else:
                     prefix = "   "
 
+                # Add things to gether if needed
                 if value != "":
                     line = "{}{}: {}".format(prefix,label,value)
                 else:
@@ -516,6 +531,7 @@ class AlarmBot():
 
             self.update()
 
+            # Move selction up/down
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
@@ -528,6 +544,7 @@ class AlarmBot():
                     selector = 0
                 time.sleep(0.05)
 
+            # Modify selected value (down)
             elif self.btn.left:
                 if selector == 0:
                     hour -= 1
@@ -547,6 +564,7 @@ class AlarmBot():
                         challenge_amount = 1
                 time.sleep(0.05)
 
+            # Modify selected value (up)
             elif self.btn.right:
                 if selector == 0:
                     hour += 1
@@ -568,13 +586,17 @@ class AlarmBot():
 
             elif self.btn.enter:
                 if selector == 4:
+                    # Save alarm (create or replace)
                     alarm_time = "{:02d}:{:02d}".format(hour,minute)
                     siren = siren_names[siren_index]
+
                     if existing_alarm is not None:
                         self.alarms.remove(existing_alarm)
+
                     new_alarm = Alarm(self,alarm_time, siren, challenge_amount)
                     self.alarms.append(new_alarm)
 
+                    # Show added
                     self.clear_screen()
                     self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black')
                     self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
@@ -582,20 +604,24 @@ class AlarmBot():
 
                     self.sound.beep()
                     time.sleep(1)
+
                     self.state = State.IDLE
 
                 elif selector == 5:
+                    # Cancel 
                     self.state = State.IDLE
 
-                time.sleep(0.05)
+                time.sleep(0.1)
 
     def edit_alarm(self):
+        # Handle if no alrm exists
         if len(self.alarms) == 0:
             self.lcd.clear()
             self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black')
             self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black')
             self.update()
 
+            # Wait until user leaves
             while not self.btn.enter:
                 time.sleep(0.05)
             
@@ -610,25 +636,31 @@ class AlarmBot():
 
             y_pos = 30
             i = 0
+
+            # Display all alarms
             while i < len(self.alarms):
                 alarm = self.alarms[i]
                 line = alarm.alarm_description()
 
+                # Show selections
                 if i == selector:
                     line = ">> " + line
                 else:
                     line = "   " + line
 
                 self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+
                 y_pos += 15
                 i += 1
 
+            # Allow user to leave
             self.lcd.text_pixels("   Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
             if selector == len(self.alarms):
                 self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
 
             self.update()
 
+            # Menu navigation
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
@@ -646,13 +678,15 @@ class AlarmBot():
                     self.state = State.IDLE
                     return
                 else:
+                    # Edit selcted alarm
                     selected_alarm = self.alarms[selector]
                     self.alarm_editor(existing_alarm=selected_alarm)
                     return
 
-            time.sleep(0.05)
+            time.sleep(0.1)
     
     def view_alarms(self):
+        # View all alarms
         while self.state == State.VIEW:
             self.clear_screen()
             self.lcd.text_pixels("Alarms", 10, 10)
@@ -660,6 +694,7 @@ class AlarmBot():
             y_pos = 40
             i = 0
 
+            # List all alarms
             while i < len(self.alarms):
                 alarm = self.alarms[i]
                 
@@ -668,16 +703,18 @@ class AlarmBot():
                 y_pos += 20
                 i += 1
 
+            # If no alarms
             if len(self.alarms) == 0:
                 self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
 
+            # leave
             if self.btn.enter:
                 self.state = State.IDLE
                 return
 
             self.update()
 
-            time.sleep(0.2)
+            time.sleep(0.5)
 
     def randomise_challenges(self):
         # Runs challenges untill all are complete
