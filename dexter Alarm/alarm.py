@@ -196,7 +196,8 @@ class Challenge():
                 if time.time() - start_time >= hold_time:
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("Complete", clear_screen=False, x=10, y=80, text_color='black')
-                    time.sleep(0.75)
+                    self.owner.lcd.update()
+                    time.sleep(3)
                     return True
                 
             else:
@@ -242,19 +243,27 @@ class Challenge():
             time.sleep(0.1)
 
     def distance_challenge(self):
-        target = random.randint(10, 50)  # cm
+        target = random.randint(10, 50)  
         tolerance = 3
 
         while True:
             distance = self.owner.uss.distance_centimeters
+            distance = int(distance)
 
-            self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}cm".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Now: {}cm".format(distance), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
 
             if self.owner.ts.is_pressed:
                 if abs(distance - target) <= tolerance:
+                    self.owner.sound.beep()
+                    self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
+                    self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=60, text_color='black')
+                    self.owner.lcd.update()
+
+                    time.sleep(3)
+
                     return True
 
             time.sleep(0.1)
@@ -579,7 +588,7 @@ class AlarmBot():
 
     def challenge_active(self):
         #challenges = self.randomise_challenges()
-        challenges = [Challenge(self,Challenge_types.MOTORCONTROLTEST)]
+        challenges = [Challenge(self,Challenge_types.DISTANCECHALLENGE)]
 
         for challenge in challenges:
             success = False
