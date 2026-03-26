@@ -12,23 +12,22 @@ from ev3dev2.led import Leds
 
 from enum import Enum
 from datetime import datetime
-
 from threading import *
-
 import os
-
-os.system('setfont Lat15-TerminusBold16')
-
 import time
 import random
 
+# Set font for UI (Used for all print to lcd)
+os.system('setfont Lat15-TerminusBold16')
+
 # == State Enum == 
+# Controls the state/mode/ui the robot is currenly doing
 class State(Enum):
-    IDLE = 0
-    SETTING = 1
-    EDITING = 2
-    CHALLENGE = 3
-    VIEW = 4
+    IDLE = 0        # Main Menu
+    SETTING = 1     # Creating and editing alarms
+    EDITING = 2     # Selecting what alarm to edit
+    CHALLENGE = 3   # Alarm is ringing, need to complete challenges
+    VIEW = 4        # Viewing existing alarms
 
 # == Challenge Types Enum ==
 class Challenge_types(Enum):
@@ -36,7 +35,7 @@ class Challenge_types(Enum):
     MOTORCONTROLTEST = 1
     COLOURRECOGNITION = 2
     DISTANCECHALLENGE = 3
-    #GYROCOORDINATION = 4
+    GYROCOORDINATION = 4
 
 # == Siren Sounds ==
 SIRENS = {
@@ -45,42 +44,54 @@ SIRENS = {
     "test3" : {}
 }
 
+# Debug mode to speed up countdown (1 second = 1 minute)
+FASTMODE = False
+
 # == Alarm Class ==
+# Stores a single alarm instance, and handles its logic
 class Alarm():
     def __init__(self, owner, target_time, siren, challenge_amount): 
-        self.owner = owner
+        self.owner = owner      # Reference to AlarmBot
         self.sound = Sound()
         self.siren = siren
         self.target_time = target_time
         self.challenge_amount = challenge_amount
 
+        # Split time into usable integers 
         self.target_hour, self.target_minute = self.target_time.split(":")
         self.target_hour = int(self.target_hour)
         self.target_minute = int(self.target_minute)
 
+        # Thread that handles countdown in background
         self.countdown_thread = Thread(target=self.countdown)
         self.countdown_thread.daemon = True
         self.countdown_thread.start()
 
+        # Thread for alarm ringing
         self.ring_thread = Thread(target=self.ring)
         self.ring_thread.daemon = True
         self.ringing = False
 
     def ring(self):
+        # Switches AlarmBot into challange mode
         self.owner.active_alarm = self
         self.owner.state = State.CHALLENGE
         self.ringing = True
-        # Add logic for different siren types
+
+        # Loop until challenges are complete
         while self.ringing:
             self.sound.beep()
             time.sleep(0.3)
 
     def remake_target_time(self):
+        # Remakes the string of time after initial make (because of countdown) and for viewing and editing
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
 
     def countdown(self):
         minutes_pased = 0
+
         while True:
+            # When timer ends it triggers the alarm
             if self.target_hour == 0 and self.target_minute == 0:
                 self.ring_thread.start()
                 break
@@ -88,16 +99,21 @@ class Alarm():
             self.target_minute -= 1 
             minutes_pased += 1
 
+            # Rolls over hour
             if minutes_pased == 60:
                 minutes_pased = 0
                 self.target_hour -= 1
                 if self.target_hour < 0:
                     self.target_hour = 0
 
-            time.sleep(2)  # Remember to change back to 60 for submission
-            self.sound.beep() # for testing to confirm time is passing
+            # Fast debugging / testing mode and real time
+            if FASTMODE:
+                time.sleep(1)
+            else:
+                time.sleep(60)
 
     def alarm_description(self):
+        # Used for displating alarm info in menus 
         self.remake_target_time()
         return " {} | {} | {} Challenges".format(self.target_time, self.siren, self.challenge_amount)
 
@@ -108,6 +124,7 @@ class Challenge():
         self.owner = owner
 
     def run(self):
+        # Runs correct challenge from type
         if self.type == Challenge_types.LEDMEMORYGAME:
             return self.led_memory_game()
         elif self.type == Challenge_types.MOTORCONTROLTEST:
@@ -122,7 +139,7 @@ class Challenge():
     def led_memory_game(self):
         led_buttons = ["LEFT","RIGHT"]
 
-        sequence_amount = 3
+        sequence_amount = random.randint(3,6)
         led_sequence = []
 
         i = 0
@@ -153,9 +170,11 @@ class Challenge():
                 if self.owner.btn.left:
                     try_sequence.append("LEFT")
                     pressed += 1
+                    self.owner.btn.wait_for_released('LEFT')
                 if self.owner.btn.right:
                     try_sequence.append("RIGHT")
                     pressed += 1
+                    self.owner.btn.wait_for_released('RIGHT')
 
                 time.sleep(0.2)
 
@@ -283,8 +302,7 @@ class Challenge():
 
             if self.owner.btn.enter:
                 if time.time() - last_reroll_time >= 10:
-                    #target = random.choice(colours)
-                    target = 'Black'
+                    target = random.choice(colours)
                     last_reroll_time = time.time()
 
             time.sleep(0.1)
@@ -435,9 +453,9 @@ class AlarmBot():
                 label = fields[i]
 
                 if label == "Hour":
-                    value = "{}".format(hour)
+                    value = "{:02d}".format(hour)
                 elif label == "Minute":
-                    value = "{}".format(minute)
+                    value = "{:02d}".format(minute)
                 elif label == "Siren":
                     value = siren_names[siren_index]
                 elif label == "Challenges":
@@ -513,7 +531,7 @@ class AlarmBot():
 
             elif self.btn.enter:
                 if selector == 4:
-                    alarm_time = "{}:{}".format(hour,minute)
+                    alarm_time = "{:02d}:{:02d}".format(hour,minute)
                     siren = siren_names[siren_index]
                     if existing_alarm is not None:
                         self.alarms.remove(existing_alarm)
@@ -677,3 +695,11 @@ while True:
         print("How are you seeing this?")
 
     time.sleep(.2)
+
+
+    #future ideas
+    #   Save alarms (json)
+    #   Snooze for 5 minutes but after it increases challange amount by 2 and only usable once
+    #   Add more alarm sirens then just beep
+    #   A way to delete alarms
+    #   Show remaining challenges
