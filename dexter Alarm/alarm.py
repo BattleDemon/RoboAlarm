@@ -72,7 +72,7 @@ class Alarm():
         self.ringing = True
         # Add logic for different siren types
         while self.ringing:
-            self.sound.beep()
+            #self.sound.beep()
             time.sleep(0.3)
 
     def remake_target_time(self):
@@ -174,18 +174,19 @@ class Challenge():
                 time.sleep(1)
 
     def motor_control_test(self):
-        target_speed = random.randint(200, 600)
+        target_speed = random.randint(250, 750)
         tolerance = 30
         hold_time = 3 
 
         start_time = None
 
         while True:
-            current_speed = abs(self.owner.lm.speed)
+            current_speed = self.owner.lm.speed
+            current_speed = abs(int(current_speed))
 
             self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
-            self.owner.lcd.text_pixels("Speed: {}".format(int(current_speed)), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.text_pixels("Speed: {}".format(current_speed), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.update()
 
             if abs(current_speed - target_speed) <= tolerance:
@@ -197,7 +198,7 @@ class Challenge():
             else:
                 start_time = None
 
-            time.sleep(0.1)
+            time.sleep(0.3)
 
     def gyro_coordination(self):
         pass
@@ -266,6 +267,7 @@ class AlarmBot():
         self.sound = Sound()
 
         self.lm = LargeMotor()
+        self.lm.stop(stop_action='coast')
     
         self.uss = UltrasonicSensor()
         self.cs = ColorSensor()
@@ -573,7 +575,7 @@ class AlarmBot():
 
     def challenge_active(self):
         #challenges = self.randomise_challenges()
-        challenges = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
+        challenges = [Challenge(self,Challenge_types.MOTORCONTROLTEST)]
 
         for challenge in challenges:
             success = False
