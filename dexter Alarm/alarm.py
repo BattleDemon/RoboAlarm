@@ -156,7 +156,7 @@ class Challenge():
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=False, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Watch the LED's", clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             # Show sequence
             for i in led_sequence:
@@ -168,7 +168,7 @@ class Challenge():
             # Display other instructions
             self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Press the Buttons in \n the order shown", clear_screen=False, x=10, y=40, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             try_sequence = []
             pressed = 0
@@ -190,7 +190,7 @@ class Challenge():
                 # Show correct message
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=40, text_color='black')
-                self.owner.lcd.update()
+                self.owner.update()
 
                 time.sleep(1)
                 return True
@@ -198,7 +198,7 @@ class Challenge():
                 # Show fail message
                 self.owner.lcd.text_pixels("== LED GAME ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Wrong Try Again", clear_screen=False, x=10, y=40, text_color='black')
-                self.owner.lcd.update()
+                self.owner.update()
                 
                 # Loop again if wrong
                 time.sleep(1)
@@ -220,7 +220,7 @@ class Challenge():
             self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Speed: {}".format(current_speed), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Hold that speed for 3 seconds", clear_screen=False, x=10, y=80, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             # Check if speed is in correct range
             if abs(current_speed - target_speed) <= tolerance:
@@ -231,7 +231,7 @@ class Challenge():
                     # Show success message
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("Complete", clear_screen=False, x=10, y=80, text_color='black')
-                    self.owner.lcd.update()
+                    self.owner.update()
 
                     time.sleep(3)
                     return True
@@ -264,12 +264,12 @@ class Challenge():
             self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             # If user is not in range tell them and reset
             if abs(angle - target) > tolerance:
                 self.owner.lcd.text_pixels("Not close enough", clear_screen=False, x=10, y=80, text_color='black')
-                self.owner.lcd.update()
+                self.owner.update()
 
                 time.sleep(1)
                 start_time = time.time()
@@ -280,7 +280,7 @@ class Challenge():
             if time.time() - start_time >= duration:
                 self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Followed Correctly", clear_screen=False, x=10, y=60, text_color='black')
-                self.owner.lcd.update()
+                self.owner.update()
 
                 time.sleep(1)
 
@@ -312,14 +312,14 @@ class Challenge():
             self.owner.lcd.text_pixels("Seen: {}".format(detected), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.text_pixels("Press enter to reroll \nonly after 10 seconds", clear_screen=False, x=10, y=90, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             # Confirm with touch sensor (so you can't just wave the sensor around until it detects correct)
             if self.owner.ts.is_pressed:
                 if detected == target:
                     self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
                     self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=80, text_color='black')
-                    self.owner.lcd.update()
+                    self.owner.update()
 
                     time.sleep(1)
                     return True
@@ -346,7 +346,7 @@ class Challenge():
             self.owner.lcd.text_pixels("Target: {}cm".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Now: {}cm".format(distance), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
-            self.owner.lcd.update()
+            self.owner.update()
 
             # Confirm same way as colour
             if self.owner.ts.is_pressed:
@@ -354,7 +354,7 @@ class Challenge():
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
                     self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=60, text_color='black')
-                    self.owner.lcd.update()
+                    self.owner.update()
 
                     time.sleep(3)
 
@@ -391,8 +391,12 @@ class AlarmBot():
         self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
 
     def clear_screen(self):
-        # Helper to clear screens quicker
+        # Helper to clear screens quicker 
         self.lcd.clear()
+
+    def update(self):
+        # Helper to update screen quicker 
+        self.lcd.update()
 
     def change_state(self, selection=None, sub_menu=None):
         # Handles transition between modes from menu input
@@ -435,7 +439,7 @@ class AlarmBot():
                 y_pos += 15
                 i += 1
             
-            self.lcd.update()
+            self.update()
 
             if self.btn.up:
                 selector -= 1
@@ -510,7 +514,7 @@ class AlarmBot():
                 y_pos += 15
                 i += 1
 
-            self.lcd.update()
+            self.update()
 
             if self.btn.up:
                 selector -= 1
@@ -574,7 +578,7 @@ class AlarmBot():
                     self.clear_screen()
                     self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black')
                     self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
-                    self.lcd.update()
+                    self.update()
 
                     self.sound.beep()
                     time.sleep(1)
@@ -590,7 +594,7 @@ class AlarmBot():
             self.lcd.clear()
             self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black')
             self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black')
-            self.lcd.update()
+            self.update()
 
             while not self.btn.enter:
                 time.sleep(0.05)
@@ -623,7 +627,7 @@ class AlarmBot():
             if selector == len(self.alarms):
                 self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
 
-            self.lcd.update()
+            self.update()
 
             if self.btn.up:
                 selector -= 1
@@ -671,11 +675,12 @@ class AlarmBot():
                 self.state = State.IDLE
                 return
 
-            self.lcd.update()
+            self.update()
 
             time.sleep(0.2)
 
     def randomise_challenges(self):
+        # Runs challenges untill all are complete
         challenge_amount = self.active_alarm.challenge_amount
         challenges = []
 
@@ -694,20 +699,26 @@ class AlarmBot():
 
             while not success:
                 self.clear_screen()
-                self.lcd.update()
+                self.update()
 
+                # Although the use of this as a True/False didn't end up happening since i loop in the challenges, i will keep it
                 success = challenge.run()
 
+        # Stop alarm when all challenges are complete 
         self.active_alarm.ringing = False
         self.active_alarm = None
         self.state = State.IDLE
 
+# == Program Starts ==
 alarm_bot = AlarmBot()
+
+# boot sounds
 alarm_bot.sound.beep()
 time.sleep(0.5)
 alarm_bot.sound.beep()
 
 # == Main loop ==
+# State machine soft of thing
 while True:
     if alarm_bot.state == State.IDLE:
         alarm_bot.main_menu()
@@ -726,8 +737,6 @@ while True:
 
     else:
         print("How are you seeing this?")
-
-    time.sleep(.2)
 
 
     #future ideas
