@@ -174,8 +174,8 @@ class Challenge():
                 time.sleep(1)
 
     def motor_control_test(self):
-        target_speed = random.randint(250, 750)
-        tolerance = 50
+        target_speed = random.randint(300, 750)
+        tolerance = 75
         hold_time = 3 
 
         start_time = None
@@ -187,6 +187,7 @@ class Challenge():
             self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {} +/- {}".format(target_speed, tolerance), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Speed: {}".format(current_speed), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.text_pixels("Hold that speed for 3 seconds", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.update()
 
             if abs(current_speed - target_speed) <= tolerance:
@@ -209,35 +210,42 @@ class Challenge():
         pass
 
     def colour_recognition(self):
-        colours = {
-            1: "BLACK",
-            2: "BLUE",
-            3: "GREEN",
-            4: "YELLOW",
-            5: "RED",
-            6: "WHITE",
-            7: "BROWN"
-        }
+        colours = [
+            "Black",
+            "Blue",
+            "Green",
+            "Yellow",
+            "Red",
+            "White",
+            "Brown"
+        ]
 
-        target = random.choice(list(colours.keys()))
+        target = random.choice(colours)
         last_reroll_time = time.time()
 
         while True:
-            detected = self.owner.cs.color
+            detected = self.owner.cs.color_name
 
-            self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=False, x=10, y=20, text_color='black')
-            self.owner.lcd.text_pixels("Target: {}".format(colours[target]), clear_screen=False, x=10, y=40, text_color='black')
-            self.owner.lcd.text_pixels("Seen: {}".format(colours.get(detected, "?")), clear_screen=False, x=10, y=60, text_color='black')
-            self.owner.lcd.text_pixels("Back Button = confirm", clear_screen=False, x=10, y=80, text_color='black')
+            self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Seen: {}".format(detected), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
+            self.owner.lcd.text_pixels("Press enter to reroll \nonly after 10 seconds", clear_screen=False, x=10, y=90, text_color='black')
             self.owner.lcd.update()
 
             if self.owner.ts.is_pressed:
                 if detected == target:
+                    self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
+                    self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=80, text_color='black')
+                    self.owner.lcd.update()
+
+                    time.sleep(1)
                     return True
 
             if self.owner.btn.enter:
                 if time.time() - last_reroll_time >= 10:
-                    target = random.choice(list(colours.keys()))
+                    #target = random.choice(colours)
+                    target = 'Black'
                     last_reroll_time = time.time()
 
             time.sleep(0.1)
@@ -253,6 +261,7 @@ class Challenge():
             self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}cm".format(target), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Now: {}cm".format(distance), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.lcd.text_pixels("Back Touch Sensor = confirm", clear_screen=False, x=10, y=80, text_color='black')
             self.owner.lcd.update()
 
             if self.owner.ts.is_pressed:
@@ -588,7 +597,7 @@ class AlarmBot():
 
     def challenge_active(self):
         #challenges = self.randomise_challenges()
-        challenges = [Challenge(self,Challenge_types.DISTANCECHALLENGE)]
+        challenges = [Challenge(self,Challenge_types.MOTORCONTROLTEST)]
 
         for challenge in challenges:
             success = False
