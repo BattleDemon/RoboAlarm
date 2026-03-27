@@ -17,13 +17,7 @@ import os
 import time
 import random
 
-# Set font for UI (Used for all print to lcd)
-os.system('setfont Lat15-TerminusBold14')
-print("Test")
-#os.system('setfont Lat15-TerminusBold14')
-print("test2")
-
-
+# Using helvB14 causes a massive latency or similar spike, my theory is it loads the font from memory for each text pixel to screen instead of saving a local address (a lot of compute for little)
 USEFONT = None #'helvB14'
 
 # == State Enum == 
