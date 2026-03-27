@@ -224,7 +224,7 @@ class Challenge():
 
     def motor_control_test(self):
         # User must match and hold a specific motor speed
-        target_speed = random.randint(300, 750)
+        target_speed = random.randint(250, 550)
         tolerance = 150
         hold_time = 3 
 
