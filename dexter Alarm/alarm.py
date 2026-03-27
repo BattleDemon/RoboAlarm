@@ -243,10 +243,10 @@ class Challenge():
             time.sleep(0.3)
 
     def gyro_coordination(self):
-        tolerance = 5
+        tolerance = 2
         target_angle = random.randint(-60,60)
 
-        remaining = 4
+        remaining = 7
 
         self.owner.gy.reset()
 
@@ -267,8 +267,8 @@ class Challenge():
 
                 remaining -= 1
                 target_angle = random.randint(-60,60)
-                
-        return true
+
+        return True
 
 
 
