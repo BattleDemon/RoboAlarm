@@ -43,6 +43,7 @@ class Challenge_types(Enum):
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
+# This could of also been an enum but i have already writen things that need it to be a dictionary so it will stay a dictionary
 # == Siren Sounds ==
 SIRENS = {
     "test1" : {},
@@ -742,9 +743,10 @@ class AlarmBot():
         # View all alarms
         while self.state == State.VIEW:
             self.clear_screen()
-            self.lcd.text_pixels("Alarms", 10, 10,font=USEFONT)
+            self.lcd.text_pixels("== Alarm List ==", 10, 10,font=USEFONT)
+            self.lcd.text_pixels(" Press enter to leave", 10, 30)
 
-            y_pos = 40
+            y_pos = 45
             i = 0
 
             # List all alarms
@@ -846,7 +848,7 @@ while True:
         print("How are you seeing this?")
 
     #future ideas
-    #   Add more alarm sirens then just beep -- Yes
+    #   Add more alarm sirens then just beep -- Yes - Doing
     #   A way to delete alarms -- Need
     #   Show remaining challenges -- Will do -- Done
 
