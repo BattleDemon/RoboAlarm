@@ -294,8 +294,7 @@ class Challenge():
 
         return True
 
-
-
+        # Old GYRO function -- Didn't work because it was to cauotic, increasing time and tolerance did nothing to fix
 
         '''# User must follow a changing angle
         tolerance = 5
@@ -852,7 +851,7 @@ while True:
     #   Show remaining challenges -- Will do -- Done
 
     '''
-    Major problems this lesson --> 
+    Major problems this lesson -->     #   Snooze for 5 minutes but after it increases challange amount by 2 and only usable once -- No defeats purpose
     first gyro was to erratic so change to the current type
 
     then devcided that font was too small to be usable -->
