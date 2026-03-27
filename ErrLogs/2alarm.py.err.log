@@ -1,0 +1,30 @@
+Cannot open font file Lat15-TerminusBold18
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 274, in _set_attribute
+    attribute.write(value)
+OSError: [Errno 22] Invalid argument
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 780, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 412, in __init__
+    self.gy = GyroSensor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 592, in __init__
+    self._init_angle = self.angle
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 600, in angle
+    self._ensure_mode(self.MODE_GYRO_ANG)
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 265, in _ensure_mode
+    self.mode = mode
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 166, in mode
+    self._mode = self.set_attr_string(self._mode, 'mode', value)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 337, in set_attr_string
+    return self._set_attribute(attribute, name, value)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 277, in _set_attribute
+    self._raise_friendly_access_error(ex, name, value)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 297, in _raise_friendly_access_error
+    driver_error)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ValueError: One or more arguments were out of range or invalid, value b'GYRO-ANG'

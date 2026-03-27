@@ -18,7 +18,13 @@ import time
 import random
 
 # Set font for UI (Used for all print to lcd)
-os.system('setfont Lat15-TerminusBold16')
+os.system('setfont Lat15-TerminusBold14')
+print("Test")
+#os.system('setfont Lat15-TerminusBold14')
+print("test2")
+
+
+USEFONT = None #'helvB14'
 
 # == State Enum == 
 # Controls the state/mode/ui the robot is currenly doing
@@ -80,8 +86,26 @@ class Alarm():
 
         # Loop until challenges are complete
         while self.ringing:
-            #self.sound.beep()
-            time.sleep(0.3)
+            if self.siren == "test1":
+                self.sound.play_tone(1200, 0.1)
+                self.sound.play_tone(1800, 0.1)
+                self.sound.play_tone(1400, 0.1)
+                self.sound.play_tone(2000, 0.1)
+                time.sleep(0.5)
+            elif self.siren == "test2":
+                self.sound.play_tone(2000, 0.2)
+                self.sound.play_tone(1500, 0.2)
+                self.sound.play_tone(1000, 0.2)
+                self.sound.play_tone(600, 0.3)
+        
+            elif self.siren == "test3":
+                self.sound.play_tone(2500, 0.05)
+                self.sound.play_tone(2500, 0.05)
+                self.sound.play_tone(2500, 0.05)
+                self.sound.play_tone(800, 0.2)
+            else:
+                self.sound.beep()
+                time.sleep(0.3)
 
     def remake_target_time(self):
         # Remakes the string of time after initial make (because of countdown) and for viewing and editing
@@ -455,9 +479,9 @@ class AlarmBot():
             self.clear_screen()
 
             # Print Title
-            self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black')
+            self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black',font=USEFONT)
 
-            y_pos = 30
+            y_pos = 35
             i = 0
 
             # Draw menu items with selection indicator
@@ -470,7 +494,7 @@ class AlarmBot():
                 else:
                     text = "   " + text
 
-                self.lcd.text_pixels(text,clear_screen=False, x=10, y=y_pos, text_color='black')
+                self.lcd.text_pixels(text,clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
 
                 y_pos += 15
                 i += 1
@@ -523,7 +547,7 @@ class AlarmBot():
 
         while self.state == State.SETTING:
             self.clear_screen()
-            self.lcd.text_pixels(title, clear_screen=False, x=10, y=10, text_color='black')
+            self.lcd.text_pixels(title, clear_screen=False, x=10, y=10, text_color='black',font=USEFONT)
 
             y_pos = 30
             i = 0
@@ -555,7 +579,7 @@ class AlarmBot():
                 else:
                     line = "{}{}".format(prefix,label)
 
-                self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+                self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
                 y_pos += 15
                 i += 1
 
@@ -628,8 +652,8 @@ class AlarmBot():
 
                     # Show added
                     self.clear_screen()
-                    self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black')
-                    self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black')
+                    self.lcd.text_pixels("Alarm Added", clear_screen=False, x=10, y=20, text_color='black',font=USEFONT)
+                    self.lcd.text_pixels(new_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
                     self.update()
 
                     self.sound.beep()
@@ -647,8 +671,8 @@ class AlarmBot():
         # Handle if no alrm exists
         if len(self.alarms) == 0:
             self.lcd.clear()
-            self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black')
-            self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black')
+            self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black',font=USEFONT)
+            self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black',font=USEFONT)
             self.update()
 
             # Wait until user leaves
@@ -664,7 +688,7 @@ class AlarmBot():
             self.clear_screen()
             self.lcd.text_pixels("Select Alarm", clear_screen=False, x=10, y=10, text_color='black')
 
-            y_pos = 30
+            y_pos = 35
             i = 0
 
             # Display all alarms
@@ -678,15 +702,15 @@ class AlarmBot():
                 else:
                     line = "   " + line
 
-                self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black')
+                self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
 
                 y_pos += 15
                 i += 1
 
             # Allow user to leave
-            self.lcd.text_pixels("   Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
+            self.lcd.text_pixels("   Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black',font=USEFONT)
             if selector == len(self.alarms):
-                self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black')
+                self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black',font=USEFONT)
 
             self.update()
 
@@ -719,7 +743,7 @@ class AlarmBot():
         # View all alarms
         while self.state == State.VIEW:
             self.clear_screen()
-            self.lcd.text_pixels("Alarms", 10, 10)
+            self.lcd.text_pixels("Alarms", 10, 10,font=USEFONT)
 
             y_pos = 40
             i = 0
@@ -728,14 +752,14 @@ class AlarmBot():
             while i < len(self.alarms):
                 alarm = self.alarms[i]
                 
-                self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=y_pos, text_color='black')
+                self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
 
                 y_pos += 20
                 i += 1
 
             # If no alarms
             if len(self.alarms) == 0:
-                self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black')
+                self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
 
             # leave
             if self.btn.enter:
@@ -758,8 +782,16 @@ class AlarmBot():
         return challenges
 
     def challenge_active(self):
-        #challenges = self.randomise_challenges()
-        challenges = [Challenge(self,Challenge_types.GYROCOORDINATION)]
+        challenges = self.randomise_challenges()
+
+        self.lcd.text_pixels("Alarm Ringing", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
+        self.lcd.text_pixels("Complete Challenges to silence", clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
+        self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
+        self.update()
+
+        self.btn.wait_for_pressed(['up', 'down', 'left', 'right', 'enter'])
+
+        completed = 0
 
         for challenge in challenges:
             success = False
@@ -770,6 +802,15 @@ class AlarmBot():
 
                 # Although the use of this as a True/False didn't end up happening since i loop in the challenges, i will keep it
                 success = challenge.run()
+                completed += 1
+
+            self.lcd.text_pixels("== Challenges ==", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
+            self.lcd.text_pixels("Challenges remaining {}".format(len(challenges)-completed), clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
+            self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
+            self.update()
+
+            self.btn.wait_for_pressed(['up', 'down', 'left', 'right'])
+
 
         # Stop alarm when all challenges are complete 
         self.active_alarm.ringing = False
@@ -805,10 +846,15 @@ while True:
     else:
         print("How are you seeing this?")
 
-
     #future ideas
-    #   Save alarms (json)
-    #   Snooze for 5 minutes but after it increases challange amount by 2 and only usable once
-    #   Add more alarm sirens then just beep
-    #   A way to delete alarms
-    #   Show remaining challenges
+    #   Add more alarm sirens then just beep -- Yes
+    #   A way to delete alarms -- Need
+    #   Show remaining challenges -- Will do -- Done
+
+    '''
+    Major problems this lesson --> 
+    first gyro was to erratic so change to the current type
+
+    then devcided that font was too small to be usable -->
+    introduced new font but it loaded the font every frame every text pixels making the app unusable
+    '''

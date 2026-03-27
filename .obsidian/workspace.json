@@ -186,6 +186,8 @@
   },
   "active": "929799497975ab5c",
   "lastOpenFiles": [
+    "ErrLogs/3alarm.py.err.log",
+    "ErrLogs/2alarm.py.err.log",
     "ErrLogs/1alarm.py.err.log",
     "ErrLogs/alarm.py.err.log",
     "ErrLogs/26March/alarm.py.err.log",
@@ -194,9 +196,7 @@
     "ErrLogs/26March",
     "ErrLogs/27March/1alarm.py.err.log",
     "ErrLogs/27March",
-    "ErrLogs/2alarm.py.err.log",
     "ErrLogs/6alarm.py.err.log",
-    "ErrLogs/5alarm.py.err.log",
     "images/mermaid-diagram-2026-03-12-121152.png",
     "README.md",
     "diagram.md",
