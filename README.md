@@ -722,27 +722,57 @@ led_buttons = ["LEFT","RIGHT"]
 sequence_amount = random.randint(3,6)
 led_sequence = []
 
-for i in range(sequence_amount):
-    led_sequence.append(random.choice(led_buttons))
+i = 0
+while i < sequence_amount:
+    i += 1
+    led = random.choice(led_buttons)
+    led_sequence.append(led)
 
+# Show sequence
 for i in led_sequence:
     self.owner.led.set_color(i,'AMBER')
     time.sleep(0.75)
     self.owner.led.set_color(i,'BLACK')
     time.sleep(0.25)
+
+# Get user input
+try_sequence = []
+pressed = 0
+
+while pressed < sequence_amount:
+    if self.owner.btn.left:
+        try_sequence.append("LEFT")
+        pressed += 1
+        self.owner.btn.wait_for_released('LEFT')
+
+    if self.owner.btn.right:
+        try_sequence.append("RIGHT")
+        pressed += 1
+        self.owner.btn.wait_for_released('RIGHT')
+        
+    if try_sequence == led_sequence:  
+		return True
 ```
 This section randomises a sequence using the left and right LED buttons and then displays them to the user. That sequence is then checked against the sequence the user inputs.
 
 **Motor Control Challenge**
 ``` Python
-target_speed = random.randint(200, 700)
+target_speed = random.randint(200, 750)
 tolerance = 75
+hold_time = 3 
+
+start_time = None
 
 current_speed = abs(int(self.owner.lm.speed))
 
 if abs(current_speed - target_speed) <= tolerance:
+    if start_time is None:
+        start_time = time.time()
+
     if time.time() - start_time >= hold_time:
         return True
+else:
+    start_time = None
 ```
 Describe
 
@@ -776,7 +806,7 @@ if self.owner.btn.enter:
         target = random.choice(colours)
         last_reroll_time = time.time()
 ```
-Allows the user to reroll the target colour after a delay.
+This allows the user to reroll the target colour, but only after a delay. This prevents instantly skipping difficult colours that aren't in your direct area, while still allow a way to reroll when you can't find that colour.
 
 **Distance Challenge**
 ``` Python
@@ -786,7 +816,7 @@ if self.owner.ts.is_pressed:
     if abs(distance - target) <= tolerance:
         return True
 ```
-The user must position the device within a target distance and confirm.
+The user must position the device within a tolerance range of a target distance. Similar to the colour challenge, it needs a touch confirmation to prevent just randomly completing. 
 
 **Gyro Coordination**
 ``` Python
