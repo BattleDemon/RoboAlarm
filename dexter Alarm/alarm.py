@@ -45,7 +45,7 @@ SIRENS = {
 }
 
 # Debug mode to speed up countdown (1 second = 1 minute)
-FASTMODE = False
+FASTMODE = True
 
 # == Alarm Class ==
 # Stores a single alarm instance, and handles its logic
@@ -80,7 +80,7 @@ class Alarm():
 
         # Loop until challenges are complete
         while self.ringing:
-            self.sound.beep()
+            #self.sound.beep()
             time.sleep(0.3)
 
     def remake_target_time(self):
@@ -243,9 +243,39 @@ class Challenge():
             time.sleep(0.3)
 
     def gyro_coordination(self):
-        # User must follow a changing angle
         tolerance = 5
-        duration = 5
+        target_angle = random.randint(-60,60)
+
+        remaining = 4
+
+        self.owner.gy.reset()
+
+        while remaining > 0:
+            angle = self.owner.gy.angle
+
+            self.owner.lcd.text_pixels("== Match Angle ==", clear_screen=True, x=10, y=20, text_color='black')
+            self.owner.lcd.text_pixels("Target: {}".format(target_angle), clear_screen=False, x=10, y=40, text_color='black')
+            self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
+            self.owner.update()
+
+            if abs(angle - target_angle) <= tolerance:
+                self.owner.lcd.text_pixels("== Match Angle ==", clear_screen=True, x=10, y=20, text_color='black')
+                self.owner.lcd.text_pixels("Good", clear_screen=False, x=10, y=60, text_color='black')
+                self.owner.update()
+
+                time.sleep(2)
+
+                remaining -= 1
+                target_angle = random.randint(-60,60)
+                
+        return true
+
+
+
+
+        '''# User must follow a changing angle
+        tolerance = 5
+        duration = 12
 
         start_time = time.time()
         target = random.randint(-90, 90)
@@ -255,7 +285,7 @@ class Challenge():
             angle = self.owner.gy.angle
 
             # Target changes ever second
-            if time.time() - last_change >= 1:
+            if time.time() - last_change >= 3:
                 change = random.randint(-20,20)
                 target += change
                 last_change = time.time()
@@ -271,7 +301,7 @@ class Challenge():
                 self.owner.lcd.text_pixels("Not close enough", clear_screen=False, x=10, y=80, text_color='black')
                 self.owner.update()
 
-                time.sleep(1)
+                time.sleep(2)
                 start_time = time.time()
                 target = random.randint(-90, 90)
                 last_change = time.time()
@@ -286,7 +316,7 @@ class Challenge():
 
                 return True
 
-            time.sleep(0.2)
+            time.sleep(0.2)'''
 
     def colour_recognition(self):
         # User must show correct colour to sensor
@@ -728,8 +758,8 @@ class AlarmBot():
         return challenges
 
     def challenge_active(self):
-        challenges = self.randomise_challenges()
-        #challenges = [Challenge(self,Challenge_types.MOTORCONTROLTEST)]
+        #challenges = self.randomise_challenges()
+        challenges = [Challenge(self,Challenge_types.GYROCOORDINATION)]
 
         for challenge in challenges:
             success = False
