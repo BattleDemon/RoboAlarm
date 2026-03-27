@@ -708,23 +708,108 @@ This generates a list of challenges by randomly selecting types based on the req
 [![Prototype 2 - Countdown and ring](https://img.youtube.com/vi/qBtYPUpfrMU/0.jpg)](https://www.youtube.com/shorts/qBtYPUpfrMU)
 #### Issues and Solutions
 
-### Prototype 3: LED, Motor, Gyro Challenges
+### Prototype 3: LED and, Motor Challenges
 
 #### Discussion
 
+During this section I added the first set of challenges the user must complete to turn off the alarm. 
 #### Code Snippets
+
+**LED Memory Game**
+``` Python
+led_buttons = ["LEFT","RIGHT"]
+
+sequence_amount = random.randint(3,6)
+led_sequence = []
+
+for i in range(sequence_amount):
+    led_sequence.append(random.choice(led_buttons))
+
+for i in led_sequence:
+    self.owner.led.set_color(i,'AMBER')
+    time.sleep(0.75)
+    self.owner.led.set_color(i,'BLACK')
+    time.sleep(0.25)
+```
+This section randomises a sequence using the left and right LED buttons and then displays them to the user. That sequence is then checked against the sequence the user inputs.
+
+**Motor Control Challenge**
+``` Python
+target_speed = random.randint(200, 700)
+tolerance = 75
+
+current_speed = abs(int(self.owner.lm.speed))
+
+if abs(current_speed - target_speed) <= tolerance:
+    if time.time() - start_time >= hold_time:
+        return True
+```
+Describe
 
 #### Video of Functionality
 
 #### Issues and Solutions
 
-### Prototype 4: Colour and Ultrasonic Challenges
+The LED challenge didn't go entirely to plan, with the original plan assuming the LED's were on each of the buttons, but it turned out that they were only on the left and right buttons. So the sequence had to be restricted to just these buttons. Making the challenge easier than i originally planned.
+
+### Prototype 4: Colour, Gyro and Ultrasonic Challenges
 
 #### Discussion
 
 #### Code Snippets
 
+**Colour Recognition**
+``` Python
+target = random.choice(colours)
+detected = self.owner.cs.color_name
+
+if self.owner.ts.is_pressed:
+    if detected == target:
+        return True
+```
+The user must show the correct colour to the sensor and confirm using the touch sensor.
+
+**Colour Reroll**
+``` Python
+if self.owner.btn.enter:
+    if time.time() - last_reroll_time >= 10:
+        target = random.choice(colours)
+        last_reroll_time = time.time()
+```
+Allows the user to reroll the target colour after a delay.
+
+**Distance Challenge**
+``` Python
+distance = int(self.owner.uss.distance_centimeters)
+
+if self.owner.ts.is_pressed:
+    if abs(distance - target) <= tolerance:
+        return True
+```
+The user must position the device within a target distance and confirm.
+
+**Gyro Coordination**
+``` Python
+target_angle = random.randint(-60,60)
+angle = self.owner.gy.angle
+
+if abs(angle - target_angle) <= tolerance:
+    remaining -= 1
+    target_angle = random.randint(-60,60)
+```
+The user must rotate the device to match a target angle multiple times.
+
 #### Video of Functionality
+
+#### Issues and Solutions
+
+The original gyro challenge was to have the user match an angle then solve a few simple question, 
+
+### Prototype 5: Fixing issue detected by user testing
+
+#### Discussion
+
+#### Code Snippets
 
 #### Issues and Solutions
 
@@ -763,3 +848,9 @@ This generates a list of challenges by randomly selecting types based on the req
 ### Hardware Documentation
 
 ### Tutorials or Guides Used
+
+## Appendix
+
+#### 1 - User Feedback Research Consent Form
+
+![[IT User Research Form.docx.pdf]]
