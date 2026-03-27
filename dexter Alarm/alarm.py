@@ -46,7 +46,7 @@ SIRENS = {
 }
 
 # Debug mode to speed up countdown (1 second = 1 minute)
-FASTMODE = True
+FASTMODE = False
 
 # == Alarm Class ==
 # Stores a single alarm instance, and handles its logic
@@ -81,7 +81,7 @@ class Alarm():
 
         # Loop until challenges are complete
         while self.ringing:
-            if self.siren == "test1":
+            if self.siren == "Test1":
                 self.sound.play_tone(1200, 0.1)
                 self.sound.play_tone(1800, 0.1)
                 self.sound.play_tone(1400, 0.1)
