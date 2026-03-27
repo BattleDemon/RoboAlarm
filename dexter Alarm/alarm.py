@@ -225,7 +225,7 @@ class Challenge():
     def motor_control_test(self):
         # User must match and hold a specific motor speed
         target_speed = random.randint(300, 750)
-        tolerance = 75
+        tolerance = 150
         hold_time = 3 
 
         start_time = None
@@ -265,7 +265,7 @@ class Challenge():
         tolerance = 2
         target_angle = random.randint(-60,60)
 
-        remaining = 7
+        remaining = 3
 
         self.owner.gy.reset()
 
@@ -781,10 +781,11 @@ class AlarmBot():
 
         self.lcd.text_pixels("Alarm Ringing", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
         self.lcd.text_pixels("Complete Challenges to silence", clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
-        self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
+        #self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
         self.update()
 
-        self.btn.wait_for_pressed(['up', 'down', 'left', 'right', 'enter'])
+        #self.btn.wait_for_pressed(['up', 'down', 'left', 'right', 'enter'])
+        time.sleep(5)
 
         completed = 0
 
@@ -801,10 +802,11 @@ class AlarmBot():
 
             self.lcd.text_pixels("== Challenges ==", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
             self.lcd.text_pixels("Challenges remaining {}".format(len(challenges)-completed), clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
-            self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
+            #self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
             self.update()
 
-            self.btn.wait_for_pressed(['up', 'down', 'left', 'right'])
+            time.sleep(5)
+            #self.btn.wait_for_pressed(['up', 'down', 'left', 'right'])
 
 
         # Stop alarm when all challenges are complete 
