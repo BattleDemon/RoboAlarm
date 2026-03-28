@@ -51,7 +51,7 @@ Dexter Hart
 		- [Discussion](#discussion-5)
 		- [Code Snippets](#code-snippets-5)
 
-	- [Issues and Solutions](#issues-and-solutions)
+- [Issues and Solutions](#issues-and-solutions)
 
 - [Final Design and Capabilities](#final-design-and-capabilities)
 	- [Features](#features)
@@ -869,7 +869,15 @@ Please see the `Videos` folder, `Colour Challange`, `Distance Challange`, and `G
 
 #### Code Snippets
 
-### Issues and Solutions
+## Issues and Solutions
+
+An issue was with using real time for the alarms. I originally planned to use the system time so alarms would go off at actual times. While the time library works, there doesn’t seem to be a proper configurable real time clock available. This meant I couldn’t use the real world time, so I switched to the countdown based system instead.
+
+One issue was that the LED system didn’t match what I originally planned. I assumed each button had its own LED, but in reality only the left and right LEDs existed. This caused errors when trying to use other buttons . To fix this I had to modify the challenge to only use the left and right buttons, which made it easier than intended but still usable.
+
+The gyro challenge went through multiple versions. The original idea (match an angle then answer questions) was too easy, so I tried to make it harder by requiring the user to reach a target angle within a short time multiple times. This ended up being way too chaotic and basically unusable, even with very large tolerances and longer time limits. Because of this I scrapped that version and switched to the current one, where the user just matches a target angle multiple times with a small tolerance, which is much more usable and less chaotic.
+
+Another issue was when I tried to change the font used in `text_pixels`. Doing this caused a massive drop in frame rate and input responsiveness, making the program basically unusable. From testing I believe this is because the font wasn’t stored locally and had to be loaded every time text was drawn, causing a large performance hit. This meant I couldn’t use a larger or clearer font like originally planned, and instead had to stick with the default small font. While this made the display harder to read, it allowed the program to run properly with normal input and frame timing.
 
 ## Final Design and Capabilities
 
@@ -902,4 +910,5 @@ TALK ABOUT ISSUES WITH THE DEVICE AND HOW WHEN PROGRAMMING AT HOME YOU WERE KIND
 
 #### 1 - User Feedback Research Consent Form
 
-![[IT User Research Form.docx.pdf]]
+![[IT User Research Form.docx.pdf#page=1]]
+![[IT User Research Form.docx.pdf#page=2]]
