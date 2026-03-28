@@ -289,53 +289,6 @@ class Challenge():
 
         return True
 
-        # Old GYRO function -- Didn't work because it was to cauotic, increasing time and tolerance did nothing to fix
-
-        '''# User must follow a changing angle
-        tolerance = 5
-        duration = 12
-
-        start_time = time.time()
-        target = random.randint(-90, 90)
-        last_change = time.time()
-
-        while True:
-            angle = self.owner.gy.angle
-
-            # Target changes ever second
-            if time.time() - last_change >= 3:
-                change = random.randint(-20,20)
-                target += change
-                last_change = time.time()
-
-            # Display instructions
-            self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
-            self.owner.lcd.text_pixels("Target: {}".format(target), clear_screen=False, x=10, y=40, text_color='black')
-            self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
-            self.owner.update()
-
-            # If user is not in range tell them and reset
-            if abs(angle - target) > tolerance:
-                self.owner.lcd.text_pixels("Not close enough", clear_screen=False, x=10, y=80, text_color='black')
-                self.owner.update()
-
-                time.sleep(2)
-                start_time = time.time()
-                target = random.randint(-90, 90)
-                last_change = time.time()
-
-            # Stayed within range and display message
-            if time.time() - start_time >= duration:
-                self.owner.lcd.text_pixels("== FOLLOW ANGLE ==", clear_screen=True, x=10, y=20, text_color='black')
-                self.owner.lcd.text_pixels("Followed Correctly", clear_screen=False, x=10, y=60, text_color='black')
-                self.owner.update()
-
-                time.sleep(1)
-
-                return True
-
-            time.sleep(0.2)'''
-
     def colour_recognition(self):
         # User must show correct colour to sensor
         colours = [
