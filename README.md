@@ -48,7 +48,7 @@ Dexter Hart
 		- [Code Snippets](#code-snippets-4)
 		- [Video of Functionality](#video-of-functionality-4)
 	- [Prototype 5: Fixing issue detected by user testing](#prototype-5-fixing-issue-detected-by-user-testing)
-		- [Discussion](#discussion-5)
+		- [User Feedback](#user-feedback)
 		- [Code Snippets](#code-snippets-5)
 
 - [Issues and Solutions](#issues-and-solutions)
@@ -866,6 +866,8 @@ Please see the `Videos` folder, `Colour Challange`, `Distance Challange`, and `G
 ### Prototype 5: Fixing issue detected by user testing
 
 #### User feedback 
+
+In between this and the last prototype i conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers 
 
 One issue was menu navigation skipping options. Some users were moving through the menus and the selector would jump past items. This was most likely caused by input being checked too often without enough delay between reads, meaning a single press could be picked up multiple times. To fix this, a small delay was added between input checks so each press is only registered once.
 
