@@ -62,7 +62,6 @@ Dexter Hart
 	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design)
 	- [What changes would you make?](#what-changes-would-you-make)
 	- [What issues did you experience?](#what-issues-did-you-experience)
-	- [What have you learnt from the project?](#what-have-you-learnt-from-the-project)
 	
 - [Appendix](#appendix)
 	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)
@@ -967,9 +966,6 @@ If I had more time, I would focus more on improving the alarm sound and making i
 ### What issues did you experience?
 
 One major issue during development was working with the device itself. When programming at home, I often could not properly test anything and had to work around things without seeing how the robot would actually behave. Because of this, a lot of time in lessons was spent debugging rather than building new features. Usually the first quarter to half of each lesson was used just to fix issues or test changes.
-
-### What have you learnt from the project?
-
 
 ## Appendix
 
