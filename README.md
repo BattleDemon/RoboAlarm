@@ -712,7 +712,7 @@ This generates a list of challenges by randomly selecting types based on the req
 
 #### Discussion
 
-During this section I added the first set of challenges the user must complete to turn off the alarm. 
+During this section I added the first set of challenges the user must complete to turn off the alarm. Each challenge is defined in their own function in the `Challenge` class
 #### Code Snippets
 
 **LED Memory Game**
@@ -797,7 +797,7 @@ if self.owner.ts.is_pressed:
     if detected == target:
         return True
 ```
-The user must show the correct colour to the sensor and confirm using the touch sensor.
+This checks that the correct colour is being shown and requires a button press to confirm. Which prevents just waving the sensor over coloured objects until it detects the correct colour.
 
 **Colour Reroll**
 ``` Python
