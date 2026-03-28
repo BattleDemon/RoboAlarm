@@ -533,7 +533,7 @@ elif self.btn.right:
 This is the system I used to modify the values, it uses the left and right buttons to either increase of decrease the selected value. If needed it wraps around the value to keep them within the available range. 
 #### Video of Functionality
 
-Please see the `Videos` folder, `Setting Alarm`, and `Editing alarm`.
+Please see the `Videos` folder, `Setting Alarm.mp4`, and `Editing alarm.mp4`.
 ### Prototype 1: Multiple views and Multiple Alarms
 
 #### Discussion
@@ -648,7 +648,7 @@ def view_alarms(self):
 This function displays all stored alarms by iterating through the list and formatting each one for before printing.
 #### Video of Functionality
 
-Please see the `Videos` folder, `Navigating menu`.
+Please see the `Videos` folder, `Navigating menu.mp4`.
 
 ### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
 #### Discussion
@@ -738,7 +738,7 @@ def randomise_challenges(self):
 This generates a list of challenges by randomly selecting types based on the required amount.
 #### Video of Functionality
 
-Please see the `Videos` folder, `Countdown and Ring`.
+Please see the `Videos` folder, `Countdown and Ring.mp4`.
 
 ### Prototype 3: LED and, Motor Challenges
 
@@ -810,7 +810,7 @@ The motor challenge randomises a target speed and then checks if the user is at 
 
 #### Video of Functionality
 
-Please see the `Videos` folder, `Motor Challenge` and `LED Challenge`.
+Please see the `Videos` folder, `Motor Challenge.mp4` and `LED Challenge.mp4`.
 ### Prototype 4: Colour, Gyro and Ultrasonic Challenges
 
 #### Discussion
@@ -862,20 +862,73 @@ The user must rotate the device to match a target angle multiple times.
 
 #### Video of Functionality
 
-Please see the `Videos` folder, `Colour Challange`, `Distance Challange`, and `Gyro Challange`.
+Please see the `Videos` folder, `Colour Challange.mp4`, `Distance Challange.mp4`, and `Gyro Challange.mp4`.
 ### Prototype 5: Fixing issue detected by user testing
 
 #### User feedback 
 
-In between this and the last prototype i conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers 
+In between this and the last prototype i conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers, and asked them questions on the experience as it went. 
 
 One issue was menu navigation skipping options. Some users were moving through the menus and the selector would jump past items. This was most likely caused by input being checked too often without enough delay between reads, meaning a single press could be picked up multiple times. To fix this, a small delay was added between input checks so each press is only registered once.
 
+Another major issue was the gyro sensor. It sometimes constantly reported that the device was rotating negatively even when it was not moving at all. This was inconsistent and seems to be a known hardware problem with EV3 gyro sensors rather than something caused by the code. It is also notable to say that this only happened to one of the testers so if this problem is encountered it should be fixable by re launching the program.
+
 The motor challenge also needed adjustment. Users found that it was too sensitive, where even a small drop or spike in speed would fail the challenge. This made it more frustrating than intended. To fix this, the tolerance range was increased and the extreme speed values were reduced so the challenge is still difficult but more comparable.
+
+There was also feedback about instructions being unclear. In a lot of cases users just ignored them or did not fully understand what they needed to do. This showed that the instructions need to be simpler and more direct
 
 Overall, users still said the system works well as an alarm. The colour challenge was liked the most, and the gyro challenge was fun when it worked properly. The motor challenge was seen as the hardest but some users liked that it felt like a direct challenge rather than just something to get through.
 #### Code Snippets
 
+**Menu Navigation and Sleep time**
+``` Python
+# Before 
+
+time.sleep(0.05)
+
+# Now 
+
+time.sleep(0.1)
+```
+Before the `time.sleep()` was in each input section separately and at a smaller amount to the main menu, for some of the other menus. I fixed this but taking the sleep out of the inputs and making now for `0.1`. 
+
+**Motor range and tolerance fix**
+``` Python
+#BEFORE
+
+target_speed = random.randint(200,750)
+tolerance = 50
+
+#NOW
+
+target_time = random.randint(250,550)
+tolerance = 100
+```
+This reduction in range for the target speed should make easier to actually maintain the speed required, along with the higher tolerance to help maintain it even more. 
+
+**Alarm Deletion**
+``` Python
+# Delete Alarm
+elif self.btn.left:
+	# Only delete if acutally selecting an alarm
+	if selector < len(self.alarms):
+		# Need to hold left for delete
+		pressed_time = time.time()
+		self.btn.wait_for_released('left')
+		end_time = time.time()
+		  
+		if end_time - pressed_time >= 1:
+			deleted_alarm = self.alarms.pop(selector)
+			
+			self.clear_screen()
+			self.lcd.text_pixels("Deleted", clear_screen=False, x=10, y=20, text_color='black', font=USEFONT)
+			self.lcd.text_pixels(deleted_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black', font=USEFONT)
+			self.update()
+			  
+			self.sound.beep()
+			time.sleep(1)
+```
+Although not brought up by any testers it did occur to me that i had not made a way to delete alarms, so I decided to make a way in the `edit_alarm` function in the `state.EDITING` menu.
 ## Issues and Solutions
 
 An issue was with using real time for the alarms. I originally planned to use the system time so alarms would go off at actual times. While the time library works, there doesn’t seem to be a proper configurable real time clock available. This meant I couldn’t use the real world time, so I switched to the countdown based system instead.
@@ -890,12 +943,21 @@ Another issue was when I tried to change the font used in `text_pixels`. Doing t
 
 ### Features
 
+I was able to complete all planned features, although some did require a slight change or redesign. 
+
+The alarm system supports multiple alarms, each with its own time, sound, and number of challenges. Alarms can be created, edited, and viewed through a menu system. When an alarm triggers, it runs a thread and initiates the alarm sequence.
+
+The LED memory game requires the user to repeat a shown pattern using the left and right buttons. The motor challenge requires the user to hold a target speed within a tolerance for a set time. The colour challenge asks the user to match a randomly selected colour and confirm using the touch sensor, with a cooldown before it can be rerolled. The distance challenge uses the ultrasonic sensor to get the device within a target range before confirming. The gyro challenge requires the user to rotate the device to a target angle and repeat this multiple times.
+
+The menus are controlled through a state system, which allows switching between the idle, setting, editing, and viewing menus along with handling the challenges.
+
 ### Final Robot Design
+
+The design stayed the exact same as it was during planning. 
 
 ### Video of Full Use and Capabilities
 
-Please see `Videos` folder, `Final Full`.
-
+Please see `Videos` folder, `Final Full.mp4`. 
 ## Reflection
 
 ### What do you think of the overall design?

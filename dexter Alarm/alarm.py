@@ -225,7 +225,7 @@ class Challenge():
     def motor_control_test(self):
         # User must match and hold a specific motor speed
         target_speed = random.randint(250, 550)
-        tolerance = 150
+        tolerance = 100
         hold_time = 3 
 
         start_time = None
@@ -537,13 +537,11 @@ class AlarmBot():
                 selector -= 1
                 if selector < 0:
                     selector = len(fields) - 1
-                time.sleep(0.05)
 
             elif self.btn.down:
                 selector += 1
                 if selector >= len(fields):
                     selector = 0
-                time.sleep(0.05)
 
             # Modify selected value (down)
             elif self.btn.left:
@@ -563,7 +561,6 @@ class AlarmBot():
                     challenge_amount -= 1
                     if challenge_amount < 1:
                         challenge_amount = 1
-                time.sleep(0.05)
 
             # Modify selected value (up)
             elif self.btn.right:
@@ -583,7 +580,6 @@ class AlarmBot():
                     challenge_amount += 1
                     if challenge_amount > 10:
                         challenge_amount = 10
-                time.sleep(0.05)
 
             elif self.btn.enter:
                 if selector == 4:
@@ -612,7 +608,7 @@ class AlarmBot():
                     # Cancel 
                     self.state = State.IDLE
 
-                time.sleep(0.1)
+            time.sleep(0.1)
 
     def edit_alarm(self):
         # Handle if no alrm exists
@@ -737,7 +733,7 @@ class AlarmBot():
 
             self.update()
 
-            time.sleep(0.5)
+            time.sleep(0.1)
 
     def randomise_challenges(self):
         # Runs challenges untill all are complete
