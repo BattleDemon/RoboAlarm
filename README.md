@@ -865,8 +865,13 @@ The user must rotate the device to match a target angle multiple times.
 Please see the `Videos` folder, `Colour Challange`, `Distance Challange`, and `Gyro Challange`.
 ### Prototype 5: Fixing issue detected by user testing
 
-#### Discussion
+#### User feedback 
 
+One issue was menu navigation skipping options. Some users were moving through the menus and the selector would jump past items. This was most likely caused by input being checked too often without enough delay between reads, meaning a single press could be picked up multiple times. To fix this, a small delay was added between input checks so each press is only registered once.
+
+The motor challenge also needed adjustment. Users found that it was too sensitive, where even a small drop or spike in speed would fail the challenge. This made it more frustrating than intended. To fix this, the tolerance range was increased and the extreme speed values were reduced so the challenge is still difficult but more comparable.
+
+Overall, users still said the system works well as an alarm. The colour challenge was liked the most, and the gyro challenge was fun when it worked properly. The motor challenge was seen as the hardest but some users liked that it felt like a direct challenge rather than just something to get through.
 #### Code Snippets
 
 ## Issues and Solutions
