@@ -42,7 +42,8 @@ class Challenge_types(Enum):
 SIRENS = {
     "test1" : {},
     "test2" : {},
-    "test3" : {}
+    "test3" : {},
+    'other' : {}
 }
 
 # Debug mode to speed up countdown (1 second = 1 minute)
@@ -81,23 +82,38 @@ class Alarm():
 
         # Loop until challenges are complete
         while self.ringing:
-            if self.siren == "Test1":
-                self.sound.play_tone(1200, 0.1)
-                self.sound.play_tone(1800, 0.1)
-                self.sound.play_tone(1400, 0.1)
-                self.sound.play_tone(2000, 0.1)
+            if self.siren == "test1":
+                self.sound.beep()
+                self.sound.beep()
+                time.sleep(0.25)
+                self.sound.beep()
                 time.sleep(0.5)
+
             elif self.siren == "test2":
-                self.sound.play_tone(2000, 0.2)
-                self.sound.play_tone(1500, 0.2)
-                self.sound.play_tone(1000, 0.2)
-                self.sound.play_tone(600, 0.3)
+                self.sound.beep()
+                self.sound.beep()
+                time.sleep(0.1)
+                self.sound.beep()
+                self.sound.beep()
+                time.sleep(0.1)
+                self.sound.beep()
+                time.sleep(0.5)
         
             elif self.siren == "test3":
-                self.sound.play_tone(2500, 0.05)
-                self.sound.play_tone(2500, 0.05)
-                self.sound.play_tone(2500, 0.05)
-                self.sound.play_tone(800, 0.2)
+                self.sound.beep()
+                self.sound.beep()
+                time.sleep(0.25)
+                self.sound.beep()
+                time.sleep(0.5)
+                self.sound.beep()
+                self.sound.beep()
+                time.sleep(0.1)
+                self.sound.beep()
+                self.sound.beep()
+                time.sleep(0.1)
+                self.sound.beep()
+                time.sleep(0.5)
+
             else:
                 self.sound.beep()
                 time.sleep(0.3)
