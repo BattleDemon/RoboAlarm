@@ -812,6 +812,3 @@ while True:
 
     else:
         print("How are you seeing this?")
-
-    #future ideas
-    #   Add more alarm sirens then just beep -- Yes - Doing
