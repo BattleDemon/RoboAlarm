@@ -681,6 +681,7 @@ class AlarmBot():
         while self.state == State.EDITING:
             self.clear_screen()
             self.lcd.text_pixels("Select Alarm", clear_screen=False, x=10, y=10, text_color='black')
+            self.lcd.text_pixels("Hold Left for 1 second to Delete", clear_screen=False, x=10, y=30, text_color='black', font=USEFONT)
 
             y_pos = 35
             i = 0
@@ -730,6 +731,26 @@ class AlarmBot():
                     selected_alarm = self.alarms[selector]
                     self.alarm_editor(existing_alarm=selected_alarm)
                     return
+            
+            # Delete Alarm
+            elif self.btn.left:
+                # Only delete if acutally selecting an alarm
+                if selector < len(self.alarms):
+                    # Need to hold left for delete
+                    pressed_time = time.time()
+                    self.btn.wait_for_released('left')
+                    end_time = time.time()
+
+                    if end_time - pressed_time >= 1:
+                        deleted_alarm = self.alarms.pop(selector)
+
+                        self.clear_screen()
+                        self.lcd.text_pixels("Deleted", clear_screen=False, x=10, y=20, text_color='black', font=USEFONT)
+                        self.lcd.text_pixels(deleted_alarm.alarm_description(), clear_screen=False, x=10, y=40, text_color='black', font=USEFONT)
+                        self.update()
+
+                        self.sound.beep()
+                        time.sleep(1)
 
             time.sleep(0.1)
     
@@ -845,13 +866,3 @@ while True:
 
     #future ideas
     #   Add more alarm sirens then just beep -- Yes - Doing
-    #   A way to delete alarms -- Need
-    #   Show remaining challenges -- Will do -- Done
-
-    '''
-    Major problems this lesson -->     #   Snooze for 5 minutes but after it increases challange amount by 2 and only usable once -- No defeats purpose
-    first gyro was to erratic so change to the current type
-
-    then devcided that font was too small to be usable -->
-    introduced new font but it loaded the font every frame every text pixels making the app unusable
-    '''
