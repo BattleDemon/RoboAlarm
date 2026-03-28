@@ -55,7 +55,6 @@ Dexter Hart
 
 - [Final Design and Capabilities](#final-design-and-capabilities)
 	- [Features](#features)
-	- [Final Testing](#final-testing)
 	- [Final Robot Design](#final-robot-design)
 	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities)
 
@@ -64,8 +63,6 @@ Dexter Hart
 	- [What changes would you make?](#what-changes-would-you-make)
 	- [What issues did you experience?](#what-issues-did-you-experience)
 	- [What have you learnt from the project?](#what-have-you-learnt-from-the-project)
-
-- [Sources](#sources)
 	
 - [Appendix](#appendix)
 	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)
@@ -654,6 +651,7 @@ Please see the `Videos` folder, `Navigating menu.mp4`.
 #### Discussion
 This stage is where I implemented the actual alarm functionality, which used multithreading to fun a countdown in the background. Each alarm runs its own countdown thread, allowing for multiple alarms to be counting down at the same time. When timers complete, it launches a separate thread that handles the ringing of the alarm, as well as the change to the challenge stage. The base for the challenge stage was also developed with the randomising of challenges, and making of the Challenge class.
 #### Code Snippets
+
 **Alarm Countdown**
 ``` Python
 class Alarm():
@@ -867,17 +865,15 @@ Please see the `Videos` folder, `Colour Challange.mp4`, `Distance Challange.mp4`
 
 #### User feedback 
 
-In between this and the last prototype i conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers, and asked them questions on the experience as it went. 
+In between this and the last prototype I conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers, and asked them questions on the experience as it went. 
 
-One issue was menu navigation skipping options. Some users were moving through the menus and the selector would jump past items. This was most likely caused by input being checked too often without enough delay between reads, meaning a single press could be picked up multiple times. To fix this, a small delay was added between input checks so each press is only registered once.
+One issue was menu navigation skipping options. Some users were moving through the menus and the selector would jump past items. This was most likely caused by input being checked too often without enough delay between reads, causing a single press to be picked up multiple times. To fix this, a small delay was added between input checks so each press is only registered once.
 
-Another major issue was the gyro sensor. It sometimes constantly reported that the device was rotating negatively even when it was not moving at all. This was inconsistent and seems to be a known hardware problem with EV3 gyro sensors rather than something caused by the code. It is also notable to say that this only happened to one of the testers so if this problem is encountered it should be fixable by re launching the program.
+Another major issue was the gyro sensor. It sometimes constantly decreased the angle even when it was not moving at all. This was inconsistent with it only happening in one of the tests, and seems to be a known hardware problem with EV3 gyro sensors rather than something caused by the code.
 
-The motor challenge also needed adjustment. Users found that it was too sensitive, where even a small drop or spike in speed would fail the challenge. This made it more frustrating than intended. To fix this, the tolerance range was increased and the extreme speed values were reduced so the challenge is still difficult but more comparable.
+The motor challenge also needed adjustment. Users found that it was too sensitive, where even a small drop or spike in speed would fail the challenge. This made it more challenging and frustrating than intended. To fix this, the tolerance range was increased and the extreme speed values were reduced so the challenge is still difficult but more completable.
 
-There was also feedback about instructions being unclear. In a lot of cases users just ignored them or did not fully understand what they needed to do. This showed that the instructions need to be simpler and more direct
-
-Overall, users still said the system works well as an alarm. The colour challenge was liked the most, and the gyro challenge was fun when it worked properly. The motor challenge was seen as the hardest but some users liked that it felt like a direct challenge rather than just something to get through.
+Overall, users said the system works well as an alarm, and that it would successfully wake them up. The colour challenge was liked the most, and the gyro challenge was fun when it worked properly. The motor challenge was seen as the hardest but some users liked that it was a proper challenge rather than just something to get complete. 
 #### Code Snippets
 
 **Menu Navigation and Sleep time**
@@ -962,17 +958,17 @@ Please see `Videos` folder, `Final Full.mp4`.
 
 ### What do you think of the overall design?
 
+The system feels complete and usable with all planned ideas. The menu system works quite well and is something I am quite proud of. The weakest part of the project is probably the alarm sound itself, since I did not really go beyond using `sound.beep()`. I did experiment with `sound.play_tone()`, but I could not get anything that sounded good or usable
+
 ### What changes would you make?
 
-MORE CHALLENGES AND FIND A WAY TO USE A LARGER FONT 
+If I had more time, I would focus more on improving the alarm sound and making it more interesting or custom. I would also improve the UI by using a larger font, although this would require solving the current font issues first. Another improvement would be adding more variation in the challenges, since at the moment each sensor is basically tied to one challenge. It would be more interesting to combine sensors together to create more complex challenges.
 
 ### What issues did you experience?
 
-TALK ABOUT ISSUES WITH THE DEVICE AND HOW WHEN PROGRAMMING AT HOME YOU WERE KIND OF IN THE DARK AND NEEDED TO SPEND THE FIRST QUARTER OR HALF OF THE LESSON DEBUGGING
+One major issue during development was working with the device itself. When programming at home, I often could not properly test anything and had to work around things without seeing how the robot would actually behave. Because of this, a lot of time in lessons was spent debugging rather than building new features. Usually the first quarter to half of each lesson was used just to fix issues or test changes.
 
 ### What have you learnt from the project?
-
-## Sources
 
 
 ## Appendix
