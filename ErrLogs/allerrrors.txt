@@ -1,0 +1,452 @@
+  File "/home/robot/RoboAlarm/alarm.py", line 52
+    return f"{self.target_time} | {self.siren.name} | {self.challenge_amount} Challenges"
+                                                                                        ^
+SyntaxError: invalid syntax
+
+  File "/home/robot/RoboAlarm/alarm.py", line 59
+    if self.type = Challange_types.LEDMEMORYGAME:
+                 ^
+SyntaxError: invalid syntax
+
+Traceback (most recent call last):
+  File "/home/robot/RoboAlarm/alarm.py", line 38, in <module>
+    base : "TONE SEQUENCE",
+NameError: name 'base' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 181, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 79, in __init__
+    self.uss = UltrasonicSensor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 450, in __init__
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 78, in __init__
+    super(Sensor, self).__init__(self.SYSTEM_CLASS_NAME, name_pattern, name_exact, **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 223, in __init__
+    chain_exception(DeviceNotFound("%s is not connected." % self), None)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ev3dev2.DeviceNotFound: UltrasonicSensor is not connected.
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 183, in <module>
+    while true:
+NameError: name 'true' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 185, in <module>
+    alarm_bot.main_menu()
+AttributeError: 'AlarmBot' object has no attribute 'main_menu'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 191, in <module>
+    alarm_bot.main_menu()
+  File "/home/robot/dexter Alarm/alarm.py", line 120, in main_menu
+    time.wait(0.2)
+AttributeError: module 'time' has no attribute 'wait'
+
+  File "/home/robot/dexter Alarm/alarm.py", line 92
+    def main_menu(self):
+      ^
+IndentationError: expected an indented block
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 188, in <module>
+    alarm_bot.main_menu()
+  File "/home/robot/dexter Alarm/alarm.py", line 104, in main_menu
+    text = menu_items[i]
+NameError: name 'menu_items' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 67, in <module>
+    class AlarmBot():
+  File "/home/robot/dexter Alarm/alarm.py", line 89, in AlarmBot
+    def change_state(self,selector=null,sub_menu=null):
+NameError: name 'null' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 205, in <module>
+    alarm_bot.main_menu()
+  File "/home/robot/dexter Alarm/alarm.py", line 149, in main_menu
+    self.change_state(selector)
+  File "/home/robot/dexter Alarm/alarm.py", line 107, in change_state
+    self.state = state.CHALLENGE
+NameError: name 'state' is not defined
+
+  File "/home/robot/RoboAlarm/alarm.py", line 38
+    base = "TONE SEQUENCE",
+         ^
+SyntaxError: invalid syntax
+
+  File "/home/robot/dexter Alarm/alarm.py", line 92
+    def main_menu(self):
+      ^
+IndentationError: expected an indented block
+
+  File "/home/robot/dexter Alarm/alarm.py", line 196
+    value = f"{hour:02}" # :02 pads the values to always have two numbers "01" but keep as "11"
+                       ^
+SyntaxError: invalid syntax
+
+  File "/home/robot/dexter Alarm/alarm.py", line 212
+    line = f"{prefix}{label}: {value}"
+                                     ^
+SyntaxError: invalid syntax
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 389, in <module>
+    alarm_bot.main_menu()
+  File "/home/robot/dexter Alarm/alarm.py", line 126, in main_menu
+    while self.state == state.IDLE:
+NameError: name 'state' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 392, in <module>
+    alarm_bot.alarm_editor()
+  File "/home/robot/dexter Alarm/alarm.py", line 200, in alarm_editor
+    value = siren_names[siren_index]
+IndexError: list index out of range
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 402, in <module>
+    alarm_bot.view_alarms()
+  File "/home/robot/dexter Alarm/alarm.py", line 373, in view_alarms
+    y += 20
+UnboundLocalError: local variable 'y' referenced before assignment
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 402, in <module>
+    alarm_bot.view_alarms()
+  File "/home/robot/dexter Alarm/alarm.py", line 379, in view_alarms
+    self.lds.update()
+AttributeError: 'AlarmBot' object has no attribute 'lds'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 402, in <module>
+    alarm_bot.view_alarms()
+  File "/home/robot/dexter Alarm/alarm.py", line 379, in view_alarms
+    self.lsd.update()
+AttributeError: 'AlarmBot' object has no attribute 'lsd'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 402, in <module>
+    alarm_bot.view_alarms()
+  File "/home/robot/dexter Alarm/alarm.py", line 381, in view_alarms
+    time.wait(0.2)
+AttributeError: module 'time' has no attribute 'wait'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 406, in <module>
+    alarm_bot.view_alarms()
+  File "/home/robot/dexter Alarm/alarm.py", line 380, in view_alarms
+    self.state = IDLE
+NameError: name 'IDLE' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 403, in <module>
+    alarm_bot.edit_alarm()
+  File "/home/robot/dexter Alarm/alarm.py", line 357, in edit_alarm
+    self.alarm_editor(existing_alarm=selected_alarm)
+  File "/home/robot/dexter Alarm/alarm.py", line 177, in alarm_editor
+    hour_str, minute_str = existing_alarm.target_time.split(":")
+AttributeError: 'int' object has no attribute 'split'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 420, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 134, in __init__
+    self.alarms = [Alarm("08:30","test1",4)]
+  File "/home/robot/dexter Alarm/alarm.py", line 53, in __init__
+    self.thread = threading.Thread(target=self.countdown)
+NameError: name 'threading' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 438, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 144, in __init__
+    self.lm = LargeMotor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/motor.py", line 1118, in __init__
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/motor.py", line 395, in __init__
+    super(Motor, self).__init__(self.SYSTEM_CLASS_NAME, name_pattern, name_exact, **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 223, in __init__
+    chain_exception(DeviceNotFound("%s is not connected." % self), None)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ev3dev2.DeviceNotFound: LargeMotor is not connected.
+
+  File "/home/robot/dexter Alarm/alarm.py", line 49
+    return f"{self.target_time} | {self.siren} | {self.challenge_amount} Challenges"
+                                                                                   ^
+SyntaxError: invalid syntax
+
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 510, in challenge_active
+    Challenge = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
+UnboundLocalError: local variable 'Challenge' referenced before assignment
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 547, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 510, in challenge_active
+    Challenge = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
+UnboundLocalError: local variable 'Challenge' referenced before assignment
+
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 512, in challenge_active
+    for challenge in challenges:
+NameError: name 'challenges' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 547, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 512, in challenge_active
+    for challenge in challenges:
+NameError: name 'challenges' is not defined
+
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 518, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 127, in led_memory_game
+    for i in sequence_amount:
+TypeError: 'int' object is not iterable
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 547, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 518, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 127, in led_memory_game
+    for i in sequence_amount:
+TypeError: 'int' object is not iterable
+
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 519, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 127, in led_memory_game
+    while i < sequence_amount:
+UnboundLocalError: local variable 'i' referenced before assignment
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 548, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 519, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 127, in led_memory_game
+    while i < sequence_amount:
+UnboundLocalError: local variable 'i' referenced before assignment
+
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 520, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 136, in led_memory_game
+    self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+AttributeError: 'AlarmBot' object has no attribute 'ldc'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 549, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 520, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 136, in led_memory_game
+    self.owner.ldc.text_pixels("Remember the order", clear_screen=False, x=10, y=60, text_color='black')
+AttributeError: 'AlarmBot' object has no attribute 'ldc'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 549, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 520, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 111, in run
+    return self.led_memory_game()
+  File "/home/robot/dexter Alarm/alarm.py", line 139, in led_memory_game
+    self.owner.led.set_color(i,'AMBER')
+  File "/usr/lib/python3/dist-packages/ev3dev2/led.py", line 319, in set_color
+    (group, ', '.join(self.led_groups.keys()))
+AssertionError: DOWN is an invalid LED group, valid choices are LEFT, RIGHT
+
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/robot/dexter Alarm/alarm.py", line 72, in ring
+    self.owner.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 510, in challenge_active
+    Challenge = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
+UnboundLocalError: local variable 'Challenge' referenced before assignment
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 546, in <module>
+    elif alarm.state == State.CHALLENGE:
+NameError: name 'alarm' is not defined
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 591, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 271, in __init__
+    self.cs = ColorSensor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 179, in __init__
+    super(ColorSensor, self).__init__(address, name_pattern, name_exact, driver_name='lego-ev3-color', **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 78, in __init__
+    super(Sensor, self).__init__(self.SYSTEM_CLASS_NAME, name_pattern, name_exact, **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 223, in __init__
+    chain_exception(DeviceNotFound("%s is not connected." % self), None)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ev3dev2.DeviceNotFound: ColorSensor is not connected.
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 632, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 606, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 116, in run
+    return self.colour_recognition()
+  File "/home/robot/dexter Alarm/alarm.py", line 229, in colour_recognition
+    self.owner.lcd.text_pixels("Target: {}".format(colours[target]), clear_screen=False, x=10, y=40, text_color='black')
+TypeError: list indices must be integers or slices, not str
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 591, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 272, in __init__
+    self.gy = GyroSensor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 590, in __init__
+    super(GyroSensor, self).__init__(address, name_pattern, name_exact, driver_name='lego-ev3-gyro', **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 78, in __init__
+    super(Sensor, self).__init__(self.SYSTEM_CLASS_NAME, name_pattern, name_exact, **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 223, in __init__
+    chain_exception(DeviceNotFound("%s is not connected." % self), None)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ev3dev2.DeviceNotFound: GyroSensor is not connected.
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 803, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 772, in challenge_active
+    success = challenge.run()
+  File "/home/robot/dexter Alarm/alarm.py", line 137, in run
+    return self.gyro_coordination()
+  File "/home/robot/dexter Alarm/alarm.py", line 271, in gyro_coordination
+    return true
+NameError: name 'true' is not defined
+
+Cannot open font file Lat15-TerminusBold18
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 274, in _set_attribute
+    attribute.write(value)
+OSError: [Errno 22] Invalid argument
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 780, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 412, in __init__
+    self.gy = GyroSensor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 592, in __init__
+    self._init_angle = self.angle
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 600, in angle
+    self._ensure_mode(self.MODE_GYRO_ANG)
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 265, in _ensure_mode
+    self.mode = mode
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 166, in mode
+    self._mode = self.set_attr_string(self._mode, 'mode', value)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 337, in set_attr_string
+    return self._set_attribute(attribute, name, value)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 277, in _set_attribute
+    self._raise_friendly_access_error(ex, name, value)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 297, in _raise_friendly_access_error
+    driver_error)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ValueError: One or more arguments were out of range or invalid, value b'GYRO-ANG'
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 798, in <module>
+    alarm_bot.main_menu()
+  File "/home/robot/dexter Alarm/alarm.py", line 465, in main_menu
+    self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black',font=USEFONT)
+  File "/usr/lib/python3/dist-packages/ev3dev2/display.py", line 383, in text_pixels
+    assert font in fonts.available(), "%s is an invalid font" % font
+AssertionError: Lat15-TerminusBold14 is an invalid font
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 818, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 425, in __init__
+    self.lm = LargeMotor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/motor.py", line 1118, in __init__
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/motor.py", line 395, in __init__
+    super(Motor, self).__init__(self.SYSTEM_CLASS_NAME, name_pattern, name_exact, **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 223, in __init__
+    chain_exception(DeviceNotFound("%s is not connected." % self), None)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ev3dev2.DeviceNotFound: LargeMotor is not connected.
+
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 750, in <module>
+    alarm_bot = AlarmBot()
+  File "/home/robot/dexter Alarm/alarm.py", line 380, in __init__
+    self.uss = UltrasonicSensor()
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/lego.py", line 450, in __init__
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/sensor/__init__.py", line 78, in __init__
+    super(Sensor, self).__init__(self.SYSTEM_CLASS_NAME, name_pattern, name_exact, **kwargs)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 223, in __init__
+    chain_exception(DeviceNotFound("%s is not connected." % self), None)
+  File "/usr/lib/python3/dist-packages/ev3dev2/__init__.py", line 54, in chain_exception
+    raise exception from cause
+ev3dev2.DeviceNotFound: UltrasonicSensor is not connected.

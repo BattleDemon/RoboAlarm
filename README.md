@@ -1,37 +1,74 @@
 # RoboAlarm
 Dexter Hart
 ## Table of Contents
-- [Table of Contents](#table-of-contents) 
-- [Preplanning](#preplanning) 
-	- [Overview](#overview) 
-	- [Setting the Alarm](#setting-the-alarm) 
+- [Table of Contents](#table-of-contents)
+
+- [Preplanning](#preplanning)
+	- [Overview](#overview)
+	- [Setting the Alarm](#setting-the-alarm)
+		- [Editing Alarm](#editing-alarm)
+		- [Setting Multiple Alarms](#setting-multiple-alarms)
+		- [Multiple Views](#multiple-views)
 	- [Challenges](#challenges)
-	- [Robot Design](#robot-design) 
-	- [Development Plan](#development-plan) 
-- [Development](#development) 
-	- [Prototype 0: Setting and Editing the Alarm](#prototype-0-setting-and-editing-the-alarm) 
-	- [Prototype 1: Multiple views and Multiple Alarms](#prototype-1-multiple-views-and-multiple-alarms) 
-	- [Prototype 2: Randomising based on Challenge Level, LED Challenge](#prototype-2-randomising-based-on-challenge-level-led-challenge) 
-	- [Prototype 3: Motor and Ultrasonic Sensor Challenges](#prototype-3-motor-and-ultrasonic-sensor-challenges) 
-	- [Prototype 4: Colour and Gyro Sensor Challenges](#prototype-4-colour-and-gyro-sensor-challenges) 
-- [Final Design and Capabilities](#final-design-and-capabilities) 
-	- [Features](#features) 
-	- [System Architecture](#system-architecture) 
-	- [Final Testing](#final-testing) 
-	- [Final Robot Design](#final-robot-design) 
-	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities) 
-	- [Video of Use from a non-Developer](#video-of-use-from-a-non-developer) 
-- [Reflection](#reflection) 
-	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design) 
-	- [What changes would you make?](#what-changes-would-you-make) 
-	- [What issues did you experience?](#what-issues-did-you-experience) 
-	- [What techniques did you use to solve these issues?](#what-techniques-did-you-use-to-solve-these-issues) 
-	- [What changes would you make if repeating this project?](#what-changes-would-you-make-if-repeating-this-project) 
-	- [What have you learnt from the project?](#what-have-you-learnt-from-the-project) 
-- [Sources](#sources) 
-	- [Code References](#code-references) 
-	- [Hardware Documentation](#hardware-documentation) 
-	- [Tutorials or Guides Used](#tutorials-or-guides-used)`
+		- [Setting Challenges](#setting-challenges)
+		- [0 - LED Memory Game](#0---led-memory-game)
+		- [1 - Motor Control Test](#1---motor-control-test)
+		- [2 - Colour Recognition](#2---colour-recognition)
+		- [3 - Distance Challenge](#3---distance-challenge)
+		- [4 - Gyro Coordination Test](#4-gyro-coordination-test)
+	- [Robot Design](#robot-design)
+		- [Front View](#front-view)
+		- [Back View](#back-view)
+		- [Side View](#side-view)
+		- [Ergonomics and Usability](#ergonomics-and-usability)
+	- [Development Plan](#development-plan)
+		- [Development Flowchart](#development-flowchart)
+		- [User Flowchart](#user-flowchart)
+		- [Pseudocode Code](#pseudocode-code)
+
+- [Development](#development)
+	- [Prototype 0: Setting and Editing the Alarm](#prototype-0-setting-and-editing-the-alarm)
+		- [Discussion](#discussion)
+		- [Code Snippets](#code-snippets)
+		- [Video of Functionality](#video-of-functionality)
+	- [Prototype 1: Multiple views and Multiple Alarms](#prototype-1-multiple-views-and-multiple-alarms)
+		- [Discussion](#discussion-1)
+		- [Code Snippets](#code-snippets-1)
+		- [Video of Functionality](#video-of-functionality-1)
+	- [Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level](#prototype-2-alarm-countdown-ring-and-randomising-based-on-challenge-level)
+		- [Discussion](#discussion-2)
+		- [Code Snippets](#code-snippets-2)
+		- [Video of Functionality](#video-of-functionality-2)
+	- [Prototype 3: LED and, Motor Challenges](#prototype-3-led-and-motor-challenges)
+		- [Discussion](#discussion-3)
+		- [Code Snippets](#code-snippets-3)
+		- [Video of Functionality](#video-of-functionality-3)
+	- [Prototype 4: Colour, Gyro and Ultrasonic Challenges](#prototype-4-colour-gyro-and-ultrasonic-challenges)
+		- [Discussion](#discussion-4)
+		- [Code Snippets](#code-snippets-4)
+		- [Video of Functionality](#video-of-functionality-4)
+	- [Prototype 5: Fixing issue detected by user testing](#prototype-5-fixing-issue-detected-by-user-testing)
+		- [Discussion](#discussion-5)
+		- [Code Snippets](#code-snippets-5)
+
+	- [Issues and Solutions](#issues-and-solutions)
+
+- [Final Design and Capabilities](#final-design-and-capabilities)
+	- [Features](#features)
+	- [Final Testing](#final-testing)
+	- [Final Robot Design](#final-robot-design)
+	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities)
+
+- [Reflection](#reflection)
+	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design)
+	- [What changes would you make?](#what-changes-would-you-make)
+	- [What issues did you experience?](#what-issues-did-you-experience)
+	- [What have you learnt from the project?](#what-have-you-learnt-from-the-project)
+
+- [Sources](#sources)
+	
+- [Appendix](#appendix)
+	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)
 ## Preplanning
 ### Overview
 Many people rely on alarms to wake up in the morning, but normal alarms are often easy to ignore. It is common for people to turn the alarm off or hit snooze and go back to sleep, which can cause them to miss classes, work, or other important events.
@@ -127,9 +164,12 @@ Finally the motor is mounted near the base of the device where it can easily be 
 
 #### Development Flowchart
 
+Below is the planned flowchart for development. 
+
 ![[mermaid-diagram-2026-03-12-121152.png|697]]
 #### User Flowchart
 
+Here is the planned user flow.
 ```mermaid
 stateDiagram-v2
 
@@ -492,14 +532,8 @@ elif self.btn.right:
 ```
 This is the system I used to modify the values, it uses the left and right buttons to either increase of decrease the selected value. If needed it wraps around the value to keep them within the available range. 
 #### Video of Functionality
-Setting Alarm
-[![Prototype 0 Alarm Video](https://img.youtube.com/vi/hbEy-SiOxLg/0.jpg)](https://www.youtube.com/watch?v=hbEy-SiOxLg)
-Editing Alarm
-[![Prototype 0 editing Alarm Video](https://img.youtube.com/vi/KhXL--Def_I/0.jpg)](https://www.youtube.com/watch?v=KhXL--Def_I)
-#### Issues and Solutions
 
-
-
+Please see the `Videos` folder, `Setting Alarm`, and `Editing alarm`.
 ### Prototype 1: Multiple views and Multiple Alarms
 
 #### Discussion
@@ -614,8 +648,7 @@ def view_alarms(self):
 This function displays all stored alarms by iterating through the list and formatting each one for before printing.
 #### Video of Functionality
 
-[![Prototype 1 Video](https://img.youtube.com/vi/Oehxe4O6rOM/0.jpg)](https://www.youtube.com/watch?v=Oehxe4O6rOM)
-#### Issues and Solutions
+Please see the `Videos` folder, `Navigating menu`.
 
 ### Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level
 #### Discussion
@@ -705,14 +738,13 @@ def randomise_challenges(self):
 This generates a list of challenges by randomly selecting types based on the required amount.
 #### Video of Functionality
 
-[![Prototype 2 - Countdown and ring](https://img.youtube.com/vi/qBtYPUpfrMU/0.jpg)](https://www.youtube.com/shorts/qBtYPUpfrMU)
-#### Issues and Solutions
+Please see the `Videos` folder, `Countdown and Ring`.
 
 ### Prototype 3: LED and, Motor Challenges
 
 #### Discussion
 
-During this section I added the first set of challenges the user must complete to turn off the alarm. Each challenge is defined in their own function in the `Challenge` class
+During this section I added the first set of challenges the user must complete to turn off the alarm. Each challenge is defined in their own function in the `Challenge` class and run through a controller function `Challenge.run()`. The LED challenge uses the left and right buttons to display a sequence, which the user must replicate. While the motor gets the user to attempt to match the shown speed within a range.
 #### Code Snippets
 
 **LED Memory Game**
@@ -774,17 +806,16 @@ if abs(current_speed - target_speed) <= tolerance:
 else:
     start_time = None
 ```
-Describe
+The motor challenge randomises a target speed and then checks if the user is at that speed or within the tolerance. The user needs to hold that speed for three seconds, which currently is quite difficult at the low and high speeds and might need adjusting. 
 
 #### Video of Functionality
 
-#### Issues and Solutions
-
-The LED challenge didn't go entirely to plan, with the original plan assuming the LED's were on each of the buttons, but it turned out that they were only on the left and right buttons. So the sequence had to be restricted to just these buttons. Making the challenge easier than i originally planned.
-
+Please see the `Videos` folder, `Motor Challenge` and `LED Challenge`.
 ### Prototype 4: Colour, Gyro and Ultrasonic Challenges
 
 #### Discussion
+
+During this section I added the remaining challenges required to turn off the alarm. The colour challenge requires the user to show a specific colour and confirm using the touch sensor. The distance challenge requires the user to position the device within a target range. While the gyro challenge gets the user to match a target angle multiple times.
 
 #### Code Snippets
 
@@ -831,31 +862,24 @@ The user must rotate the device to match a target angle multiple times.
 
 #### Video of Functionality
 
-#### Issues and Solutions
-
-The original gyro challenge was to have the user match an angle then solve a few simple question, 
-
+Please see the `Videos` folder, `Colour Challange`, `Distance Challange`, and `Gyro Challange`.
 ### Prototype 5: Fixing issue detected by user testing
 
 #### Discussion
 
 #### Code Snippets
 
-#### Issues and Solutions
+### Issues and Solutions
 
 ## Final Design and Capabilities
 
 ### Features
 
-### System Architecture
-
-### Final Testing
-
 ### Final Robot Design
 
 ### Video of Full Use and Capabilities
 
-### Video of Use from a non-Developer
+Please see `Videos` folder, `Final Full`.
 
 ## Reflection
 
@@ -863,21 +887,16 @@ The original gyro challenge was to have the user match an angle then solve a few
 
 ### What changes would you make?
 
+MORE CHALLENGES AND FIND A WAY TO USE A LARGER FONT 
+
 ### What issues did you experience?
 
-### What techniques did you use to solve these issues?
-
-### What changes would you make if repeating this project?
+TALK ABOUT ISSUES WITH THE DEVICE AND HOW WHEN PROGRAMMING AT HOME YOU WERE KIND OF IN THE DARK AND NEEDED TO SPEND THE FIRST QUARTER OR HALF OF THE LESSON DEBUGGING
 
 ### What have you learnt from the project?
 
 ## Sources
 
-### Code References
-
-### Hardware Documentation
-
-### Tutorials or Guides Used
 
 ## Appendix
 
