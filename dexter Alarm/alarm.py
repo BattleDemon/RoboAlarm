@@ -76,6 +76,7 @@ class Alarm():
 
     def ring(self):
         # Switches AlarmBot into challange mode
+        # Checks if an alarm is already running if so put this in que
         if self.owner.active_alarm is not None:
             self.owner.alarms_que = self
             return
@@ -483,6 +484,15 @@ class AlarmBot():
             if self.btn.enter:
                 self.change_state(selection=selector)
 
+            # Allow a way for the fast mode to be turned on while running
+            if self.ts.pressed:
+                start_time = time.time()
+
+                ts.wait_for_released()
+
+                if time.time() - start_time <= 5:
+                    FASTMODE = not FASTMODE 
+
             time.sleep(0.1)
 
     def alarm_editor(self, existing_alarm=None):
@@ -843,3 +853,9 @@ while True:
 
     else:
         print("How are you seeing this?")
+
+
+# Tim did you know you can make angry comments?
+# !Angry
+# Normal 
+# !Angry
