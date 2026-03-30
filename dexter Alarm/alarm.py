@@ -76,12 +76,13 @@ class Alarm():
 
     def ring(self):
         # Switches AlarmBot into challange mode
-        while self.owner.active_alarm is not None:
-            time.sleep(5)
-        
-        self.owner.active_alarm = self
-        self.owner.state = State.CHALLENGE
-        self.ringing = True
+        if self.owner.active_alarm is not None:
+            self.owner.alarms_que = self
+            return
+        else:
+            self.owner.active_alarm = self
+            self.owner.state = State.CHALLENGE
+            self.ringing = True
 
         # Loop until challenges are complete
         while self.ringing:
@@ -398,6 +399,7 @@ class AlarmBot():
 
         # Alarms
         self.alarms = [Alarm(self,"01:00","test1",1)]
+        self.alarms_que = []
         self.active_alarm = None
 
         # Challenges and Menu Options in Main
@@ -796,7 +798,15 @@ class AlarmBot():
         # Stop alarm when all challenges are complete 
         self.active_alarm.ringing = False
         self.active_alarm = None
+
+        self.check_alarm_que()
+
         self.state = State.IDLE
+
+    def check_alarm_que(self):
+        if self.alarms_que != []:
+            next_alarm = self.alarm_que.pop(0)
+            next_alarm.ring_thread.start()
 
 # == Program Starts ==
 alarm_bot = AlarmBot()
