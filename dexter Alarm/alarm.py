@@ -81,7 +81,12 @@ class Alarm():
             return
         else:
             self.owner.active_alarm = self
-            self.owner.state = State.CHALLENGE
+            if self.owner.state == State.CHALLENGE:
+                # This is needed because it checks if there a multiple alarms before leaving the challenge func (before state.IDLE),
+                # meaning if i were to just change the state to challenge it would not run the challenges
+                self.owner.challenge_active()
+            else:
+                self.owner.state = State.CHALLENGE
             self.ringing = True
 
         # Loop until challenges are complete
@@ -803,10 +808,12 @@ class AlarmBot():
 
         self.state = State.IDLE
 
+    # Before I was just sleeping for a bit then checking again to handle multiple alarms but i releised this could create a race case if multiple are waiting to ring
     def check_alarm_que(self):
+        # Checks if there is a waiting alarm
         if self.alarms_que != []:
-            next_alarm = self.alarm_que.pop(0)
-            next_alarm.ring_thread.start()
+            next_alarm = self.alarm_que.pop(0) # Removes it 
+            next_alarm.ring_thread.start() # Starts the ringing thread
 
 # == Program Starts ==
 alarm_bot = AlarmBot()
