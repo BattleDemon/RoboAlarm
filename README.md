@@ -864,7 +864,7 @@ Please see the `Videos` folder, `Colour Challange.mp4`, `Distance Challange.mp4`
 
 #### User feedback 
 
-In between this and the last prototype I conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers, and asked them questions on the experience as it went. 
+In between this and the last prototype, I conducted some research into what users though about this device. I had five people use my alarm, with two minutes navigating the menus, editing and making alarms, followed by the remaining time them handling the alarm ringing and the challenges to turn it off. I gave minimal explanation and support to the testers, and asked them questions on the experience as it went. 
 
 One issue was menu navigation skipping options. Some users were moving through the menus and the selector would jump past items. This was most likely caused by input being checked too often without enough delay between reads, causing a single press to be picked up multiple times. To fix this, a small delay was added between input checks so each press is only registered once.
 
