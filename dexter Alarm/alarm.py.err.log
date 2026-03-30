@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/robot/dexter Alarm/alarm.py", line 828, in <module>
+    alarm_bot.challenge_active()
+  File "/home/robot/dexter Alarm/alarm.py", line 767, in challenge_active
+    challenges = [Challenge(self,GYROCOORDINATION)]
+NameError: name 'GYROCOORDINATION' is not defined

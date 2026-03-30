@@ -47,7 +47,7 @@ SIRENS = {
 }
 
 # Debug mode to speed up countdown (1 second = 1 minute)
-FASTMODE = False
+FASTMODE = True
 
 # == Alarm Class ==
 # Stores a single alarm instance, and handles its logic
@@ -76,6 +76,9 @@ class Alarm():
 
     def ring(self):
         # Switches AlarmBot into challange mode
+        while self.owner.active_alarm is not None:
+            time.sleep(5)
+        
         self.owner.active_alarm = self
         self.owner.state = State.CHALLENGE
         self.ringing = True
@@ -400,7 +403,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         # Alarms
-        self.alarms = [Alarm(self,"00:02","test1",4)]
+        self.alarms = [Alarm(self,"00:02","test1",1),Alarm(self,"00:30","test2",1)]
         self.active_alarm = None
 
         # Challenges and Menu Options in Main
@@ -763,7 +766,8 @@ class AlarmBot():
         return challenges
 
     def challenge_active(self):
-        challenges = self.randomise_challenges()
+        self.challenges = self.randomise_challenges()
+        #challenges = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
 
         self.lcd.text_pixels("Alarm Ringing", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
         self.lcd.text_pixels("Complete Challenges to silence", clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
@@ -775,7 +779,7 @@ class AlarmBot():
 
         completed = 0
 
-        for challenge in challenges:
+        for challenge in self.challenges:
             success = False
 
             while not success:
@@ -787,7 +791,7 @@ class AlarmBot():
                 completed += 1
 
             self.lcd.text_pixels("== Challenges ==", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
-            self.lcd.text_pixels("Challenges remaining {}".format(len(challenges)-completed), clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
+            self.lcd.text_pixels("Challenges remaining {}".format(len(self.challenges)-completed), clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
             #self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
             self.update()
 
