@@ -126,23 +126,17 @@ class Alarm():
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
 
     def countdown(self):
-        minutes_pased = 0
-
         while True:
             # When timer ends it triggers the alarm
             if self.target_hour == 0 and self.target_minute == 0:
                 self.ring_thread.start()
                 break
-
-            self.target_minute -= 1 
-            minutes_pased += 1
-
-            # Rolls over hour
-            if minutes_pased == 60:
-                minutes_pased = 0
+            
+            if self.target_minute == 0:
                 self.target_hour -= 1
-                if self.target_hour < 0:
-                    self.target_hour = 0
+                self.target_minute = 60
+
+            self.target_minute -= 1
 
             # Fast debugging / testing mode and real time
             if FASTMODE:
@@ -403,12 +397,12 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         # Alarms
-        self.alarms = [Alarm(self,"00:02","test1",1),Alarm(self,"00:30","test2",1)]
+        self.alarms = [Alarm(self,"01:00","test1",1)]
         self.active_alarm = None
 
         # Challenges and Menu Options in Main
-        self.challenges = []
-        self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"]
+        self.challenges = [] # IDk why i didn't make this a local variable
+        self.menu_items = ["Set Alarm", "Edit Alarm", "View Alarms"] # same with this. But its done now why change
 
     def clear_screen(self):
         # Helper to clear screens quicker 
