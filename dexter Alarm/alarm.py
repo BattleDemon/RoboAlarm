@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # === Import === 
+# EV3 Imports
 from ev3dev2.sensor import INPUT_2, INPUT_3, INPUT_4,  INPUT_1
 from ev3dev2.sensor.lego import *
 from ev3dev2.motor import *
@@ -9,7 +10,7 @@ from ev3dev2.button import *
 from ev3dev2.display import *
 from ev3dev2.fonts import *
 from ev3dev2.led import Leds
-
+# Other Imports
 from enum import Enum
 from datetime import datetime
 from threading import *
@@ -150,10 +151,12 @@ class Alarm():
                 self.ring_thread.start()
                 break
             
+            # Handle hours 
             if self.target_minute == 0:
                 self.target_hour -= 1
                 self.target_minute = 60
 
+            # Countdown minute
             self.target_minute -= 1
 
             # Fast debugging / testing mode and real time
@@ -171,7 +174,7 @@ class Alarm():
 class Challenge():
     def __init__(self,owner, challenge_type=Challenge_types):
         self.type = challenge_type
-        self.owner = owner
+        self.owner = owner  # Refrence to the alarmbot
 
     def run(self):
         # Runs correct challenge from type
@@ -192,8 +195,9 @@ class Challenge():
         # Only able to use these LEDS/Buttons
         led_buttons = ["LEFT","RIGHT"]
 
+        # Randomises the amount of elements in the order
         sequence_amount = random.randint(3,6)
-        led_sequence = []
+        led_sequence = [] 
 
         i = 0
         while i < sequence_amount:
@@ -223,11 +227,13 @@ class Challenge():
             try_sequence = []
             pressed = 0
 
+            # Get the users input sequence
             while pressed < sequence_amount:
                 if self.owner.btn.left:
                     try_sequence.append("LEFT")
                     pressed += 1
                     self.owner.btn.wait_for_released('LEFT')
+
                 if self.owner.btn.right:
                     try_sequence.append("RIGHT")
                     pressed += 1
@@ -263,7 +269,7 @@ class Challenge():
 
         while True:
             current_speed = self.owner.lm.speed
-            current_speed = abs(int(current_speed))
+            current_speed = abs(int(current_speed)) # Get speed ingnore forward or back
 
             # Display instructions
             self.owner.lcd.text_pixels("== MOTOR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
@@ -293,21 +299,26 @@ class Challenge():
             time.sleep(0.3)
 
     def gyro_coordination(self):
+        # Gyro tolerance 
         tolerance = 2
-        target_angle = random.randint(-60,60)
+        target_angle = random.randint(-60,60) # Ransomise the angle 
 
-        remaining = 3
+        remaining = 3 # Have to do more than one 
 
         self.owner.gy.reset()
 
+        # Loops while you havent done all 3
         while remaining > 0:
+            # Updates the angle
             angle = self.owner.gy.angle
 
+            # Ui and Instructions
             self.owner.lcd.text_pixels("== Match Angle ==", clear_screen=True, x=10, y=20, text_color='black')
             self.owner.lcd.text_pixels("Target: {}".format(target_angle), clear_screen=False, x=10, y=40, text_color='black')
             self.owner.lcd.text_pixels("Angle: {}".format(int(angle)), clear_screen=False, x=10, y=60, text_color='black')
             self.owner.update()
 
+            # Check if the angle is in range
             if abs(angle - target_angle) <= tolerance:
                 self.owner.lcd.text_pixels("== Match Angle ==", clear_screen=True, x=10, y=20, text_color='black')
                 self.owner.lcd.text_pixels("Good", clear_screen=False, x=10, y=60, text_color='black')
@@ -315,6 +326,7 @@ class Challenge():
 
                 time.sleep(2)
 
+                # Reduces the remaining angles and randomises
                 remaining -= 1
                 target_angle = random.randint(-60,60)
 
