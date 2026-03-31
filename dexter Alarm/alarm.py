@@ -80,6 +80,7 @@ class Alarm():
         self.countdown_thread = Thread(target=self.countdown)
         self.countdown_thread.daemon = True
         self.countdown_thread.start()
+        self.counting_down = True
 
         # Thread for alarm ringing
         self.ring_thread = Thread(target=self.ring)
@@ -145,7 +146,7 @@ class Alarm():
         self.target_time = "{}:{}".format(self.target_hour,self.target_minute)
 
     def countdown(self):
-        while True:
+        while self.counting_down:
             # When timer ends it triggers the alarm
             if self.target_hour == 0 and self.target_minute == 0:
                 self.ring_thread.start()
@@ -687,6 +688,8 @@ class AlarmBot():
 
                     # Remove the old version of the alarm
                     if existing_alarm is not None:
+                        # Stops the thread and removes old
+                        existing_alarm.counting_down = False
                         self.alarms.remove(existing_alarm)
 
                     # Save the configured infromation as a new alarm then push to the list
@@ -802,7 +805,9 @@ class AlarmBot():
                     end_time = time.time()
 
                     if end_time - pressed_time >= 1:
+                        # Delete alarm and stop it's thread
                         deleted_alarm = self.alarms.pop(selector)
+                        deleted_alarm.counting_down = False
 
                         self.clear_screen()
                         self.lcd.text_pixels("Deleted", clear_screen=False, x=10, y=20, text_color='black', font=USEFONT)

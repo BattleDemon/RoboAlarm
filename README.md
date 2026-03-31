@@ -941,6 +941,36 @@ if self.target_minute == 0:
 ```
 Also through my own testing I realised that my initial hour countdown, used previously didn't work, so I made this new version that actually works. 
 
+**Handle Multiple Alarms** 
+``` Python
+# BEFORE
+# In alarm class ring function
+while self.owner.active_alarm is not None:
+    time.sleep(5)
+
+# NOW
+# In alarm class ring function
+if self.owner.active_alarm is not None:
+	self.owner.alarms_que = self
+	return
+	
+else:
+	self.owner.active_alarm = self
+	if self.owner.state == State.CHALLENGE:
+		self.owner.challenge_active()
+		
+	else:
+		self.owner.state = State.CHALLENGE
+		
+self.ringing = True
+
+# In Alarmbot 
+def check_alarm_que(self):
+	if self.alarms_que != []:
+		next_alarm = self.alarm_que.pop(0)
+		next_alarm.ring_thread.start()
+```
+Before to handle multiple alarms it just waited 5 seconds then checked again but this created a race case if multiple alarms were in the queue, with one been able to successfully rewrite active alarm, and the other been forgotten. This new version keeps the alarms in a queue, then runs them one by one adding any new if need be. 
 ## Issues and Solutions
 
 An issue was with using real time for the alarms. I originally planned to use the system time so alarms would go off at actual times. While the time library works, there doesn’t seem to be a proper configurable real time clock available. This meant I couldn’t use the real world time, so I switched to the countdown based system instead.
