@@ -388,7 +388,9 @@ class Challenge():
         tolerance = 3
 
         while True:
+            # Updates the current distance
             distance = self.owner.uss.distance_centimeters
+            # Rounds from a float to an int
             distance = int(distance)
 
             # Display instructions
@@ -400,6 +402,7 @@ class Challenge():
 
             # Confirm same way as colour
             if self.owner.ts.is_pressed:
+                # Check if it is in the correct range
                 if abs(distance - target) <= tolerance:
                     self.owner.sound.beep()
                     self.owner.lcd.text_pixels("== DISTANCE ==", clear_screen=True, x=10, y=20, text_color='black')
@@ -417,15 +420,17 @@ class Challenge():
 class AlarmBot():
     def __init__(self):
 
+        # Set the menu state into idle
         self.state = State.IDLE
 
+        # Initialise all the used Motors, Sensors, and inputs/outputs
         self.led = Leds()
         self.lcd = Display()
         self.btn = Button()
         self.sound = Sound()
 
         self.lm = LargeMotor()
-        self.lm.stop(stop_action='coast')
+        self.lm.stop(stop_action='coast') # Makes easier to turn (for Motor Challenge)
     
         self.uss = UltrasonicSensor()
         self.cs = ColorSensor()
@@ -433,7 +438,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         # Alarms
-        self.alarms = [Alarm(self,"01:00","test1",1)]
+        self.alarms = [Alarm(self,"01:00","test1",1)] 
         self.alarms_que = []
         self.active_alarm = None
 
@@ -450,6 +455,9 @@ class AlarmBot():
         self.lcd.update()
 
     def change_state(self, selection=None, sub_menu=None):
+        # My original plan for this was to use it as a form of controller but aside from the main menu, 
+        # I ended up just changing the state and putting this inside a while in correct state
+
         # Handles transition between modes from menu input
         if selection is not None:
             if selection >= len(self.menu_items):
@@ -478,6 +486,7 @@ class AlarmBot():
             # Print Title
             self.lcd.text_pixels("== RoboAlarm ==", clear_screen=False, x=10, y=20, text_color='black',font=USEFONT)
 
+            # Y Position for ui and current index
             y_pos = 35
             i = 0
 
@@ -493,20 +502,23 @@ class AlarmBot():
 
                 self.lcd.text_pixels(text,clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
 
-                y_pos += 15
-                i += 1
+                # Increment y position and index
+                y_pos += 15 
+                i += 1 
             
-            self.update()
+            self.update() # Update UI
 
             # Navigation logic
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
-                    selector = len(self.menu_items) - 1
+                    # Wrap around
+                    selector = len(self.menu_items) - 1 
 
             if self.btn.down:
                 selector += 1
                 if selector > len(self.menu_items):
+                    # Wrap around
                     selector = 0 
 
             # Selection confirmation
@@ -519,6 +531,7 @@ class AlarmBot():
 
                 ts.wait_for_released()
 
+                # Only changes if held touch sensor for 5 seconds 
                 if time.time() - start_time <= 5:
                     FASTMODE = not FASTMODE 
 
@@ -530,31 +543,37 @@ class AlarmBot():
 
         # Initialise values depending on if create or edit
         if existing_alarm is None:
-            hour = 7
+            hour = 8 # Since its a countdown now the alarm is initialy set to the required sleep for an adult
             minute = 0
             siren_index = 0
             challenge_amount = 1
             title = "== Set Alarm =="
+
         else:
             # Loads values from existing alarm
             self.state = State.SETTING
             hour_str, minute_str = existing_alarm.target_time.split(":")
+            # Turn from a string into an Int
             hour = int(hour_str)
             minute = int(minute_str)
 
+            # Get the siren index (this is why it can't be a bool)
             siren_index = siren_names.index(existing_alarm.siren)
 
             challenge_amount = existing_alarm.challenge_amount
             title = "== Edit Alarm =="
 
-        # Editable fields
+        # Editable fields 
         fields = ["Hour", "Minute", "Siren", "Challenges", "Save", "Cancel"]
         selector = 0
 
+        # Editing Loop
         while self.state == State.SETTING:
+            # Clear screen then display title
             self.clear_screen()
             self.lcd.text_pixels(title, clear_screen=False, x=10, y=10, text_color='black',font=USEFONT)
 
+            # Set y position and index
             y_pos = 30
             i = 0
 
@@ -562,6 +581,7 @@ class AlarmBot():
             while i < len(fields):
                 label = fields[i]
 
+                # Update all the elements to show their values
                 if label == "Hour":
                     value = "{:02d}".format(hour)
                 elif label == "Minute":
@@ -585,21 +605,27 @@ class AlarmBot():
                 else:
                     line = "{}{}".format(prefix,label)
 
+                # Display line 
                 self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
+
+                # Increment the y position and index
                 y_pos += 15
                 i += 1
 
+            # Display UI to screen
             self.update()
 
             # Move selction up/down
             if self.btn.up:
                 selector -= 1
                 if selector < 0:
+                    # Wrap around
                     selector = len(fields) - 1
 
             elif self.btn.down:
                 selector += 1
                 if selector >= len(fields):
+                    # Wrap around
                     selector = 0
 
             # Modify selected value (down)
@@ -607,15 +633,20 @@ class AlarmBot():
                 if selector == 0:
                     hour -= 1
                     if hour < 0:
-                        hour = 23
+                        # Wrap around to full day
+                        hour = 24
+
                 elif selector == 1:
                     minute -= 1
                     if minute < 0:
+                        # Wrap around to end of hour
                         minute = 59
+
                 elif selector == 2:
                     siren_index -= 1
                     if siren_index < 0:
                         siren_index = len(siren_names) - 1
+                        
                 elif selector == 3:
                     challenge_amount -= 1
                     if challenge_amount < 1:
