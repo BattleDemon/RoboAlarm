@@ -344,11 +344,14 @@ class Challenge():
             "Brown"
         ]
 
+        # Randomises the target colour and sets the reroll time
         target = random.choice(colours)
         last_reroll_time = time.time()
 
+        # Loops
         while True:
-            detected = self.owner.cs.color_name
+            # Get the detected colour
+            detected = self.owner.cs.color_name 
 
             # Display Instructions
             self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
@@ -360,6 +363,7 @@ class Challenge():
 
             # Confirm with touch sensor (so you can't just wave the sensor around until it detects correct)
             if self.owner.ts.is_pressed:
+                # Checks if the colour is correct 
                 if detected == target:
                     self.owner.lcd.text_pixels("== COLOUR TEST ==", clear_screen=True, x=10, y=20, text_color='black')
                     self.owner.lcd.text_pixels("Correct", clear_screen=False, x=10, y=80, text_color='black')
@@ -370,9 +374,11 @@ class Challenge():
 
             # Reroll after delay (incase no colour near) but not availble until 10 seconds 
             if self.owner.btn.enter:
+                # Checks if the time has elapsed 
                 if time.time() - last_reroll_time >= 10:
+                    # Randomised colour and resets the time
                     target = random.choice(colours)
-                    last_reroll_time = time.time()
+                    last_reroll_time = time.time() 
 
             time.sleep(0.1)
 
