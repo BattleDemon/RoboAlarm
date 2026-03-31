@@ -924,6 +924,23 @@ elif self.btn.left:
 			time.sleep(1)
 ```
 Although not brought up by any testers it did occur to me that i had not made a way to delete alarms, so I decided to make a way in the `edit_alarm` function in the `state.EDITING` menu.
+
+**Updated Countdown**
+``` Python
+# BEFORE
+if minutes_pased == 60:
+	minutes_pased = 0
+	self.target_hour -= 1
+	if self.target_hour < 0:
+		self.target_hour = 0
+
+# NOW
+if self.target_minute == 0:
+	self.target_hour -= 1
+	self.target_minute = 60
+```
+Also through my own testing I realised that my initial hour countdown, used previously didn't work, so I made this new version that actually works. 
+
 ## Issues and Solutions
 
 An issue was with using real time for the alarms. I originally planned to use the system time so alarms would go off at actual times. While the time library works, there doesn’t seem to be a proper configurable real time clock available. This meant I couldn’t use the real world time, so I switched to the countdown based system instead.
