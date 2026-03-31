@@ -914,6 +914,7 @@ elif self.btn.left:
 		  
 		if end_time - pressed_time >= 1:
 			deleted_alarm = self.alarms.pop(selector)
+			deleted_alarm.counting_down = False # Stops countdown thread
 			
 			self.clear_screen()
 			self.lcd.text_pixels("Deleted", clear_screen=False, x=10, y=20, text_color='black', font=USEFONT)
@@ -922,8 +923,9 @@ elif self.btn.left:
 			  
 			self.sound.beep()
 			time.sleep(1)
+			
 ```
-Although not brought up by any testers it did occur to me that i had not made a way to delete alarms, so I decided to make a way in the `edit_alarm` function in the `state.EDITING` menu.
+Although not brought up by any testers it did occur to me that i had not made a way to delete alarms, so I decided to make a way in the `edit_alarm` function in the `state.EDITING` menu. This also stops the countdown thread preventing from that still going off after its countdown. 
 
 **Updated Countdown**
 ``` Python
