@@ -535,6 +535,8 @@ class AlarmBot():
                 # Only changes if held touch sensor for 5 seconds 
                 if time.time() - start_time <= 5:
                     FASTMODE = not FASTMODE 
+                    self.sound.beep()
+                    self.sound.beep()
 
             time.sleep(0.1)
 
