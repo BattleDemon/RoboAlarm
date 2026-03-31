@@ -1,5 +1,6 @@
 # RoboAlarm
 <center>Dexter Hart</center>
+
 ## Table of Contents
 - [Table of Contents](#table-of-contents) <span style="float:right;">p.01</span>
 
@@ -72,7 +73,7 @@
 
 ## Testing Notice
 
-Hi Tim, just wanted to let you know that for testing I have made a way to turn on and off the fast countdown in while running, to do this hold down the touch sensor while in the main menu for five seconds, the robot will beep two times, then every second is equivalent to 1 minute. 
+Hi Tim, just wanted to let you know that for testing I have made a way to turn on and off the fast countdown in the main menu while running, to do so hold down the touch sensor for five seconds, release the touch sensor, then the robot will beep two times. After this all countdowns will run at 60 times speed. Note it will need to finish the prior minute before changing to these faster speeds.
 
 ## Preplanning
 ### Overview

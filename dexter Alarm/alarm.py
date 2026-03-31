@@ -928,6 +928,7 @@ alarm_bot.sound.beep()
 # == Main loop ==
 # State machine soft of thing
 while True:
+    time.sleep(0.5) # Prevents changing mode then instanty clicking into the next menu
     if alarm_bot.state == State.IDLE:
         alarm_bot.main_menu()
 
