@@ -2,72 +2,72 @@
 <center>Dexter Hart</center>
 
 ## Table of Contents
-- [Table of Contents](#table-of-contents) <span style="float:right;">p.01</span>
+- [Table of Contents](#table-of-contents) <span style="float:right;">Pg.01</span>
 
-- [Testing Notice](#testing-notice) <span style="float:right;">p.03</span>
+- [Testing Notice](#testing-notice) <span style="float:right;">Pg.03</span>
 
-- [Preplanning](#preplanning) <span style="float:right;">p.03</span>
-	- [Overview](#overview) <span style="float:right;">p.03</span>
-	- [Setting the Alarm](#setting-the-alarm)<span style="float:right;">p.03</span>
-		- [Editing Alarm](#editing-alarm)<span style="float:right;">p.04</span>
-		- [Setting Multiple Alarms](#setting-multiple-alarms)<span style="float:right;">p.04</span>
-		- [Multiple Views](#multiple-views)<span style="float:right;">p.04</span>
-	- [Challenges](#challenges)<span style="float:right;">p.04</span>
-		- [Setting Challenges](#setting-challenges)<span style="float:right;">p.04</span>
-		- [0 - LED Memory Game](#0---led-memory-game)<span style="float:right;">p.05</span>
-		- [1 - Motor Control Test](#1---motor-control-test)<span style="float:right;">p.05</span>
-		- [2 - Colour Recognition](#2---colour-recognition)<span style="float:right;">p.05</span>
-		- [3 - Distance Challenge](#3---distance-challenge)<span style="float:right;">p.05</span>
-		- [4 - Gyro Coordination Test](#4-gyro-coordination-test)<span style="float:right;">p.06</span>
-	- [Robot Design](#robot-design)<span style="float:right;">p.06</span>
-		- [Front View](#front-view)<span style="float:right;">p.07</span>
-		- [Back View](#back-view)<span style="float:right;">p.08</span>
-		- [Side View](#side-view)<span style="float:right;">p.09</span>
-		- [Ergonomics and Usability](#ergonomics-and-usability)<span style="float:right;">p.14</span>
-	- [Development Plan](#development-plan)<span style="float:right;">p.14</span>
-		- [Development Flowchart](#development-flowchart)<span style="float:right;">p.14</span>
-		- [User Flowchart](#user-flowchart)<span style="float:right;">p.15</span>
-		- [Pseudocode Code](#pseudocode-code)<span style="float:right;">p.16</span>
+- [Preplanning](#preplanning) <span style="float:right;">Pg.03</span>
+	- [Overview](#overview) <span style="float:right;">Pg.03</span>
+	- [Setting the Alarm](#setting-the-alarm)<span style="float:right;">Pg.03</span>
+		- [Editing Alarm](#editing-alarm)<span style="float:right;">Pg.04</span>
+		- [Setting Multiple Alarms](#setting-multiple-alarms)<span style="float:right;">Pg.04</span>
+		- [Multiple Views](#multiple-views)<span style="float:right;">Pg.04</span>
+	- [Challenges](#challenges)<span style="float:right;">Pg.04</span>
+		- [Setting Challenges](#setting-challenges)<span style="float:right;">Pg.04</span>
+		- [0 - LED Memory Game](#0---led-memory-game)<span style="float:right;">Pg.05</span>
+		- [1 - Motor Control Test](#1---motor-control-test)<span style="float:right;">Pg.05</span>
+		- [2 - Colour Recognition](#2---colour-recognition)<span style="float:right;">Pg.05</span>
+		- [3 - Distance Challenge](#3---distance-challenge)<span style="float:right;">Pg.05</span>
+		- [4 - Gyro Coordination Test](#4-gyro-coordination-test)<span style="float:right;">Pg.06</span>
+	- [Robot Design](#robot-design)<span style="float:right;">Pg.06</span>
+		- [Front View](#front-view)<span style="float:right;">Pg.07</span>
+		- [Back View](#back-view)<span style="float:right;">Pg.08</span>
+		- [Side View](#side-view)<span style="float:right;">Pg.09</span>
+		- [Ergonomics and Usability](#ergonomics-and-usability)<span style="float:right;">Pg.14</span>
+	- [Development Plan](#development-plan)<span style="float:right;">Pg.14</span>
+		- [Development Flowchart](#development-flowchart)<span style="float:right;">Pg.14</span>
+		- [User Flowchart](#user-flowchart)<span style="float:right;">Pg.15</span>
+		- [Pseudocode Code](#pseudocode-code)<span style="float:right;">Pg.16</span>
 
-- [Development](#development)<span style="float:right;">p.19</span>
-	- [Prototype 0: Setting and Editing the Alarm](#prototype-0-setting-and-editing-the-alarm)<span style="float:right;">p.19</span>
-		- [Discussion<span style="float:right;">p.19</span>](#discussion)
-		- [Code Snippets](#code-snippets)<span style="float:right;">p.19</span>
-		- [Video of Functionality](#video-of-functionality)<span style="float:right;">p.23</span>
-	- [Prototype 1: Multiple views and Multiple Alarms](#prototype-1-multiple-views-and-multiple-alarms)<span style="float:right;">p.24</span>
-		- [Discussion](#discussion-1)<span style="float:right;">p.24</span>
-		- [Code Snippets](#code-snippets-1)<span style="float:right;">p.24</span>
-		- [Video of Functionality](#video-of-functionality-1)<span style="float:right;">p.26</span>
-	- [Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level](#prototype-2-alarm-countdown-ring-and-randomising-based-on-challenge-level)<span style="float:right;">p.27</span>
-		- [Discussion](#discussion-2)<span style="float:right;">p.27</span>
-		- [Code Snippets](#code-snippets-2)<span style="float:right;">p.27</span>
-		- [Video of Functionality](#video-of-functionality-2)<span style="float:right;">p.29</span>
-	- [Prototype 3: LED and, Motor Challenges](#prototype-3-led-and-motor-challenges)<span style="float:right;">p.30</span>
-		- [Discussion<span style="float:right;">p.30</span>](#discussion-3)
-		- [Code Snippets](#code-snippets-3)<span style="float:right;">p.30</span>
-		- [Video of Functionality](#video-of-functionality-3)<span style="float:right;">p.31</span>
-	- [Prototype 4: Colour, Gyro and Ultrasonic Challenges](#prototype-4-colour-gyro-and-ultrasonic-challenges) <span style="float:right;">p.32</span>
-		- [Discussion](#discussion-4)<span style="float:right;">p.32</span>
-		- [Code Snippets](#code-snippets-4)<span style="float:right;">p.32</span>
-		- [Video of Functionality](#video-of-functionality-4)<span style="float:right;">p.33</span>
-	- [Prototype 5: Fixing issue detected by user testing](#prototype-5-fixing-issue-detected-by-user-testing)<span style="float:right;">p.34</span>
-		- [User Feedback](#user-feedback)<span style="float:right;">p.34</span>
-		- [Code Snippets](#code-snippets-5)<span style="float:right;">p.34</span>
+- [Development](#development)<span style="float:right;">Pg.19</span>
+	- [Prototype 0: Setting and Editing the Alarm](#prototype-0-setting-and-editing-the-alarm)<span style="float:right;">Pg.19</span>
+		- [Discussion<span style="float:right;">Pg.19</span>](#discussion)
+		- [Code Snippets](#code-snippets)<span style="float:right;">Pg.19</span>
+		- [Video of Functionality](#video-of-functionality)<span style="float:right;">Pg.23</span>
+	- [Prototype 1: Multiple views and Multiple Alarms](#prototype-1-multiple-views-and-multiple-alarms)<span style="float:right;">Pg.24</span>
+		- [Discussion](#discussion-1)<span style="float:right;">Pg.24</span>
+		- [Code Snippets](#code-snippets-1)<span style="float:right;">Pg.24</span>
+		- [Video of Functionality](#video-of-functionality-1)<span style="float:right;">Pg.26</span>
+	- [Prototype 2: Alarm Countdown, Ring, and Randomising based on Challenge Level](#prototype-2-alarm-countdown-ring-and-randomising-based-on-challenge-level)<span style="float:right;">Pg.27</span>
+		- [Discussion](#discussion-2)<span style="float:right;">Pg.27</span>
+		- [Code Snippets](#code-snippets-2)<span style="float:right;">Pg.27</span>
+		- [Video of Functionality](#video-of-functionality-2)<span style="float:right;">Pg.29</span>
+	- [Prototype 3: LED and, Motor Challenges](#prototype-3-led-and-motor-challenges)<span style="float:right;">Pg.30</span>
+		- [Discussion<span style="float:right;">Pg.30</span>](#discussion-3)
+		- [Code Snippets](#code-snippets-3)<span style="float:right;">Pg.30</span>
+		- [Video of Functionality](#video-of-functionality-3)<span style="float:right;">Pg.31</span>
+	- [Prototype 4: Colour, Gyro and Ultrasonic Challenges](#prototype-4-colour-gyro-and-ultrasonic-challenges) <span style="float:right;">Pg.32</span>
+		- [Discussion](#discussion-4)<span style="float:right;">Pg.32</span>
+		- [Code Snippets](#code-snippets-4)<span style="float:right;">Pg.32</span>
+		- [Video of Functionality](#video-of-functionality-4)<span style="float:right;">Pg.33</span>
+	- [Prototype 5: Fixing issue detected by user testing](#prototype-5-fixing-issue-detected-by-user-testing)<span style="float:right;">Pg.34</span>
+		- [User Feedback](#user-feedback)<span style="float:right;">Pg.34</span>
+		- [Code Snippets](#code-snippets-5)<span style="float:right;">Pg.34</span>
 
-- [Issues and Solutions](#issues-and-solutions)<span style="float:right;">p.38</span>
+- [Issues and Solutions](#issues-and-solutions)<span style="float:right;">Pg.38</span>
 
-- [Final Design and Capabilities](#final-design-and-capabilities)<span style="float:right;">p.39</span>
-	- [Features](#features)<span style="float:right;">p.39</span>
-	- [Final Robot Design](#final-robot-design)<span style="float:right;">p.39</span>
-	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities) <span style="float:right;">p.39</span>
+- [Final Design and Capabilities](#final-design-and-capabilities)<span style="float:right;">Pg.39</span>
+	- [Features](#features)<span style="float:right;">Pg.39</span>
+	- [Final Robot Design](#final-robot-design)<span style="float:right;">Pg.39</span>
+	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities) <span style="float:right;">Pg.39</span>
 
-- [Reflection](#reflection)<span style="float:right;">p.40</span>
-	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design)<span style="float:right;">p.40</span>
-	- [What changes would you make?](#what-changes-would-you-make)<span style="float:right;">p.40</span>
-	- [What issues did you experience?](#what-issues-did-you-experience)<span style="float:right;">p.40</span>
+- [Reflection](#reflection)<span style="float:right;">Pg.40</span>
+	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design)<span style="float:right;">Pg.40</span>
+	- [What changes would you make?](#what-changes-would-you-make)<span style="float:right;">Pg.40</span>
+	- [What issues did you experience?](#what-issues-did-you-experience)<span style="float:right;">Pg.40</span>
 	
-- [Appendix](#appendix) <span style="float:right;">p.41</span>
-	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)<span style="float:right;">p.41</span>
+- [Appendix](#appendix) <span style="float:right;">Pg.41</span>
+	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)<span style="float:right;">Pg.41</span>
 
 <div style="page-break-after: always;"></div>
 
@@ -77,9 +77,9 @@ Hi Tim, just wanted to let you know that for testing I have made a way to turn o
 
 ## Preplanning
 ### Overview
-Many people rely on alarms to wake up in the morning, but normal alarms are often easy to ignore. It is common for people to turn the alarm off or hit snooze and go back to sleep, which can cause them to miss classes, work, or other important events.
+Many people rely on alarms to wake up in the morning, but some normal alarms are often easy to ignore. Because of this it is common for people to turn their alarms off or hit snooze to go back to sleep, which can cause them to miss classes, work, or other important events.
 
-To help solve this problem I designed RoboAlarm, a robotic alarm system that actively helps the user wake up. The device allows the user to set alarms, choose from a range of alarm sounds, and select how much help they need waking up. Instead of simply turning the alarm off, the user must complete a number of small challenges before the alarm will stop. These challenges require physical or mental interaction with the robot, making it much harder for the user to fall back asleep.
+To help solve this problem I designed this RoboAlarm, a robotic alarm system that tries to actively helps the user wake up. The device allows the user to set alarms, choose from a range of alarm sounds, and select how much help they need waking up. Instead of simply turning the alarm off, the user must complete a number of small challenges before the alarm will stop. These challenges require physical or mental interaction with the robot, making it much harder for the user to fall back asleep.
 
 ### Setting the Alarm
 When setting the alarm the system will first determine the current time. This may be retrieved automatically if the CPU has access to a real time clock. If this is not available the time will need to be entered manually.
@@ -1016,13 +1016,23 @@ Before to handle multiple alarms it just waited 5 seconds then checked again but
 
 ## Issues and Solutions
 
+**Real Time and Time based Alarms**
 An issue was with using real time for the alarms. I originally planned to use the system time so alarms would go off at actual times. While the time library works, there doesn’t seem to be a proper configurable real time clock available. This meant I couldn’t use the real world time, so I switched to the countdown based system instead.
 
+**LED's only on two Buttons**
 One issue was that the LED system didn’t match what I originally planned. I assumed each button had its own LED, but in reality only the left and right LEDs existed. This caused errors when trying to use other buttons . To fix this I had to modify the challenge to only use the left and right buttons, which made it easier than intended but still usable.
 
+**Gyro Complexities**
 The gyro challenge went through multiple versions. The original idea (match an angle then answer questions) was too easy, so I tried to make it harder by requiring the user to reach a target angle within a short time multiple times. This ended up being way too chaotic and basically unusable, even with very large tolerances and longer time limits. Because of this I scrapped that version and switched to the current one, where the user just matches a target angle multiple times with a small tolerance, which is much more usable and less chaotic.
 
+**Small font or large font the troubles of both**
 Another issue was when I tried to change the font used in `text_pixels`. Doing this caused a massive drop in frame rate and input responsiveness, making the program basically unusable. From testing I believe this is because the font wasn’t stored locally and had to be loaded every time text was drawn, causing a large performance hit. This meant I couldn’t use a larger or clearer font like originally planned, and instead had to stick with the default small font. While this made the display harder to read, it allowed the program to run properly with normal input and frame timing.
+
+**Hours is ours trouble**
+An issue which I though wasn't one for quite a while, was the hour section of the alarm countdown. Initially the logic I had made to handle the hour ticking over was clunky and didn't end up working, unfortunately it took me a while to realise this since I had only been testing alarms that would go off after a few minutes before I came up with the `fastmode`. To fix this I crapped my original countdown version and instead use the above shown version, which actually works. 
+
+**Multi alarms win a race**
+Another issue I though I had already dealt with is multiple alarms, which I had created a way to have multiple at the same time but hadn't actually allowed multiple to be ringing. Initially my solution to this was to just `time.sleep(5)` while within a loop this would allow it to keep the alarm in stand by as it waited for the active on to be finished. But what this version did not handle was when multiple alarms are in this queue, in which cases it would cause a race case with both trying to become the active alarm. To fix this I instead added the `alarms_que` list to store all the alarms attempting to run, this list is then checked after completing the current alarm, and if there is an alarm in it it will start that or the first alarm in the list. 
 
 <div style="page-break-after: always;"></div>
 
@@ -1052,7 +1062,7 @@ Please see `Videos` folder, `Final Full.mp4`.
 
 ### What do you think of the overall design?
 
-The system feels complete and usable with all planned ideas. The menu system works quite well and is something I am quite proud of. The weakest part of the project is probably the alarm sound itself, since I did not really go beyond using `sound.beep()`. I did experiment with `sound.play_tone()`, but I could not get anything that sounded good or usable
+The system feels complete and usable with all planned ideas. The menu system works quite well and is something I am quite proud of. The weakest part of the project is probably the alarm sound itself, since I did not really go beyond using `sound.beep()`. I did experiment with `sound.play_tone()`, but I could not get anything that sounded good or I believed was usable.
 
 ### What changes would you make?
 
