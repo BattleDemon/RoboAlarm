@@ -1077,7 +1077,7 @@ One major issue during development was working with the device itself. When prog
 <div style="page-break-after: always;"></div>
 ### What techniques did you use to solve issues?
 
-To solve many of the issues I encountered I first, attempted to located the problematic section of code, I would then see if changing that fixed the issue and if not I would then redo a larger section of code trying a few times like this, if that failed I would redo that entire function or reaction often entirely changing the initial idea. I also often slept on some issue or returned to them a few hours later with the hope of seeing it from another angle.
+To solve many of the issues I encountered I first, attempted to locate the problematic sections of code, I would then see if changing that fixed the issue and if not I would then redo a larger section of code trying a few times like this, if that failed I would redo that entire function or reaction often entirely changing the initial idea. I also often slept on some issue or returned to them a few hours later with the hope of seeing it from another angle.
 
 ### What changes would you make if repeating this project?
 
