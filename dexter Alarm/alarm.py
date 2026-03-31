@@ -645,30 +645,38 @@ class AlarmBot():
                 elif selector == 2:
                     siren_index -= 1
                     if siren_index < 0:
+                        # Wrap around to last siren
                         siren_index = len(siren_names) - 1
-                        
+
                 elif selector == 3:
                     challenge_amount -= 1
                     if challenge_amount < 1:
+                        # Set minimum challenge amount
                         challenge_amount = 1
 
             # Modify selected value (up)
             elif self.btn.right:
                 if selector == 0:
                     hour += 1
-                    if hour > 23:
-                        hour = 0
+                    if hour > 24:
+                        # Wrap around to no hours
+                        hour = 0 
+
                 elif selector == 1:
                     minute += 1
                     if minute > 59:
+                        # Wrap to no minutes
                         minute = 0
+
                 elif selector == 2:
                     siren_index += 1
                     if siren_index >= len(siren_names):
                         siren_index = 0
+
                 elif selector == 3:
                     challenge_amount += 1
                     if challenge_amount > 10:
+                        # Cap challenge amount to 10
                         challenge_amount = 10
 
             elif self.btn.enter:
@@ -677,9 +685,11 @@ class AlarmBot():
                     alarm_time = "{:02d}:{:02d}".format(hour,minute)
                     siren = siren_names[siren_index]
 
+                    # Remove the old version of the alarm
                     if existing_alarm is not None:
                         self.alarms.remove(existing_alarm)
 
+                    # Save the configured infromation as a new alarm then push to the list
                     new_alarm = Alarm(self,alarm_time, siren, challenge_amount)
                     self.alarms.append(new_alarm)
 
@@ -692,7 +702,8 @@ class AlarmBot():
                     self.sound.beep()
                     time.sleep(1)
 
-                    self.state = State.IDLE
+                    # Return to main menu
+                    self.state = State.IDLE 
 
                 elif selector == 5:
                     # Cancel 
