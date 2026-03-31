@@ -17,7 +17,8 @@ import os
 import time
 import random
 
-# Using helvB14 causes a massive latency or similar spike, my theory is it loads the font from memory for each text pixel to screen instead of saving a local address (a lot of compute for little)
+# Using helvB14 causes a massive latency or similar spike,
+# my theory is it loads the font from memory for each text pixel to screen instead of saving a local address (a lot of compute for little)
 USEFONT = None #'helvB14'
 
 # == State Enum == 
@@ -856,6 +857,11 @@ while True:
 
 
 # Tim did you know you can make angry comments?
-# !Angry
+# !Angry ( On my theme this appears red) it might not be angry on yours, if so that is sad
+
+# It turns out there are other types 
+
 # Normal 
 # !Angry
+# *Calm
+# ?Sad
