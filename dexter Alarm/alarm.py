@@ -59,7 +59,7 @@ SIRENS = {
 }
 
 # Debug mode to speed up countdown (1 second = 1 minute)
-FASTMODE = True
+FASTMODE = False
 
 # == Alarm Class ==
 # Stores a single alarm instance, and handles its logic
