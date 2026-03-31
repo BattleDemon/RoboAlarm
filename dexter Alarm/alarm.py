@@ -59,7 +59,6 @@ SIRENS = {
 }
 
 # Debug mode to speed up countdown (1 second = 1 minute)
-FASTMODE = False
 
 # == Alarm Class ==
 # Stores a single alarm instance, and handles its logic
@@ -161,7 +160,7 @@ class Alarm():
             self.target_minute -= 1
 
             # Fast debugging / testing mode and real time
-            if FASTMODE:
+            if self.owner.fastmode:
                 time.sleep(1)
             else:
                 time.sleep(60)
@@ -424,6 +423,8 @@ class AlarmBot():
         # Set the menu state into idle
         self.state = State.IDLE
 
+        self.fastmode = False
+
         # Initialise all the used Motors, Sensors, and inputs/outputs
         self.led = Leds()
         self.lcd = Display()
@@ -439,7 +440,7 @@ class AlarmBot():
         self.ts = TouchSensor()
 
         # Alarms
-        self.alarms = [Alarm(self,"01:00","test1",1)] 
+        self.alarms = [] 
         self.alarms_que = []
         self.active_alarm = None
 
@@ -527,14 +528,14 @@ class AlarmBot():
                 self.change_state(selection=selector)
 
             # Allow a way for the fast mode to be turned on while running
-            if self.ts.pressed:
+            if self.ts.is_pressed:
                 start_time = time.time()
 
-                ts.wait_for_released()
+                self.ts.wait_for_released()
 
                 # Only changes if held touch sensor for 5 seconds 
-                if time.time() - start_time <= 5:
-                    FASTMODE = not FASTMODE 
+                if time.time() - start_time >= 5:
+                    self.fastmode = not self.fastmode 
                     self.sound.beep()
                     self.sound.beep()
 
@@ -741,7 +742,7 @@ class AlarmBot():
             # Clear then add UI
             self.clear_screen()
             self.lcd.text_pixels("Select Alarm", clear_screen=False, x=10, y=10, text_color='black')
-            self.lcd.text_pixels("Hold Left for 1 second to Delete", clear_screen=False, x=10, y=30, text_color='black', font=USEFONT)
+            self.lcd.text_pixels("Hold Left for 1 second to Delete", clear_screen=False, x=10, y=20, text_color='black', font=USEFONT)
 
             # Set Y Position and Index
             y_pos = 35
