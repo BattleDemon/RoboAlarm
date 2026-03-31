@@ -714,6 +714,7 @@ class AlarmBot():
     def edit_alarm(self):
         # Handle if no alrm exists
         if len(self.alarms) == 0:
+            # Clear screen and set Ui
             self.lcd.clear()
             self.lcd.text_pixels("== Edit Alarm ==", clear_screen=False, x=10, y=10, text_color='black',font=USEFONT)
             self.lcd.text_pixels("No alarms set", clear_screen=False, x=10, y=35, text_color='black',font=USEFONT)
@@ -723,21 +724,27 @@ class AlarmBot():
             while not self.btn.enter:
                 time.sleep(0.05)
             
+            # Return to main menu
             self.state = State.IDLE
             return
 
+        # Create the cursor 
         selector = 0
 
+        # Loops while still editing, breaks if state chnages (alarm goes off or other)
         while self.state == State.EDITING:
+            # Clear then add UI
             self.clear_screen()
             self.lcd.text_pixels("Select Alarm", clear_screen=False, x=10, y=10, text_color='black')
             self.lcd.text_pixels("Hold Left for 1 second to Delete", clear_screen=False, x=10, y=30, text_color='black', font=USEFONT)
 
+            # Set Y Position and Index
             y_pos = 35
             i = 0
 
             # Display all alarms
             while i < len(self.alarms):
+                # Get the first alarm and its description
                 alarm = self.alarms[i]
                 line = alarm.alarm_description()
 
@@ -747,8 +754,10 @@ class AlarmBot():
                 else:
                     line = "   " + line
 
+                # add the alarm and pointer if selected
                 self.lcd.text_pixels(line, clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
 
+                # Increment Y position and index
                 y_pos += 15
                 i += 1
 
@@ -757,6 +766,7 @@ class AlarmBot():
             if selector == len(self.alarms):
                 self.lcd.text_pixels(">> Back", clear_screen=False, x=10, y=y_pos + 5, text_color='black',font=USEFONT)
 
+            # Display UI
             self.update()
 
             # Menu navigation
