@@ -56,18 +56,20 @@
 
 - [Issues and Solutions](#issues-and-solutions)<span style="float:right;">Pg.38</span>
 
-- [Final Design and Capabilities](#final-design-and-capabilities)<span style="float:right;">Pg.39</span>
-	- [Features](#features)<span style="float:right;">Pg.39</span>
-	- [Final Robot Design](#final-robot-design)<span style="float:right;">Pg.39</span>
-	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities) <span style="float:right;">Pg.39</span>
+- [Final Design and Capabilities](#final-design-and-capabilities)<span style="float:right;">Pg.40</span>
+	- [Features](#features)<span style="float:right;">Pg.40</span>
+	- [Final Robot Design](#final-robot-design)<span style="float:right;">Pg.40</span>
+	- [Video of Full Use and Capabilities](#video-of-full-use-and-capabilities) <span style="float:right;">Pg.40</span>
 
-- [Reflection](#reflection)<span style="float:right;">Pg.40</span>
-	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design)<span style="float:right;">Pg.40</span>
-	- [What changes would you make?](#what-changes-would-you-make)<span style="float:right;">Pg.40</span>
-	- [What issues did you experience?](#what-issues-did-you-experience)<span style="float:right;">Pg.40</span>
+- [Reflection](#reflection)<span style="float:right;">Pg.41</span>
+	- [What do you think of the overall design?](#what-do-you-think-of-the-overall-design)<span style="float:right;">Pg.41</span>
+	- [What changes would you make?](#what-changes-would-you-make)<span style="float:right;">Pg.41</span>
+	- [What issues did you experience?](#what-issues-did-you-experience)<span style="float:right;">Pg.41</span>
+	- [What Changes would you make if Repeating this project]()<span style="float:right;">Pg.42</span>
+	- [What have you learnt from the project?]()<span style="float:right;">Pg.42</span>
 	
-- [Appendix](#appendix) <span style="float:right;">Pg.41</span>
-	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)<span style="float:right;">Pg.41</span>
+- [Appendix](#appendix) <span style="float:right;">Pg.43</span>
+	- [1 - User Feedback Research Consent Form](#1---user-feedback-research-consent-form)<span style="float:right;">Pg.43</span>
 
 <div style="page-break-after: always;"></div>
 
@@ -1064,7 +1066,7 @@ Please see `Videos` folder, `Final Full.mp4`.
 
 The system feels complete and usable with all planned ideas. The menu system works quite well and is something I am quite proud of. The weakest part of the project is probably the alarm sound itself, since I did not really go beyond using `sound.beep()`. I did experiment with `sound.play_tone()`, but I could not get anything that sounded good or I believed was usable.
 
-### What changes would you make?
+### What changes would you make, if you had more time?
 
 If I had more time, I would focus more on improving the alarm sound and making it more interesting or custom. I would also improve the UI by using a larger font, although this would require solving the current font issues first. Another improvement would be adding more variation in the challenges, since at the moment each sensor is basically tied to one challenge. It would be more interesting to combine sensors together to create more complex challenges.
 
@@ -1073,6 +1075,16 @@ If I had more time, I would focus more on improving the alarm sound and making i
 One major issue during development was working with the device itself. When programming at home, I often could not properly test anything and had to work around things without seeing how the robot would actually behave. Because of this, a lot of time in lessons was spent debugging rather than building new features. Usually the first quarter to half of each lesson was used just to fix issues or test changes.
 
 <div style="page-break-after: always;"></div>
+### What techniques did you use to solve issues?
+
+To solve many of the issues I encountered I first, attempted to located the problematic section of code, I would then see if changing that fixed the issue and if not I would then redo a larger section of code trying a few times like this, if that failed I would redo that entire function or reaction often entirely changing the initial idea. I also often slept on some issue or returned to them a few hours later with the hope of seeing it from another angle.
+
+### What changes would you make if repeating this project?
+
+If I were to repeat this project I would attempt to come up with more challenges, as some of my peers ideas were quite interesting and could be added into my version, such as Hugo's matching the sound challenge which was very fun to use and I believe with some edits could be a good challenge for my project. I also would spend more time trying to come up with a proper alarm sound rather than just my beeps. It would also be interesting to come up with a more interesting menu / UI system as mine although I like it does often seem a bit clunky and could be better 
+### What have you learnt from the project?
+
+This project has taught me how to deal with complex systems which don't have any form of intellisense and other syntax highlighting. This made it harder to do the actual programming this compounded with the system using an older version of Python created some errors due to its changed syntax Eg. `!var` as we use in Python 3 instead had to be `Not var` .  This project also taught me, how to manage dealing with robotic systems and how to deal with problems when your unable to physically test on the device. This was done through some of this project I had a regular Python script which copied the logic of this, but instead of using the robot used the terminal and keyboard / mouse input. 
 
 ## Appendix
 
