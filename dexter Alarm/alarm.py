@@ -52,7 +52,7 @@ class Challenge_types(Enum):
 # This could of also been an enum but i have already writen things that need it to be a dictionary so it will stay a dictionary
 # == Siren Sounds ==
 SIRENS = {
-    "test1" : {},
+    "test1" : {}, # IDK what to name these alarms 
     "test2" : {},
     "test3" : {},
     'other' : {}
@@ -851,11 +851,12 @@ class AlarmBot():
         challenge_amount = self.active_alarm.challenge_amount
         challenges = []
 
+        # Randomise for each challenge its type and add to list
         for i in range(challenge_amount):
             challenge_type = random.choice(list(Challenge_types))
             challenges.append(Challenge(self,challenge_type))
 
-        return challenges
+        return challenges 
 
     def challenge_active(self):
         self.challenges = self.randomise_challenges()
@@ -895,8 +896,10 @@ class AlarmBot():
         self.active_alarm.ringing = False
         self.active_alarm = None
 
+        # Make sure there isn't an alarm in the que
         self.check_alarm_que()
 
+        # Returns to main menu
         self.state = State.IDLE
 
     # Before I was just sleeping for a bit then checking again to handle multiple alarms but i releised this could create a race case if multiple are waiting to ring
