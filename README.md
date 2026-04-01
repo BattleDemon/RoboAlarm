@@ -1054,6 +1054,13 @@ The menus are controlled through a state system, which allows switching between 
 
 The design stayed the exact same as it was during planning. 
 
+### UI Design
+
+Below are some screen shots of the UI
+
+
+
+
 ### Video of Full Use and Capabilities
 
 Please see `Videos` folder, `Final Full.mp4`. 
