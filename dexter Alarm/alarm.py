@@ -19,9 +19,9 @@ import time
 import random
 
 # Tim before we get to the code, did you know you can make angry comments?
-# !Angry ( On my theme this appears red) it might not be angry on yours, if so that is sad
+# !Angry (On my theme this appears red) it might not be angry on yours, if so that is sad
 
-# It turns out there are other types 
+# It also turns out there are other types 
 
 # Normal 
 # !Angry
