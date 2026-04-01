@@ -1082,6 +1082,7 @@ To solve many of the issues I encountered I first, attempted to locate the probl
 ### What changes would you make if repeating this project?
 
 If I were to repeat this project I would attempt to come up with more challenges, as some of my peers ideas were quite interesting and could be added into my version, such as Hugo's matching the sound challenge which was very fun to use and I believe with some edits could be a good challenge for my project. I also would spend more time trying to come up with a proper alarm sound rather than just my beeps. It would also be interesting to come up with a more interesting menu / UI system as mine although I like it does often seem a bit clunky and could be better.
+
 ### What have you learnt from the project?
 
 This project has taught me how to deal with complex systems which don't have any form of intellisense and other syntax highlighting. This made it harder to do the actual programming this compounded with the system using an older version of Python created some errors due to its changed syntax Eg. `!var` as we use in Python 3 instead had to be `Not var` .  This project also taught me, how to manage dealing with robotic systems and how to deal with problems when your unable to physically test on the device. This was done through some of this project I had a regular Python script which copied the logic of this, but instead of using the robot used the terminal and keyboard / mouse input. 

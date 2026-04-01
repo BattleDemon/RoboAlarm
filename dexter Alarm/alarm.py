@@ -18,7 +18,7 @@ import os
 import time
 import random
 
-# Tim did you know you can make angry comments?
+# Tim before we get to the code, did you know you can make angry comments?
 # !Angry ( On my theme this appears red) it might not be angry on yours, if so that is sad
 
 # It turns out there are other types 
@@ -49,7 +49,7 @@ class Challenge_types(Enum):
     DISTANCECHALLENGE = 3
     GYROCOORDINATION = 4
 
-# This could of also been an enum but i have already writen things that need it to be a dictionary so it will stay a dictionary
+# This could of also been an enum but i have already written things that need it to be a dictionary so it will stay a dictionary
 # == Siren Sounds ==
 SIRENS = {
     "test1" : {}, # IDK what to name these alarms 
@@ -65,7 +65,7 @@ SIRENS = {
 class Alarm():
     def __init__(self, owner, target_time, siren, challenge_amount): 
         self.owner = owner      # Reference to AlarmBot
-        self.sound = Sound()
+        self.sound = Sound() 
         self.siren = siren
         self.target_time = target_time
         self.challenge_amount = challenge_amount
@@ -829,15 +829,19 @@ class AlarmBot():
             self.lcd.text_pixels("== Alarm List ==", 10, 10,font=USEFONT)
             self.lcd.text_pixels(" Press enter to leave", 10, 30)
 
+            # Create y position and index
             y_pos = 45
             i = 0
 
             # List all alarms
             while i < len(self.alarms):
+                # Get alarm at index
                 alarm = self.alarms[i]
                 
+                # Display the alarms data
                 self.lcd.text_pixels(alarm.alarm_description(), clear_screen=False, x=10, y=y_pos, text_color='black',font=USEFONT)
 
+                # Increment y position and index
                 y_pos += 20
                 i += 1
 
@@ -867,37 +871,43 @@ class AlarmBot():
         return challenges 
 
     def challenge_active(self):
+        # Get a list of randomised challenges
         self.challenges = self.randomise_challenges()
-        #challenges = [Challenge(self,Challenge_types.LEDMEMORYGAME)]
 
+        # Visual notice to user that the alarm has rung and that they need to complete challenges
         self.lcd.text_pixels("Alarm Ringing", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
         self.lcd.text_pixels("Complete Challenges to silence", clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
-        #self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
         self.update()
 
-        #self.btn.wait_for_pressed(['up', 'down', 'left', 'right', 'enter'])
+        # Display message for a short time
         time.sleep(5)
 
+        # Set completed
         completed = 0
 
+        # Run each challenge
         for challenge in self.challenges:
+            # Turn success off
+            # Although the use of this as a True/False didn't end up happening since i loop in the challenges
             success = False
 
+            # While the user has not suceeded
             while not success:
                 self.clear_screen()
                 self.update()
 
-                # Although the use of this as a True/False didn't end up happening since i loop in the challenges, i will keep it
-                success = challenge.run()
+                # Run challenge
+                success = challenge.run() 
+                # Increment completed challenhes
                 completed += 1
 
+            # Display remaining challenges to user
             self.lcd.text_pixels("== Challenges ==", clear_screen=True, x=10, y=20, text_color='black',font=USEFONT)
             self.lcd.text_pixels("Challenges remaining {}".format(len(self.challenges)-completed), clear_screen=False, x=10, y=40, text_color='black',font=USEFONT)
-            #self.lcd.text_pixels("press any button", clear_screen=False, x=10, y=60, text_color='black',font=USEFONT)
             self.update()
 
+            # Keep message for a short time
             time.sleep(5)
-            #self.btn.wait_for_pressed(['up', 'down', 'left', 'right'])
 
 
         # Stop alarm when all challenges are complete 
@@ -914,8 +924,10 @@ class AlarmBot():
     def check_alarm_que(self):
         # Checks if there is a waiting alarm
         if self.alarms_que != []:
-            next_alarm = self.alarm_que.pop(0) # Removes it 
-            next_alarm.ring_thread.start() # Starts the ringing thread
+            # Removes it from queue 
+            next_alarm = self.alarm_que.pop(0) 
+            # Starts the alarms ringing thread
+            next_alarm.ring_thread.start() 
 
 # == Program Starts ==
 alarm_bot = AlarmBot()
