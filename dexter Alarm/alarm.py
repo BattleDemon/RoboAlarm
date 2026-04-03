@@ -78,8 +78,8 @@ class Alarm():
         # Thread that handles countdown in background
         self.countdown_thread = Thread(target=self.countdown)
         self.countdown_thread.daemon = True
-        self.countdown_thread.start()
         self.counting_down = True
+        self.countdown_thread.start()
 
         # Thread for alarm ringing
         self.ring_thread = Thread(target=self.ring)
@@ -89,7 +89,7 @@ class Alarm():
     def ring(self):
         # Switches AlarmBot into challange mode
         # Checks if an alarm is already running if so put this in que
-        if self.owner.active_alarm is not None:
+        if self.owner.active_alarm != None:
             self.owner.alarms_que = self
             return
         else:
@@ -423,7 +423,7 @@ class AlarmBot():
         # Set the menu state into idle
         self.state = State.IDLE
 
-        self.fastmode = False
+        self.fastmode = True
 
         # Initialise all the used Motors, Sensors, and inputs/outputs
         self.led = Leds()
